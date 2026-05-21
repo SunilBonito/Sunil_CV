@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunil Kumar CR — Category Manager · Builder of Internal Tools</title>
+<meta name="description" content="Category & Catalog Manager with 11+ years experience in interior design product management, vendor coordination, and self-built operational tooling.">
+<meta name="theme-color" content="#14151A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14151A;
+    --ink-2: #2C2E36;
+    --ink-3: #5B5E68;
+    --ink-4: #8A8D96;
+    --paper: #FAF8F4;
+    --paper-2: #F2EFE8;
+    --line: #E3DFD6;
+    --accent: #1F3A5F;
+    --accent-2: #C9A961;
+    --good: #2B7A3E;
+    --warn: #B86E1C;
+    --bad: #C53030;
+    --shadow: 0 1px 0 rgba(20,21,26,0.04), 0 8px 24px rgba(20,21,26,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============ LAYOUT ============ */
+  .page { max-width: 1180px; margin: 0 auto; background: var(--paper); }
+  .layout { display: grid; grid-template-columns: 280px 1fr; gap: 0; min-height: 100vh; }
+
+  /* ============ SIDEBAR ============ */
+  .sidebar {
+    background: var(--ink);
+    color: #F5F2EC;
+    padding: 40px 28px 40px 36px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+
+  .photo-frame {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: var(--ink-2);
+    margin-bottom: 24px;
+    border: 3px solid var(--accent-2);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 38px; font-weight: 600;
+    color: var(--accent-2);
+    letter-spacing: -0.02em;
+  }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+  .side-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 600;
+    line-height: 1.15; letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .side-role {
+    font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--accent-2);
+    font-weight: 500; margin-bottom: 24px;
+  }
+
+  .side-block { margin-top: 28px; }
+  .side-label {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.16em; color: var(--ink-4);
+    font-weight: 600; margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .contact-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 12.5px; color: #D7D3CA;
+    margin-bottom: 8px; line-height: 1.45;
+    word-break: break-word;
+  }
+  .contact-item svg {
+    width: 13px; height: 13px; flex-shrink: 0;
+    margin-top: 3px; stroke: var(--accent-2);
+  }
+  .contact-item a { color: #D7D3CA; text-decoration: none; }
+  .contact-item a:hover { color: var(--accent-2); }
+
+  .lang-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .lang-chip {
+    font-size: 11px; padding: 3px 9px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px; color: #D7D3CA;
+  }
+
+  .nav-list { list-style: none; }
+  .nav-list li { margin-bottom: 6px; }
+  .nav-list a {
+    color: #D7D3CA; text-decoration: none;
+    font-size: 12.5px; padding: 6px 0;
+    display: block;
+    border-bottom: 1px dashed transparent;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .nav-list a:hover { color: var(--accent-2); border-bottom-color: var(--accent-2); }
+
+  /* ============ MOBILE HEADER ============ */
+  .mobile-bar {
+    display: none;
+    position: sticky;
+    top: 0;
+    background: var(--ink);
+    color: #F5F2EC;
+    padding: 12px 18px;
+    z-index: 50;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .mb-name {
+    font-family: 'Fraunces', serif;
+    font-size: 17px; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .mb-toggle {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #F5F2EC;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* ============ MAIN ============ */
+  .main { padding: 56px 56px 80px; background: var(--paper); }
+
+  /* HERO */
+  .hero {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 32px;
+    margin-bottom: 40px;
+  }
+  .hero-tag {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.18em; color: var(--accent);
+    font-weight: 600; margin-bottom: 12px;
+  }
+  .hero-name {
+    font-family: 'Fraunces', serif;
+    font-size: 56px; font-weight: 600;
+    letter-spacing: -0.025em; line-height: 1.0;
+    margin-bottom: 14px; color: var(--ink);
+  }
+  .hero-role {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px; font-weight: 400;
+    color: var(--ink-3); margin-bottom: 18px;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 18px;
+    font-size: 13px; color: var(--ink-3);
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 6px; }
+  .hero-meta .dot { width: 4px; height: 4px; background: var(--accent-2); border-radius: 50%; }
+
+  /* SECTION */
+  section { margin-bottom: 48px; }
+  section:last-child { margin-bottom: 0; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; }
+  .sec-num {
+    font-family: 'Fraunces', serif;
+    font-size: 14px; font-weight: 500;
+    color: var(--accent-2);
+    font-feature-settings: 'tnum';
+  }
+  .sec-title {
+    font-family: 'Fraunces', serif;
+    font-size: 26px; font-weight: 600;
+    letter-spacing: -0.015em; color: var(--ink);
+  }
+  .sec-rule { flex: 1; height: 1px; background: var(--line); }
+
+  /* SUMMARY */
+  .summary { font-size: 15.5px; line-height: 1.7; color: var(--ink-2); }
+  .summary strong { color: var(--ink); font-weight: 600; }
+  .summary .lead {
+    font-family: 'Fraunces', serif;
+    font-size: 19px; font-weight: 400;
+    line-height: 1.5; color: var(--ink);
+    margin-bottom: 14px; letter-spacing: -0.005em;
+  }
+
+  .highlights {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; margin-top: 22px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 18px 0;
+  }
+  .highlight { padding: 0 18px; border-right: 1px solid var(--line); }
+  .highlight:last-child { border-right: none; }
+  .highlight:first-child { padding-left: 0; }
+  .h-num {
+    font-family: 'Fraunces', serif;
+    font-size: 30px; font-weight: 600;
+    color: var(--accent); letter-spacing: -0.02em;
+    line-height: 1; margin-bottom: 4px;
+  }
+  .h-label { font-size: 11.5px; color: var(--ink-3); line-height: 1.35; }
+
+  /* EXPERIENCE */
+  .exp-item {
+    display: grid; grid-template-columns: 140px 1fr;
+    gap: 28px; padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 28px;
+  }
+  .exp-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .exp-date {
+    font-size: 12px; color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em; font-weight: 500;
+    padding-top: 4px;
+  }
+  .exp-date .current {
+    display: inline-block;
+    background: var(--good); color: white;
+    font-size: 9.5px; padding: 2px 7px;
+    border-radius: 3px; letter-spacing: 0.1em;
+    margin-top: 5px;
+  }
+  .exp-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px; font-weight: 600;
+    color: var(--ink); margin-bottom: 2px;
+    letter-spacing: -0.01em;
+  }
+  .exp-company {
+    font-size: 14px; color: var(--accent);
+    font-weight: 500; margin-bottom: 14px;
+  }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    position: relative; padding-left: 16px;
+    margin-bottom: 7px; font-size: 14px;
+    line-height: 1.55; color: var(--ink-2);
+  }
+  .exp-bullets li::before {
+    content: ''; position: absolute;
+    left: 0; top: 9px;
+    width: 6px; height: 1px;
+    background: var(--accent-2);
+  }
+  .exp-bullets strong { color: var(--accent); font-weight: 600; }
+  .exp-sub {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--ink-4);
+    font-weight: 600; margin: 12px 0 6px;
+  }
+
+  /* PROJECTS */
+  .projects-intro {
+    font-size: 14.5px; color: var(--ink-3);
+    margin-bottom: 24px; line-height: 1.6;
+    max-width: 700px;
+  }
+  .project-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+  .project-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex; flex-direction: column;
+    cursor: pointer;
+  }
+  .project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--accent-2);
+  }
+
+  /* PROJECT SHOT — now a real SVG mockup */
+  .project-shot {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #FAF8F4 0%, #F2EFE8 100%);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .project-shot svg { width: 100%; height: 100%; display: block; }
+
+  /* Override if a real image is supplied */
+  .project-shot.has-img { background: transparent; padding: 0; }
+  .project-shot.has-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .project-body {
+    padding: 18px 20px 20px;
+    flex: 1;
+    display: flex; flex-direction: column;
+  }
+  .project-tag {
+    display: inline-block;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.14em; color: var(--accent);
+    font-weight: 600; margin-bottom: 6px;
+  }
+  .project-name {
+    font-family: 'Fraunces', serif;
+    font-size: 19px; font-weight: 600;
+    letter-spacing: -0.01em; color: var(--ink);
+    margin-bottom: 8px; line-height: 1.2;
+  }
+  .project-desc {
+    font-size: 13.5px; color: var(--ink-2);
+    line-height: 1.55; margin-bottom: 14px;
+    flex: 1;
+  }
+  .project-stack {
+    display: flex; flex-wrap: wrap; gap: 5px;
+    padding-top: 12px; border-top: 1px solid var(--line);
+  }
+  .stack-chip {
+    font-size: 10.5px; padding: 3px 8px;
+    background: var(--paper-2); color: var(--ink-3);
+    border-radius: 3px; font-weight: 500;
+  }
+  .project-toggle {
+    margin-top: 12px; font-size: 11.5px;
+    color: var(--accent); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    display: flex; align-items: center; gap: 4px;
+    cursor: pointer; user-select: none;
+  }
+  .project-toggle::after { content: '+'; font-size: 16px; line-height: 1; }
+  .project-card.open .project-toggle::after { content: '−'; }
+  .project-details {
+    display: none; margin-top: 14px;
+    padding-top: 14px; border-top: 1px solid var(--line);
+    font-size: 13px; color: var(--ink-2); line-height: 1.6;
+  }
+  .project-card.open .project-details { display: block; }
+  .project-details ul { list-style: none; padding: 0; }
+  .project-details li {
+    position: relative; padding-left: 14px;
+    margin-bottom: 5px;
+  }
+  .project-details li::before {
+    content: '·'; position: absolute;
+    left: 4px; color: var(--accent-2); font-weight: 700;
+  }
+
+  /* COMPETENCIES */
+  .comp-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0; border: 1px solid var(--line);
+    border-radius: 4px; background: white;
+  }
+  .comp-item {
+    padding: 14px 16px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-size: 13.5px; color: var(--ink-2);
+    display: flex; align-items: center; gap: 9px;
+  }
+  .comp-item:nth-child(3n) { border-right: none; }
+  .comp-item:nth-last-child(-n+3) { border-bottom: none; }
+  .comp-dot {
+    width: 5px; height: 5px;
+    background: var(--accent-2); border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* TECH */
+  .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .tech-block {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 18px 20px;
+  }
+  .tech-cat {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--accent);
+    font-weight: 600; margin-bottom: 10px;
+  }
+  .tech-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tech-item {
+    font-size: 12.5px; padding: 4px 10px;
+    background: var(--paper-2); color: var(--ink-2);
+    border-radius: 3px; font-weight: 500;
+  }
+
+  /* EDUCATION */
+  .edu-list { list-style: none; }
+  .edu-item {
+    display: grid; grid-template-columns: 70px 1fr;
+    gap: 24px; padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .edu-item:last-child { border-bottom: none; }
+  .edu-year {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--accent);
+    font-feature-settings: 'tnum';
+  }
+  .edu-deg { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .edu-inst { font-size: 12.5px; color: var(--ink-3); }
+
+  /* FOOTER */
+  .foot {
+    margin-top: 64px; padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    align-items: center;
+    font-size: 11.5px; color: var(--ink-4);
+  }
+
+  /* PRINT BUTTON */
+  .print-btn {
+    position: fixed; bottom: 28px; right: 28px;
+    background: var(--ink); color: white;
+    border: none; padding: 12px 18px;
+    border-radius: 999px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(20,21,26,0.18);
+    font-family: 'Inter', sans-serif;
+    z-index: 100;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .print-btn:hover { background: var(--accent); transform: translateY(-1px); }
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+
+    .mobile-bar { display: flex; }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      max-width: 320px;
+      height: 100vh;
+      padding: 24px;
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      z-index: 60;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.2);
+    }
+    .sidebar.open { transform: translateX(0); }
+
+    .scrim {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20,21,26,0.5);
+      z-index: 55;
+    }
+    .scrim.show { display: block; }
+
+    .main { padding: 24px 20px 80px; }
+
+    .hero { padding-bottom: 24px; margin-bottom: 28px; }
+    .hero-tag { font-size: 10px; margin-bottom: 8px; }
+    .hero-name { font-size: 34px; line-height: 1.05; margin-bottom: 10px; }
+    .hero-role { font-size: 16px; margin-bottom: 14px; }
+    .hero-meta { gap: 10px; font-size: 12px; }
+    .hero-meta span { flex-basis: 100%; }
+
+    section { margin-bottom: 36px; }
+    .sec-title { font-size: 22px; }
+
+    .summary { font-size: 14px; }
+    .summary .lead { font-size: 16.5px; }
+
+    .highlights { grid-template-columns: repeat(2, 1fr); gap: 0; padding: 16px 0; }
+    .highlight {
+      padding: 12px 14px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .highlight:nth-child(2n) { border-right: none; }
+    .highlight:nth-last-child(-n+2) { border-bottom: none; }
+    .highlight:first-child { padding-left: 14px; }
+    .h-num { font-size: 24px; }
+    .h-label { font-size: 10.5px; }
+
+    .exp-item { grid-template-columns: 1fr; gap: 10px; padding-bottom: 22px; margin-bottom: 22px; }
+    .exp-date { padding-top: 0; font-size: 11px; }
+    .exp-date .current { margin-top: 4px; margin-left: 6px; }
+    .exp-title { font-size: 17px; }
+    .exp-company { font-size: 13px; margin-bottom: 10px; }
+    .exp-bullets li { font-size: 13px; }
+
+    .project-grid { grid-template-columns: 1fr; gap: 16px; }
+    .project-body { padding: 16px 16px 18px; }
+    .project-name { font-size: 17px; }
+    .project-desc { font-size: 13px; }
+
+    .comp-grid { grid-template-columns: repeat(2, 1fr); }
+    .comp-item { padding: 12px 14px; font-size: 12.5px; }
+    .comp-item:nth-child(3n) { border-right: 1px solid var(--line); }
+    .comp-item:nth-child(2n) { border-right: none; }
+    .comp-item:nth-last-child(-n+3) { border-bottom: 1px solid var(--line); }
+    .comp-item:nth-last-child(-n+2) { border-bottom: none; }
+
+    .tech-grid { grid-template-columns: 1fr; gap: 14px; }
+    .tech-block { padding: 16px; }
+
+    .edu-item { grid-template-columns: 60px 1fr; gap: 16px; }
+
+    .foot { flex-direction: column; gap: 6px; text-align: center; }
+
+    .print-btn {
+      bottom: 18px; right: 18px;
+      padding: 10px 14px; font-size: 11px;
+    }
+  }
+
+  /* PRINT */
+  @media print {
+    .sidebar {
+      background: white !important;
+      color: var(--ink) !important;
+      height: auto !important;
+      position: static !important;
+      transform: none !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      box-shadow: none !important;
+    }
+    .side-name, .contact-item, .lang-chip, .nav-list a, .side-label { color: var(--ink) !important; }
+    .photo-frame { border-color: var(--accent) !important; }
+    .print-btn, .mobile-bar, .scrim { display: none !important; }
+    .project-card { break-inside: avoid; }
+    .exp-item { break-inside: avoid; }
+    body { font-size: 11pt; }
+    .hero-name { font-size: 32pt; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Mobile bar -->
+<div class="mobile-bar">
+  <div class="mb-name">Sunil Kumar CR</div>
+  <button class="mb-toggle" onclick="toggleSidebar()">☰ Menu</button>
+</div>
+
+<!-- Scrim for mobile sidebar -->
+<div class="scrim" id="scrim" onclick="toggleSidebar()"></div>
+
+<div class="page">
+  <div class="layout">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="photo-frame" id="photo">SC</div>
+      <div class="side-name">Sunil Kumar CR</div>
+      <div class="side-role">Category Manager</div>
+
+      <div class="side-block">
+        <div class="side-label">Contact</div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Bangalore, Karnataka</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>+91 90366 24557</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>sunilkumarcr3@gmail.com</span>
+        </div>
+        <div class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <span>linkedin.com/in/sunil-kumar-52435282</span>
+        </div>
+      </div>
+
+      <div class="side-block">
+        <div class="side-label">On this page</div>
+        <ul class="nav-list">
+          <li><a href="#summary" onclick="closeSidebarMobile()">01 — Profile</a></li>
+          <li><a href="#experience" onclick="closeSidebarMobile()">02 — Experience</a></li>
+          <li><a href="#projects" onclick="closeSidebarMobile()">03 — Projects &amp; Initiatives</a></li>
+          <li><a href="#competencies" onclick="closeSidebarMobile()">04 — Competencies</a></li>
+          <li><a href="#tech" onclick="closeSidebarMobile()">05 — Technical Skills</a></li>
+          <li><a href="#education" onclick="closeSidebarMobile()">06 — Education</a></li>
+        </ul>
+      </div>
+
+      <div class="side-block">
+        <div class="side-label">Languages</div>
+        <div class="lang-list">
+          <span class="lang-chip">English</span>
+          <span class="lang-chip">Hindi</span>
+          <span class="lang-chip">Kannada</span>
+          <span class="lang-chip">Tamil</span>
+          <span class="lang-chip">Telugu</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+
+      <!-- HERO -->
+      <header class="hero">
+        <div class="hero-tag">Curriculum Vitae · 2026</div>
+        <h1 class="hero-name">Sunil Kumar CR</h1>
+        <div class="hero-role">Category Manager &amp; Internal Tools Builder</div>
+        <div class="hero-meta">
+          <span><span class="dot"></span> 11+ years experience</span>
+          <span><span class="dot"></span> Interior &amp; e-commerce categories</span>
+          <span><span class="dot"></span> Self-taught web &amp; data tooling</span>
+        </div>
+      </header>
+
+      <!-- 01 — SUMMARY -->
+      <section id="summary">
+        <div class="sec-head">
+          <span class="sec-num">01</span>
+          <h2 class="sec-title">Profile</h2>
+          <div class="sec-rule"></div>
+        </div>
+        <div class="summary">
+          <p class="lead">Category &amp; Catalog Manager with eleven years across interior design and large-scale e-commerce — and a parallel track of self-built internal tooling that has reshaped how my team works.</p>
+          <p>I lead the iLab department's material library, vendor coordination, and ISO audit preparation across four Experience Centres in Mumbai and Bangalore. Over the last year I have also built six production tools — a real-time task manager PWA, a multi-location audit dashboard, an NPS intelligence platform, a sales analytics dashboard, a barcode audit scanner, and a branded email template system — all rolled out and in daily use by the team. <strong>I taught myself React, Firebase, and the rest of the stack from scratch</strong>; each project replaced a real operational pain point, not a hypothetical one.</p>
+
+          <div class="highlights">
+            <div class="highlight">
+              <div class="h-num">25%</div>
+              <div class="h-label">Year-over-year sales growth in managed categories</div>
+            </div>
+            <div class="highlight">
+              <div class="h-num">12K+</div>
+              <div class="h-label">Material SKUs audited across 4 EC locations</div>
+            </div>
+            <div class="highlight">
+              <div class="h-num">6</div>
+              <div class="h-label">Internal tools built &amp; deployed to production</div>
+            </div>
+            <div class="highlight">
+              <div class="h-num">600+</div>
+              <div class="h-label">Brands &amp; sellers onboarded at Myntra Jabong</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 — EXPERIENCE -->
+      <section id="experience">
+        <div class="sec-head">
+          <span class="sec-num">02</span>
+          <h2 class="sec-title">Experience</h2>
+          <div class="sec-rule"></div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-date">
+            Jul 2022 — Present
+            <br><span class="current">Current</span>
+          </div>
+          <div>
+            <div class="exp-title">Category Manager — iLab Department</div>
+            <div class="exp-company">Bonito Designs · Bangalore</div>
+            <ul class="exp-bullets">
+              <li>Lead development and optimisation of Furniture, Home Décor, Lighting, Flooring and Wallcovering categories — drove <strong>25% YoY sales growth</strong>.</li>
+              <li>Built and maintained vendor relationships, negotiating favourable terms while enforcing quality standards across the supply base.</li>
+              <li>Conduct ongoing material audits across four Experience Centres (Andheri, Thane, HSR, HRBR) and lead ISO audit preparation for the material library.</li>
+              <li>Led product assortment planning for seasonal collections in collaboration with the design team, introducing customisable product lines.</li>
+              <li>Optimised inventory levels — <strong>reduced stockouts by 15%</strong> and improved turnover rates by 20%.</li>
+              <li>Designed pricing and promotional strategies that <strong>boosted category profitability by 18%</strong>.</li>
+              <li>Built six internal tools (see Section 03) that replaced WhatsApp-based coordination, manual Excel audits, and ad-hoc reporting across iLab.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-date">Jan 2021 — Jun 2022</div>
+          <div>
+            <div class="exp-title">Catalog Manager</div>
+            <div class="exp-company">Bonito Designs · Bangalore</div>
+            <ul class="exp-bullets">
+              <li>Managed content, item categorisation, and sub-categorisation to deliver a best-in-class browsing experience.</li>
+              <li>Resolved catalog escalations spanning pricing errors, image tagging issues, and incorrect product descriptions.</li>
+              <li>Coordinated with sellers and buyers to ensure catalog accuracy on pricing, attributes, and supporting content.</li>
+              <li>Converted raw vendor data into final, on-brand catalog content ready for the live website.</li>
+              <li>Drove process improvements that reduced upload friction and accelerated time-to-publish.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-date">Apr 2018 — Nov 2020</div>
+          <div>
+            <div class="exp-title">Associate — Catalog Operations (Vendor Coordination)</div>
+            <div class="exp-company">Myntra Jabong Pvt Ltd · Bangalore</div>
+
+            <div class="exp-sub">Vendor coordination</div>
+            <ul class="exp-bullets">
+              <li>Worked directly with the Operations Manager and Deputy Director on product maintenance, new product development, and onboarding.</li>
+              <li>Onboarded and coordinated <strong>600+ brands and sellers</strong> across multiple commercial dimensions.</li>
+              <li>Aligned shoot requirements with brands and ensured on-time delivery of shoot deliverables.</li>
+            </ul>
+
+            <div class="exp-sub">Operations</div>
+            <ul class="exp-bullets">
+              <li>Owned end-to-end SKU creation — style creation, status changes, MRP updates, and PO issuance.</li>
+              <li>Supported product launches across content, imagery, and pricing on the consumer portal.</li>
+              <li>Partnered cross-functionally with Category, Onboarding, Customer Service, and IT to deliver against company goals.</li>
+            </ul>
+
+            <div class="exp-sub">Reporting</div>
+            <ul class="exp-bullets">
+              <li>Built and maintained reporting trackers feeding the management cadence.</li>
+              <li>Monitored monthly sales performance and tuned promotional activity to lift outcomes.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-date">Aug 2014 — Mar 2018</div>
+          <div>
+            <div class="exp-title">Senior Officer — Image Editor / Vendor Coordination</div>
+            <div class="exp-company">Myntra Designs · Bangalore</div>
+            <ul class="exp-bullets">
+              <li>Edited product imagery in Photoshop for all SKUs displayed on Myntra; authored imagery guidelines and gridline standards.</li>
+              <li>Led a <strong>team of 7 editors</strong> — owned quality, productivity, and individual performance tracking via FTPs.</li>
+              <li>Built training decks for vendor imagery and ran sessions explaining benchmarks and naming conventions.</li>
+              <li>Improved <strong>image speed-to-site by 50%</strong> through workflow automation and process redesign.</li>
+              <li>Drove root-cause analysis on image-driven CSAT issues across top-selling divisions.</li>
+              <li>Built daily/weekly/monthly reporting mechanisms; worked on size-chart analysis using Myntra's proprietary tool.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 — PROJECTS -->
+      <section id="projects">
+        <div class="sec-head">
+          <span class="sec-num">03</span>
+          <h2 class="sec-title">Projects &amp; Initiatives</h2>
+          <div class="sec-rule"></div>
+        </div>
+        <p class="projects-intro">Six tools I designed, built, and deployed to production over the last year — solving real operational problems inside iLab and the wider Bonito Designs organisation. Each replaced a manual process or WhatsApp workflow with a real-time, shared, auditable system. Tap any card to see what's inside.</p>
+
+        <div class="project-grid">
+
+          <!-- iLab Tasks PWA -->
+          <div class="project-card" onclick="toggleCard(event, this)">
+            <div class="project-shot" data-img="ilab-tasks.png">
+              <!-- SVG mockup: task list app on a phone -->
+              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="ilg" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#1F3A5F"/>
+                    <stop offset="100%" stop-color="#14151A"/>
+                  </linearGradient>
+                </defs>
+                <rect width="320" height="180" fill="#FAF8F4"/>
+                <!-- Phone frame -->
+                <rect x="100" y="14" width="120" height="152" rx="14" fill="#14151A"/>
+                <rect x="106" y="22" width="108" height="136" rx="8" fill="white"/>
+                <!-- App header bar -->
+                <rect x="106" y="22" width="108" height="22" rx="8" fill="url(#ilg)"/>
+                <rect x="106" y="36" width="108" height="8" fill="url(#ilg)"/>
+                <text x="112" y="36" font-family="Inter" font-size="8" font-weight="700" fill="#C9A961">iLab Tasks</text>
+                <circle cx="208" cy="33" r="3" fill="#C9A961"/>
+                <!-- Task rows -->
+                <rect x="111" y="50" width="98" height="20" rx="3" fill="#F2EFE8"/>
+                <circle cx="118" cy="60" r="3" fill="#2B7A3E"/>
+                <rect x="125" y="55" width="62" height="3" rx="1" fill="#2C2E36"/>
+                <rect x="125" y="62" width="40" height="2.5" rx="1" fill="#8A8D96"/>
+                <rect x="192" y="55" width="14" height="4" rx="1" fill="#2B7A3E" opacity="0.8"/>
+
+                <rect x="111" y="74" width="98" height="20" rx="3" fill="#F2EFE8"/>
+                <circle cx="118" cy="84" r="3" fill="#B86E1C"/>
+                <rect x="125" y="79" width="55" height="3" rx="1" fill="#2C2E36"/>
+                <rect x="125" y="86" width="45" height="2.5" rx="1" fill="#8A8D96"/>
+                <rect x="192" y="79" width="14" height="4" rx="1" fill="#B86E1C" opacity="0.8"/>
+
+                <rect x="111" y="98" width="98" height="20" rx="3" fill="#F2EFE8"/>
+                <circle cx="118" cy="108" r="3" fill="#C53030"/>
+                <rect x="125" y="103" width="58" height="3" rx="1" fill="#2C2E36"/>
+                <rect x="125" y="110" width="38" height="2.5" rx="1" fill="#8A8D96"/>
+                <rect x="192" y="103" width="14" height="4" rx="1" fill="#C53030" opacity="0.8"/>
+
+                <rect x="111" y="122" width="98" height="20" rx="3" fill="#F2EFE8"/>
+                <circle cx="118" cy="132" r="3" fill="#2B7A3E"/>
+                <rect x="125" y="127" width="50" height="3" rx="1" fill="#2C2E36"/>
+                <rect x="125" y="134" width="42" height="2.5" rx="1" fill="#8A8D96"/>
+                <rect x="192" y="127" width="14" height="4" rx="1" fill="#2B7A3E" opacity="0.8"/>
+
+                <!-- Bottom nav -->
+                <rect x="106" y="148" width="108" height="10" rx="0" fill="#F2EFE8"/>
+                <circle cx="125" cy="153" r="2" fill="#1F3A5F"/>
+                <circle cx="160" cy="153" r="2" fill="#8A8D96"/>
+                <circle cx="195" cy="153" r="2" fill="#8A8D96"/>
+
+                <!-- Side metric pills -->
+                <rect x="14" y="32" width="74" height="22" rx="4" fill="white" stroke="#E3DFD6"/>
+                <text x="22" y="42" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">OPEN TASKS</text>
+                <text x="22" y="51" font-family="Fraunces" font-size="11" font-weight="700" fill="#1F3A5F">47</text>
+
+                <rect x="14" y="60" width="74" height="22" rx="4" fill="white" stroke="#E3DFD6"/>
+                <text x="22" y="70" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">OVERDUE</text>
+                <text x="22" y="79" font-family="Fraunces" font-size="11" font-weight="700" fill="#C53030">3</text>
+
+                <rect x="14" y="88" width="74" height="22" rx="4" fill="white" stroke="#E3DFD6"/>
+                <text x="22" y="98" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">AVG TAT</text>
+                <text x="22" y="107" font-family="Fraunces" font-size="11" font-weight="700" fill="#2B7A3E">2.4d</text>
+
+                <rect x="232" y="32" width="74" height="78" rx="4" fill="white" stroke="#E3DFD6"/>
+                <text x="240" y="42" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">THIS WEEK</text>
+                <!-- Mini bar chart -->
+                <rect x="240" y="78" width="6" height="22" fill="#1F3A5F"/>
+                <rect x="250" y="68" width="6" height="32" fill="#1F3A5F"/>
+                <rect x="260" y="58" width="6" height="42" fill="#C9A961"/>
+                <rect x="270" y="72" width="6" height="28" fill="#1F3A5F"/>
+                <rect x="280" y="62" width="6" height="38" fill="#1F3A5F"/>
+                <rect x="290" y="80" width="6" height="20" fill="#1F3A5F"/>
+              </svg>
+            </div>
+            <div class="project-body">
+              <span class="project-tag">Live · in daily use</span>
+              <h3 class="project-name">iLab Department Task Manager</h3>
+              <p class="project-desc">Real-time task management PWA replacing WhatsApp-based coordination for the iLab Design and Category teams. Working-day TAT tracking, push notifications, management dashboard, Excel export.</p>
+              <div class="project-stack">
+                <span class="stack-chip">React</span>
+                <span class="stack-chip">Vite</span>
+                <span class="stack-chip">Firebase</span>
+                <span class="stack-chip">FCM</span>
+                <span class="stack-chip">Netlify</span>
+                <span class="stack-chip">PWA</span>
+              </div>
+              <div class="project-toggle">View details</div>
+              <div class="project-details">
+                <ul>
+                  <li>Two-team architecture (Design + Category) with email-based member login and password-based management access</li>
+                  <li>Real-time sync across all devices via Firebase Firestore listeners</li>
+                  <li>TAT calculated on working days only (excludes Sundays and 1st/3rd/5th Saturdays per company calendar)</li>
+                  <li>Push notifications via Firebase Cloud Messaging with VAPID keys; WhatsApp deep-link for management follow-up</li>
+                  <li>3-sheet Excel export: all tasks with comments + end-date history, team summary with month-wise completion %, tickets log</li>
+                  <li>Installable on Android and iOS via PWA manifest; session persistence so members stay logged in</li>
+                  <li>Rolled out and in daily use by both Design and Category teams</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- EC Audit Dashboard -->
+          <div class="project-card" onclick="toggleCard(event, this)">
+            <div class="project-shot" data-img="ec-audit.png">
+              <!-- SVG mockup: audit dashboard with location cards + chart -->
+              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="180" fill="#FAF8F4"/>
+                <!-- Top bar -->
+                <rect x="14" y="14" width="292" height="20" rx="3" fill="#14151A"/>
+                <rect x="20" y="22" width="36" height="4" rx="1" fill="#C9A961"/>
+                <rect x="220" y="20" width="22" height="8" rx="2" fill="#1F3A5F"/>
+                <rect x="246" y="20" width="22" height="8" rx="2" fill="#2C2E36"/>
+                <rect x="272" y="20" width="22" height="8" rx="2" fill="#2C2E36"/>
+
+                <!-- Location cards -->
+                <g font-family="Inter" font-size="6" fill="#8A8D96">
+                  <rect x="14" y="42" width="68" height="44" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="20" y="51" letter-spacing="0.5">ANDHERI</text>
+                  <text x="20" y="68" font-family="Fraunces" font-size="16" font-weight="700" fill="#1F3A5F">92%</text>
+                  <rect x="20" y="74" width="40" height="3" rx="1.5" fill="#F2EFE8"/>
+                  <rect x="20" y="74" width="37" height="3" rx="1.5" fill="#2B7A3E"/>
+                  <text x="20" y="83" fill="#8A8D96">3,032 SKUs</text>
+
+                  <rect x="86" y="42" width="68" height="44" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="92" y="51" letter-spacing="0.5">THANE</text>
+                  <text x="92" y="68" font-family="Fraunces" font-size="16" font-weight="700" fill="#1F3A5F">88%</text>
+                  <rect x="92" y="74" width="40" height="3" rx="1.5" fill="#F2EFE8"/>
+                  <rect x="92" y="74" width="35" height="3" rx="1.5" fill="#2B7A3E"/>
+                  <text x="92" y="83" fill="#8A8D96">3,032 SKUs</text>
+
+                  <rect x="158" y="42" width="68" height="44" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="164" y="51" letter-spacing="0.5">HSR</text>
+                  <text x="164" y="68" font-family="Fraunces" font-size="16" font-weight="700" fill="#1F3A5F">95%</text>
+                  <rect x="164" y="74" width="40" height="3" rx="1.5" fill="#F2EFE8"/>
+                  <rect x="164" y="74" width="38" height="3" rx="1.5" fill="#2B7A3E"/>
+                  <text x="164" y="83" fill="#8A8D96">3,067 SKUs</text>
+
+                  <rect x="230" y="42" width="76" height="44" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="236" y="51" letter-spacing="0.5">HRBR</text>
+                  <text x="236" y="68" font-family="Fraunces" font-size="16" font-weight="700" fill="#B86E1C">76%</text>
+                  <rect x="236" y="74" width="40" height="3" rx="1.5" fill="#F2EFE8"/>
+                  <rect x="236" y="74" width="30" height="3" rx="1.5" fill="#B86E1C"/>
+                  <text x="236" y="83" fill="#8A8D96">3,067 SKUs</text>
+                </g>
+
+                <!-- Bar chart -->
+                <rect x="14" y="94" width="180" height="72" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="20" y="105" font-family="Inter" font-size="6" font-weight="700" fill="#1F3A5F" letter-spacing="0.5">CATEGORY COMPLETION</text>
+                <g>
+                  <rect x="20" y="112" width="40" height="5" fill="#F2EFE8"/>
+                  <rect x="20" y="112" width="36" height="5" fill="#1F3A5F"/>
+                  <rect x="20" y="120" width="40" height="5" fill="#F2EFE8"/>
+                  <rect x="20" y="120" width="32" height="5" fill="#1F3A5F"/>
+                  <rect x="20" y="128" width="40" height="5" fill="#F2EFE8"/>
+                  <rect x="20" y="128" width="38" height="5" fill="#1F3A5F"/>
+                  <rect x="20" y="136" width="40" height="5" fill="#F2EFE8"/>
+                  <rect x="20" y="136" width="28" height="5" fill="#C9A961"/>
+                  <rect x="20" y="144" width="40" height="5" fill="#F2EFE8"/>
+                  <rect x="20" y="144" width="34" height="5" fill="#1F3A5F"/>
+                  <rect x="20" y="152" width="40" height="5" fill="#F2EFE8"/>
+                  <rect x="20" y="152" width="24" height="5" fill="#B86E1C"/>
+                </g>
+                <g font-family="Inter" font-size="5" fill="#5B5E68">
+                  <text x="65" y="116">Laminates</text>
+                  <text x="65" y="124">Acrylic</text>
+                  <text x="65" y="132">PU &amp; Membrane</text>
+                  <text x="65" y="140">Wallpaper</text>
+                  <text x="65" y="148">Quartz</text>
+                  <text x="65" y="156">Wooden Flooring</text>
+                </g>
+
+                <!-- Donut -->
+                <rect x="200" y="94" width="106" height="72" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="206" y="105" font-family="Inter" font-size="6" font-weight="700" fill="#1F3A5F" letter-spacing="0.5">STATUS BREAKDOWN</text>
+                <circle cx="225" cy="135" r="18" fill="none" stroke="#F2EFE8" stroke-width="6"/>
+                <circle cx="225" cy="135" r="18" fill="none" stroke="#2B7A3E" stroke-width="6" stroke-dasharray="68 113" transform="rotate(-90 225 135)"/>
+                <circle cx="225" cy="135" r="18" fill="none" stroke="#C9A961" stroke-width="6" stroke-dasharray="22 113" stroke-dashoffset="-68" transform="rotate(-90 225 135)"/>
+                <circle cx="225" cy="135" r="18" fill="none" stroke="#C53030" stroke-width="6" stroke-dasharray="15 113" stroke-dashoffset="-90" transform="rotate(-90 225 135)"/>
+                <text x="225" y="138" font-family="Fraunces" font-size="9" font-weight="700" fill="#1F3A5F" text-anchor="middle">87%</text>
+                <g font-family="Inter" font-size="5" fill="#5B5E68">
+                  <circle cx="256" cy="120" r="2" fill="#2B7A3E"/>
+                  <text x="261" y="122">Conforming</text>
+                  <circle cx="256" cy="132" r="2" fill="#C9A961"/>
+                  <text x="261" y="134">Check</text>
+                  <circle cx="256" cy="144" r="2" fill="#C53030"/>
+                  <text x="261" y="146">Missing</text>
+                </g>
+              </svg>
+            </div>
+            <div class="project-body">
+              <span class="project-tag">Live · ISO audit support</span>
+              <h3 class="project-name">Experience Centre Audit System</h3>
+              <p class="project-desc">Multi-location material audit tracker covering ~12,000 SKUs across four EC locations. Excel-based audit trackers feed a live web dashboard that reads directly from GitHub-hosted files.</p>
+              <div class="project-stack">
+                <span class="stack-chip">HTML</span>
+                <span class="stack-chip">SheetJS</span>
+                <span class="stack-chip">Chart.js</span>
+                <span class="stack-chip">GitHub Pages</span>
+                <span class="stack-chip">Excel</span>
+              </div>
+              <div class="project-toggle">View details</div>
+              <div class="project-details">
+                <ul>
+                  <li>Four location-specific Excel files (Andheri, Thane, HSR, HRBR) — 12 category sheets each, 5 audit-round blocks per category, dropdown validations, auto-status formulas, conditional formatting</li>
+                  <li>Live web dashboard reads Excel directly from GitHub using SheetJS — update Excel, dashboard updates on next page load</li>
+                  <li>Location filter, audit-round tabs, location progress cards (OK / Check / Action / RBS / Pending pills)</li>
+                  <li>Category completion bar chart, status donut, trend line across rounds, scrollable flagged-items section</li>
+                  <li>Six compliance KPI cards: completion %, SKUs audited, closure compliance, target gap, issue closure rate, best location</li>
+                  <li>Two-sheet Excel download for flagged items and common missing samples grouped by category</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- NPS Dashboard -->
+          <div class="project-card" onclick="toggleCard(event, this)">
+            <div class="project-shot" data-img="nps.png">
+              <!-- SVG mockup: NPS dashboard with score gauge and trend line -->
+              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="180" fill="#FAF8F4"/>
+                <!-- Title strip -->
+                <rect x="14" y="14" width="292" height="14" rx="2" fill="white" stroke="#E3DFD6"/>
+                <text x="20" y="24" font-family="Fraunces" font-size="9" font-weight="700" fill="#1F3A5F">NPS Intelligence</text>
+                <rect x="200" y="18" width="30" height="6" rx="3" fill="#1F3A5F"/>
+                <rect x="234" y="18" width="30" height="6" rx="3" fill="#F2EFE8"/>
+                <rect x="268" y="18" width="30" height="6" rx="3" fill="#F2EFE8"/>
+
+                <!-- Big NPS score -->
+                <rect x="14" y="36" width="100" height="76" rx="3" fill="#14151A"/>
+                <text x="22" y="48" font-family="Inter" font-size="6" font-weight="600" fill="#C9A961" letter-spacing="0.8">OVERALL NPS</text>
+                <text x="22" y="80" font-family="Fraunces" font-size="36" font-weight="700" fill="white">+62</text>
+                <text x="22" y="92" font-family="Inter" font-size="6" fill="#8A8D96">Promoters 71% · Detractors 9%</text>
+                <rect x="22" y="98" width="84" height="3" rx="1.5" fill="#2C2E36"/>
+                <rect x="22" y="98" width="70" height="3" rx="1.5" fill="#2B7A3E"/>
+
+                <!-- Trend line -->
+                <rect x="118" y="36" width="188" height="76" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="124" y="46" font-family="Inter" font-size="6" font-weight="700" fill="#1F3A5F" letter-spacing="0.5">FORTNIGHTLY TREND</text>
+                <!-- grid -->
+                <line x1="124" y1="60" x2="298" y2="60" stroke="#F2EFE8" stroke-width="0.5"/>
+                <line x1="124" y1="76" x2="298" y2="76" stroke="#F2EFE8" stroke-width="0.5"/>
+                <line x1="124" y1="92" x2="298" y2="92" stroke="#F2EFE8" stroke-width="0.5"/>
+                <!-- Line chart path -->
+                <polyline points="128,88 148,80 168,84 188,72 208,76 228,66 248,68 268,58 288,62"
+                  fill="none" stroke="#1F3A5F" stroke-width="1.8"/>
+                <polyline points="128,92 148,86 168,90 188,82 208,84 228,76 248,80 268,72 288,76"
+                  fill="none" stroke="#C9A961" stroke-width="1.5" stroke-dasharray="2 2"/>
+                <!-- dots -->
+                <g fill="#1F3A5F">
+                  <circle cx="128" cy="88" r="1.8"/><circle cx="148" cy="80" r="1.8"/>
+                  <circle cx="168" cy="84" r="1.8"/><circle cx="188" cy="72" r="1.8"/>
+                  <circle cx="208" cy="76" r="1.8"/><circle cx="228" cy="66" r="1.8"/>
+                  <circle cx="248" cy="68" r="1.8"/><circle cx="268" cy="58" r="1.8"/>
+                  <circle cx="288" cy="62" r="2.4" fill="#C9A961" stroke="#1F3A5F" stroke-width="1"/>
+                </g>
+
+                <!-- KPI strip -->
+                <g>
+                  <rect x="14" y="118" width="70" height="46" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="20" y="128" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">FILL RATE</text>
+                  <text x="20" y="146" font-family="Fraunces" font-size="14" font-weight="700" fill="#1F3A5F">68%</text>
+                  <text x="20" y="158" font-family="Inter" font-size="5" fill="#2B7A3E">▲ 4% vs LFN</text>
+
+                  <rect x="90" y="118" width="70" height="46" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="96" y="128" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">DESIGN NPS</text>
+                  <text x="96" y="146" font-family="Fraunces" font-size="14" font-weight="700" fill="#1F3A5F">+71</text>
+                  <text x="96" y="158" font-family="Inter" font-size="5" fill="#2B7A3E">▲ 2 pt</text>
+
+                  <rect x="166" y="118" width="70" height="46" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="172" y="128" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">DETRACTORS</text>
+                  <text x="172" y="146" font-family="Fraunces" font-size="14" font-weight="700" fill="#C53030">12</text>
+                  <text x="172" y="158" font-family="Inter" font-size="5" fill="#C53030">▼ needs review</text>
+
+                  <rect x="242" y="118" width="64" height="46" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="248" y="128" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">RESPONSES</text>
+                  <text x="248" y="146" font-family="Fraunces" font-size="14" font-weight="700" fill="#1F3A5F">284</text>
+                  <text x="248" y="158" font-family="Inter" font-size="5" fill="#8A8D96">last fortnight</text>
+                </g>
+              </svg>
+            </div>
+            <div class="project-body">
+              <span class="project-tag">Live · management reporting</span>
+              <h3 class="project-name">NPS Intelligence Dashboard</h3>
+              <p class="project-desc">Fortnightly customer-feedback dashboard tracking Overall NPS and Design NPS across branches, designers, project managers, and CRMs. Drop-in CSV refresh, no rebuild.</p>
+              <div class="project-stack">
+                <span class="stack-chip">HTML</span>
+                <span class="stack-chip">PapaParse</span>
+                <span class="stack-chip">Chart.js</span>
+                <span class="stack-chip">SheetJS</span>
+                <span class="stack-chip">GitHub Pages</span>
+              </div>
+              <div class="project-toggle">View details</div>
+              <div class="project-details">
+                <ul>
+                  <li>Six tabs: Overview, Overall NPS, Design NPS, Fortnight Review, People, Detractors, Value × NPS</li>
+                  <li>Time-window filter (fortnight / 3 / 6 / 12 months / all-time) plus per-branch filter that flows through every visual</li>
+                  <li>Fortnight cycles aligned to company definition (1st–15th and 16th–end-of-month)</li>
+                  <li>People leaderboards for Designer, PM, CRM, Design Manager with 5-response minimum to avoid lucky-shot skew</li>
+                  <li>Detractor list with comments, exportable to Excel; Value × NPS scatter to test whether project size correlates with satisfaction</li>
+                  <li>Monthly refresh = drop two CSVs into the GitHub repo, no code changes</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- PKO Sales Dashboard -->
+          <div class="project-card" onclick="toggleCard(event, this)">
+            <div class="project-shot" data-img="pko.png">
+              <!-- SVG mockup: sales dashboard with revenue + dead stock -->
+              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="180" fill="#FAF8F4"/>
+                <!-- Top filters -->
+                <rect x="14" y="14" width="292" height="14" rx="2" fill="#14151A"/>
+                <text x="20" y="24" font-family="Fraunces" font-size="9" font-weight="700" fill="#C9A961">PKO Sales</text>
+                <rect x="80" y="18" width="40" height="6" rx="3" fill="#1F3A5F"/>
+                <rect x="124" y="18" width="40" height="6" rx="3" fill="#2C2E36"/>
+                <rect x="168" y="18" width="40" height="6" rx="3" fill="#2C2E36"/>
+                <rect x="270" y="18" width="32" height="6" rx="3" fill="#C9A961"/>
+
+                <!-- KPI tiles -->
+                <g>
+                  <rect x="14" y="36" width="70" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="20" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">REVENUE</text>
+                  <text x="20" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#1F3A5F">₹2.4Cr</text>
+                  <text x="20" y="69" font-family="Inter" font-size="5" fill="#2B7A3E">▲ 25% YoY</text>
+
+                  <rect x="90" y="36" width="70" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="96" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">PROJECTS</text>
+                  <text x="96" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#1F3A5F">1,847</text>
+                  <text x="96" y="69" font-family="Inter" font-size="5" fill="#2B7A3E">▲ 12%</text>
+
+                  <rect x="166" y="36" width="70" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="172" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">DEAD STOCK</text>
+                  <text x="172" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#C53030">342</text>
+                  <text x="172" y="69" font-family="Inter" font-size="5" fill="#C53030">SKUs</text>
+
+                  <rect x="242" y="36" width="64" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="248" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">FAST MOVERS</text>
+                  <text x="248" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#2B7A3E">128</text>
+                  <text x="248" y="69" font-family="Inter" font-size="5" fill="#8A8D96">top 10%</text>
+                </g>
+
+                <!-- Monthly revenue bar chart -->
+                <rect x="14" y="78" width="180" height="88" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="20" y="89" font-family="Inter" font-size="6" font-weight="700" fill="#1F3A5F" letter-spacing="0.5">MONTHLY REVENUE</text>
+                <g>
+                  <rect x="22" y="120" width="11" height="38" fill="#1F3A5F"/>
+                  <rect x="38" y="112" width="11" height="46" fill="#1F3A5F"/>
+                  <rect x="54" y="106" width="11" height="52" fill="#1F3A5F"/>
+                  <rect x="70" y="98" width="11" height="60" fill="#C9A961"/>
+                  <rect x="86" y="116" width="11" height="42" fill="#1F3A5F"/>
+                  <rect x="102" y="108" width="11" height="50" fill="#1F3A5F"/>
+                  <rect x="118" y="100" width="11" height="58" fill="#1F3A5F"/>
+                  <rect x="134" y="94" width="11" height="64" fill="#1F3A5F"/>
+                  <rect x="150" y="102" width="11" height="56" fill="#1F3A5F"/>
+                  <rect x="166" y="92" width="11" height="66" fill="#1F3A5F"/>
+                  <rect x="182" y="88" width="8" height="70" fill="#C9A961"/>
+                </g>
+                <line x1="20" y1="158" x2="194" y2="158" stroke="#E3DFD6" stroke-width="0.5"/>
+
+                <!-- Brand performance -->
+                <rect x="200" y="78" width="106" height="88" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="206" y="89" font-family="Inter" font-size="6" font-weight="700" fill="#1F3A5F" letter-spacing="0.5">TOP BRANDS</text>
+                <g font-family="Inter" font-size="5.5" fill="#2C2E36">
+                  <text x="206" y="100">Brand A</text>
+                  <rect x="240" y="96" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="96" width="50" height="4" rx="1" fill="#1F3A5F"/>
+                  <text x="206" y="112">Brand B</text>
+                  <rect x="240" y="108" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="108" width="42" height="4" rx="1" fill="#1F3A5F"/>
+                  <text x="206" y="124">Brand C</text>
+                  <rect x="240" y="120" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="120" width="36" height="4" rx="1" fill="#1F3A5F"/>
+                  <text x="206" y="136">Brand D</text>
+                  <rect x="240" y="132" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="132" width="28" height="4" rx="1" fill="#C9A961"/>
+                  <text x="206" y="148">Brand E</text>
+                  <rect x="240" y="144" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="144" width="22" height="4" rx="1" fill="#1F3A5F"/>
+                  <text x="206" y="160">Brand F</text>
+                  <rect x="240" y="156" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="156" width="14" height="4" rx="1" fill="#C53030"/>
+                </g>
+              </svg>
+            </div>
+            <div class="project-body">
+              <span class="project-tag">Live · category analytics</span>
+              <h3 class="project-name">PKO Sales Dashboard</h3>
+              <p class="project-desc">Live sales analytics for the Category team — revenue, dead stock, fast/slow movers, branch and brand-level performance with case-insensitive ERP matching and variant-aware aggregation.</p>
+              <div class="project-stack">
+                <span class="stack-chip">HTML</span>
+                <span class="stack-chip">PapaParse</span>
+                <span class="stack-chip">Chart.js</span>
+                <span class="stack-chip">GitHub Pages</span>
+              </div>
+              <div class="project-toggle">View details</div>
+              <div class="project-details">
+                <ul>
+                  <li>KPI tiles for total revenue, projects, dead stock count, fast/slow movers</li>
+                  <li>Filters by branch, brand, category, and date range — all cross-filtering through the visuals</li>
+                  <li>Robust ERP matching: normalised case + whitespace, variant collapsing so _with_MDF and _without_MDF count as the same product family</li>
+                  <li>Monthly trends, brand performance breakdowns, and self-diagnostic console for data health checks</li>
+                  <li>Reads CSVs straight from the GitHub repo — refresh = drag-drop a new file</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Material Audit Scanner -->
+          <div class="project-card" onclick="toggleCard(event, this)">
+            <div class="project-shot" data-img="scanner.png">
+              <!-- SVG mockup: phone scanning a QR code -->
+              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="180" fill="#FAF8F4"/>
+                <!-- Phone -->
+                <rect x="110" y="14" width="100" height="152" rx="12" fill="#14151A"/>
+                <rect x="116" y="22" width="88" height="136" rx="6" fill="#1F3A5F"/>
+                <!-- header -->
+                <text x="120" y="32" font-family="Inter" font-size="6" font-weight="700" fill="#C9A961">Audit Scanner</text>
+                <text x="120" y="40" font-family="Inter" font-size="5" fill="#D7D3CA">Auditor: Sunil</text>
+                <!-- Camera viewfinder -->
+                <rect x="124" y="46" width="72" height="60" rx="3" fill="#14151A"/>
+                <!-- QR code -->
+                <g transform="translate(140, 56)" fill="white">
+                  <rect width="40" height="40" fill="#14151A"/>
+                  <rect x="2" y="2" width="10" height="10" fill="white"/>
+                  <rect x="4" y="4" width="6" height="6" fill="#14151A"/>
+                  <rect x="28" y="2" width="10" height="10" fill="white"/>
+                  <rect x="30" y="4" width="6" height="6" fill="#14151A"/>
+                  <rect x="2" y="28" width="10" height="10" fill="white"/>
+                  <rect x="4" y="30" width="6" height="6" fill="#14151A"/>
+                  <rect x="15" y="3" width="3" height="3" fill="white"/>
+                  <rect x="20" y="3" width="3" height="3" fill="white"/>
+                  <rect x="15" y="8" width="3" height="3" fill="white"/>
+                  <rect x="22" y="14" width="3" height="3" fill="white"/>
+                  <rect x="16" y="17" width="3" height="3" fill="white"/>
+                  <rect x="3" y="16" width="3" height="3" fill="white"/>
+                  <rect x="9" y="16" width="3" height="3" fill="white"/>
+                  <rect x="14" y="22" width="3" height="3" fill="white"/>
+                  <rect x="20" y="22" width="3" height="3" fill="white"/>
+                  <rect x="3" y="22" width="3" height="3" fill="white"/>
+                  <rect x="29" y="20" width="3" height="3" fill="white"/>
+                  <rect x="33" y="24" width="3" height="3" fill="white"/>
+                  <rect x="16" y="32" width="3" height="3" fill="white"/>
+                  <rect x="22" y="32" width="3" height="3" fill="white"/>
+                  <rect x="27" y="32" width="3" height="3" fill="white"/>
+                  <rect x="32" y="32" width="3" height="3" fill="white"/>
+                  <rect x="27" y="27" width="3" height="3" fill="white"/>
+                </g>
+                <!-- scan line -->
+                <rect x="124" y="74" width="72" height="1.5" fill="#C9A961" opacity="0.8"/>
+
+                <!-- Status pill -->
+                <rect x="124" y="112" width="72" height="14" rx="3" fill="#2B7A3E"/>
+                <text x="160" y="121" font-family="Inter" font-size="6" font-weight="700" fill="white" text-anchor="middle">✓ AVAILABLE</text>
+
+                <!-- ERP code + Rep sample -->
+                <text x="124" y="135" font-family="Inter" font-size="5" fill="#D7D3CA">ERP: H114-228mm</text>
+                <text x="124" y="143" font-family="Inter" font-size="4.5" fill="#C9A961">2 variants → Rep. Sample</text>
+
+                <!-- Buttons -->
+                <rect x="124" y="148" width="34" height="8" rx="2" fill="#2B7A3E"/>
+                <text x="141" y="154" font-family="Inter" font-size="5" fill="white" text-anchor="middle">Normal</text>
+                <rect x="162" y="148" width="34" height="8" rx="2" fill="#B86E1C"/>
+                <text x="179" y="154" font-family="Inter" font-size="5" fill="white" text-anchor="middle">Damaged</text>
+
+                <!-- Side stats -->
+                <rect x="14" y="40" width="84" height="30" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="20" y="50" font-family="Inter" font-size="5.5" fill="#8A8D96" letter-spacing="0.5">SCANNED TODAY</text>
+                <text x="20" y="64" font-family="Fraunces" font-size="14" font-weight="700" fill="#2B7A3E">147</text>
+
+                <rect x="14" y="74" width="84" height="30" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="20" y="84" font-family="Inter" font-size="5.5" fill="#8A8D96" letter-spacing="0.5">REP. SAMPLES</text>
+                <text x="20" y="98" font-family="Fraunces" font-size="14" font-weight="700" fill="#C9A961">38</text>
+
+                <rect x="14" y="108" width="84" height="30" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="20" y="118" font-family="Inter" font-size="5.5" fill="#8A8D96" letter-spacing="0.5">MISSING</text>
+                <text x="20" y="132" font-family="Fraunces" font-size="14" font-weight="700" fill="#C53030">12</text>
+
+                <rect x="222" y="40" width="84" height="30" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="228" y="50" font-family="Inter" font-size="5.5" fill="#8A8D96" letter-spacing="0.5">LOCATION</text>
+                <text x="228" y="63" font-family="Fraunces" font-size="11" font-weight="700" fill="#1F3A5F">HSR</text>
+
+                <rect x="222" y="74" width="84" height="30" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="228" y="84" font-family="Inter" font-size="5.5" fill="#8A8D96" letter-spacing="0.5">AUDIT #</text>
+                <text x="228" y="97" font-family="Fraunces" font-size="11" font-weight="700" fill="#1F3A5F">04</text>
+
+                <rect x="222" y="108" width="84" height="30" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="228" y="118" font-family="Inter" font-size="5.5" fill="#8A8D96" letter-spacing="0.5">CATEGORIES</text>
+                <text x="228" y="131" font-family="Fraunces" font-size="11" font-weight="700" fill="#1F3A5F">12</text>
+              </svg>
+            </div>
+            <div class="project-body">
+              <span class="project-tag">Live · on-floor audits</span>
+              <h3 class="project-name">Material Audit Scanner</h3>
+              <p class="project-desc">QR / barcode-based audit app for the material library. Smart Representative-Sample logic groups variants by family; discontinued-but-present alerts flag library cleanup actions.</p>
+              <div class="project-stack">
+                <span class="stack-chip">Apps Script</span>
+                <span class="stack-chip">Google Sheets</span>
+                <span class="stack-chip">html5-qrcode</span>
+                <span class="stack-chip">GitHub Pages</span>
+              </div>
+              <div class="project-toggle">View details</div>
+              <div class="project-details">
+                <ul>
+                  <li>Camera-based QR scan on any phone via GitHub Pages — no permission issues, no native app to install</li>
+                  <li>Auditor login with name; supports four locations (Andheri, Thane, HSR, HRBR) via a single app</li>
+                  <li>Smart family detection — scanning one size of a handle family auto-marks the other sizes as Representative Sample</li>
+                  <li>Settings sheet controls which categories apply Representative Sample logic — configurable without code changes</li>
+                  <li>Discontinued-item alert when scanned in the library (signals removal); never overwrites Discontinued status</li>
+                  <li>Auto-incrementing audit number, full AUDIT_LOG history, duplicate-scan prevention, cached ERP index for sub-second response</li>
+                  <li>A3 QR-label PDF generator (8 columns, light cutting borders, no blank pages)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email Templates -->
+          <div class="project-card" onclick="toggleCard(event, this)">
+            <div class="project-shot" data-img="email.png">
+              <!-- SVG mockup: branded email template -->
+              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+                <rect width="320" height="180" fill="#FAF8F4"/>
+                <!-- Outlook-like outer frame -->
+                <rect x="14" y="14" width="292" height="152" rx="4" fill="white" stroke="#E3DFD6"/>
+                <!-- Outlook header bar -->
+                <rect x="14" y="14" width="292" height="20" rx="4" fill="#1F3A5F"/>
+                <rect x="14" y="30" width="292" height="4" fill="#1F3A5F"/>
+                <circle cx="22" cy="24" r="2.5" fill="#C9A961"/>
+                <text x="30" y="27" font-family="Inter" font-size="7" font-weight="600" fill="white">New Email — iLab Launch</text>
+                <text x="290" y="27" font-family="Inter" font-size="9" font-weight="700" fill="white" text-anchor="end">×</text>
+
+                <!-- To / Subject -->
+                <text x="22" y="46" font-family="Inter" font-size="6" fill="#8A8D96">To:</text>
+                <text x="40" y="46" font-family="Inter" font-size="6" fill="#2C2E36">design@bonito.in</text>
+                <line x1="22" y1="50" x2="298" y2="50" stroke="#F2EFE8"/>
+                <text x="22" y="60" font-family="Inter" font-size="6" fill="#8A8D96">Subject:</text>
+                <text x="46" y="60" font-family="Inter" font-size="6" font-weight="600" fill="#2C2E36">New Wallpaper Collection — Now Live in iLab</text>
+                <line x1="22" y1="64" x2="298" y2="64" stroke="#F2EFE8"/>
+
+                <!-- Email body — hero with logo -->
+                <rect x="34" y="72" width="252" height="34" rx="2" fill="#14151A"/>
+                <text x="42" y="84" font-family="Fraunces" font-size="10" font-weight="700" fill="#C9A961">iLab</text>
+                <text x="42" y="93" font-family="Inter" font-size="5.5" fill="#D7D3CA" letter-spacing="0.5">MATERIAL LIBRARY · BONITO DESIGNS</text>
+                <rect x="240" y="80" width="40" height="18" rx="2" fill="#C9A961"/>
+                <text x="260" y="91" font-family="Inter" font-size="5.5" font-weight="700" fill="#14151A" text-anchor="middle">NEW LAUNCH</text>
+
+                <!-- Hero image placeholder -->
+                <rect x="34" y="110" width="252" height="34" rx="2" fill="#F2EFE8" stroke="#E3DFD6" stroke-dasharray="2 2"/>
+                <text x="160" y="130" font-family="Inter" font-size="6" fill="#8A8D96" text-anchor="middle">[ Product hero image ]</text>
+
+                <!-- Body lines -->
+                <rect x="34" y="148" width="180" height="2.5" rx="1" fill="#5B5E68"/>
+                <rect x="34" y="153" width="220" height="2.5" rx="1" fill="#8A8D96"/>
+                <rect x="34" y="158" width="160" height="2.5" rx="1" fill="#8A8D96"/>
+              </svg>
+            </div>
+            <div class="project-body">
+              <span class="project-tag">Live · team standard</span>
+              <h3 class="project-name">iLab Email Template System</h3>
+              <p class="project-desc">Branded Outlook templates for iLab launch and update emails, plus a designer cheat sheet so anyone on the team can use them without touching HTML.</p>
+              <div class="project-stack">
+                <span class="stack-chip">HTML</span>
+                <span class="stack-chip">Outlook OFT</span>
+                <span class="stack-chip">SharePoint</span>
+              </div>
+              <div class="project-toggle">View details</div>
+              <div class="project-details">
+                <ul>
+                  <li>Two reusable templates: Launch Email (hero image, product showcase) and Update Email (concise announcement format)</li>
+                  <li>Built as HTML, exported to .oft so anyone can open in Outlook and edit like Word</li>
+                  <li>Designer cheat sheet covers image replacement, common gotchas, and maintenance workflow</li>
+                  <li>Hosted in shared SharePoint folder; standardised iLab's outbound communication overnight</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 04 — COMPETENCIES -->
+      <section id="competencies">
+        <div class="sec-head">
+          <span class="sec-num">04</span>
+          <h2 class="sec-title">Core Competencies</h2>
+          <div class="sec-rule"></div>
+        </div>
+
+        <div class="comp-grid">
+          <div class="comp-item"><span class="comp-dot"></span> Interior Design Product Management</div>
+          <div class="comp-item"><span class="comp-dot"></span> Vendor &amp; Supplier Negotiation</div>
+          <div class="comp-item"><span class="comp-dot"></span> Market Research &amp; Trend Forecasting</div>
+          <div class="comp-item"><span class="comp-dot"></span> Category Assortment Planning</div>
+          <div class="comp-item"><span class="comp-dot"></span> Customisation &amp; Product Development</div>
+          <div class="comp-item"><span class="comp-dot"></span> Sales &amp; Profit Growth Strategy</div>
+          <div class="comp-item"><span class="comp-dot"></span> Inventory &amp; Supply Chain Management</div>
+          <div class="comp-item"><span class="comp-dot"></span> Pricing &amp; Promotions Strategy</div>
+          <div class="comp-item"><span class="comp-dot"></span> Cross-Functional Stakeholder Mgmt</div>
+          <div class="comp-item"><span class="comp-dot"></span> Material Library &amp; ISO Audit Prep</div>
+          <div class="comp-item"><span class="comp-dot"></span> Internal Tooling &amp; Process Automation</div>
+          <div class="comp-item"><span class="comp-dot"></span> E-Commerce Catalog Operations</div>
+        </div>
+      </section>
+
+      <!-- 05 — TECH SKILLS -->
+      <section id="tech">
+        <div class="sec-head">
+          <span class="sec-num">05</span>
+          <h2 class="sec-title">Technical Skills</h2>
+          <div class="sec-rule"></div>
+        </div>
+
+        <div class="tech-grid">
+          <div class="tech-block">
+            <div class="tech-cat">Web &amp; App Development (Self-taught)</div>
+            <div class="tech-list">
+              <span class="tech-item">React</span>
+              <span class="tech-item">Vite</span>
+              <span class="tech-item">HTML / CSS</span>
+              <span class="tech-item">JavaScript</span>
+              <span class="tech-item">PWA</span>
+              <span class="tech-item">Firebase Firestore</span>
+              <span class="tech-item">Firebase Cloud Messaging</span>
+              <span class="tech-item">Google Apps Script</span>
+            </div>
+          </div>
+
+          <div class="tech-block">
+            <div class="tech-cat">Data &amp; Hosting</div>
+            <div class="tech-list">
+              <span class="tech-item">SheetJS</span>
+              <span class="tech-item">PapaParse</span>
+              <span class="tech-item">Chart.js</span>
+              <span class="tech-item">GitHub Pages</span>
+              <span class="tech-item">Netlify</span>
+              <span class="tech-item">Power BI</span>
+              <span class="tech-item">Google Data Studio</span>
+            </div>
+          </div>
+
+          <div class="tech-block">
+            <div class="tech-cat">Design &amp; E-Commerce Tools</div>
+            <div class="tech-list">
+              <span class="tech-item">Photoshop</span>
+              <span class="tech-item">Illustrator</span>
+              <span class="tech-item">InDesign</span>
+              <span class="tech-item">Magento</span>
+              <span class="tech-item">ERPNext</span>
+            </div>
+          </div>
+
+          <div class="tech-block">
+            <div class="tech-cat">Productivity</div>
+            <div class="tech-list">
+              <span class="tech-item">Excel (advanced)</span>
+              <span class="tech-item">PowerPoint</span>
+              <span class="tech-item">Word</span>
+              <span class="tech-item">Google Sheets</span>
+              <span class="tech-item">Outlook templates</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 — EDUCATION -->
+      <section id="education">
+        <div class="sec-head">
+          <span class="sec-num">06</span>
+          <h2 class="sec-title">Education</h2>
+          <div class="sec-rule"></div>
+        </div>
+
+        <ul class="edu-list">
+          <li class="edu-item">
+            <div class="edu-year">2013</div>
+            <div>
+              <div class="edu-deg">Web &amp; Graphic Design</div>
+              <div class="edu-inst">Adoro Institute of Multimedia</div>
+            </div>
+          </li>
+          <li class="edu-item">
+            <div class="edu-year">2012</div>
+            <div>
+              <div class="edu-deg">B.Sc. — Computer Science</div>
+              <div class="edu-inst">Mahatma Gandhi Kashi Vidyapith</div>
+            </div>
+          </li>
+          <li class="edu-item">
+            <div class="edu-year">2009</div>
+            <div>
+              <div class="edu-deg">Pre-University Course (PUC)</div>
+              <div class="edu-inst">Visveswarapura College of Science, Bangalore</div>
+            </div>
+          </li>
+          <li class="edu-item">
+            <div class="edu-year">2007</div>
+            <div>
+              <div class="edu-deg">SSLC</div>
+              <div class="edu-inst">Sri Saraswathi Vidya Mandira, Bangalore</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <footer class="foot">
+        <div>© Sunil Kumar CR · Bangalore</div>
+        <div>Updated May 2026 · Built and hosted by Sunil</div>
+      </footer>
+
+    </main>
+  </div>
+</div>
+
+<button class="print-btn" onclick="window.print()">↓ Save as PDF</button>
+
+<script>
+  // Toggle project card details (but don't toggle if clicking the description text on mobile so links are usable)
+  function toggleCard(e, card) {
+    card.classList.toggle('open');
+  }
+
+  // Mobile sidebar toggle
+  function toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    const scrim = document.getElementById('scrim');
+    sb.classList.toggle('open');
+    scrim.classList.toggle('show');
+  }
+  function closeSidebarMobile() {
+    if (window.innerWidth <= 900) {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('scrim').classList.remove('show');
+    }
+  }
+
+  // Photo loader
+  (function loadPhoto(){
+    const img = new Image();
+    img.onload = function() {
+      const frame = document.getElementById('photo');
+      frame.innerHTML = '';
+      frame.appendChild(img);
+    };
+    img.onerror = function() { /* keep initials fallback */ };
+    img.src = 'photo.jpg';
+  })();
+
+  // Project shot loader — if a real image is dropped into the repo with the data-img filename,
+  // it replaces the SVG mockup automatically. Otherwise the SVG stays.
+  (function loadProjectShots(){
+    document.querySelectorAll('.project-shot[data-img]').forEach(function(shot){
+      const src = shot.getAttribute('data-img');
+      const img = new Image();
+      img.onload = function() {
+        shot.classList.add('has-img');
+        shot.innerHTML = '';
+        shot.appendChild(img);
+      };
+      img.onerror = function() { /* keep SVG fallback */ };
+      img.src = src;
+    });
+  })();
+</script>
+
+</body>
+</html>
