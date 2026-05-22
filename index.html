@@ -4,1080 +4,1113 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sunil Kumar CR · Category Manager</title>
-<meta name="description" content="Category & Catalog Manager with 11+ years experience in interior design product management, vendor coordination, and self-built operational tooling.">
-<meta name="theme-color" content="#14151A">
+<meta name="description" content="Category Manager with 11+ years across interior design and large-scale e-commerce. Builder of six in-house tools that reshaped category operations.">
+<meta name="theme-color" content="#0F5E6E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ink: #14151A;
-    --ink-2: #2C2E36;
-    --ink-3: #5B5E68;
-    --ink-4: #8A8D96;
-    --paper: #FAF8F4;
-    --paper-2: #F2EFE8;
-    --line: #E3DFD6;
-    --accent: #1F3A5F;
-    --accent-2: #C9A961;
-    --good: #2B7A3E;
-    --warn: #B86E1C;
-    --bad: #C53030;
-    --shadow: 0 1px 0 rgba(20,21,26,0.04), 0 8px 24px rgba(20,21,26,0.06);
-  }
+/* ========== TOKENS ========== */
+:root {
+  --teal: #0F5E6E;
+  --teal-deep: #0A4651;
+  --teal-soft: #4A8A95;
+  --gold: #C9A961;
+  --gold-deep: #A88841;
+  --ink: #14151A;
+  --ink-2: #2C2E36;
+  --ink-3: #5B5E68;
+  --ink-4: #8A8D96;
+  --paper: #FAF8F4;
+  --paper-2: #F2EFE8;
+  --line: #E3DFD6;
+  --bad: #C53030;
+  --good: #2B7A3E;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-  body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    line-height: 1.55;
-    font-size: 15px;
-    -webkit-font-smoothing: antialiased;
-  }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-  /* ============ LAYOUT ============ */
-  .page { max-width: 1180px; margin: 0 auto; background: var(--paper); }
-  .layout { display: grid; grid-template-columns: 280px 1fr; gap: 0; min-height: 100vh; }
+/* ========== UTILITIES ========== */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
 
-  /* ============ SIDEBAR ============ */
-  .sidebar {
-    background: var(--ink);
-    color: #F5F2EC;
-    padding: 40px 28px 40px 36px;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-  }
-  .sidebar::-webkit-scrollbar { width: 4px; }
-  .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+/* ========== TOP NAV ========== */
+.topnav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 14px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(250, 248, 244, 0);
+  backdrop-filter: blur(0px);
+  transition: background 0.3s var(--ease), backdrop-filter 0.3s var(--ease), padding 0.3s var(--ease);
+}
+.topnav.scrolled {
+  background: rgba(250, 248, 244, 0.92);
+  backdrop-filter: blur(12px);
+  padding: 10px 32px;
+  border-bottom: 1px solid var(--line);
+}
+.topnav-name {
+  font-family: 'Fraunces', serif;
+  font-size: 18px; font-weight: 600;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.topnav.scrolled .topnav-name { opacity: 1; }
+.topnav-actions { display: flex; gap: 8px; }
+.topnav-btn {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s var(--ease);
+}
+.topnav-btn:hover {
+  background: var(--ink);
+  color: white;
+  transform: translateY(-1px);
+}
+.topnav-btn.primary {
+  background: var(--ink);
+  color: white;
+}
+.topnav-btn.primary:hover {
+  background: var(--teal);
+  border-color: var(--teal);
+}
 
-  .photo-frame {
-    width: 110px; height: 110px;
-    border-radius: 50%;
-    background: var(--ink-2);
-    margin-bottom: 24px;
-    border: 3px solid var(--accent-2);
-    overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Fraunces', serif;
-    font-size: 38px; font-weight: 600;
-    color: var(--accent-2);
-    letter-spacing: -0.02em;
-  }
-  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+/* ========== HERO ========== */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  padding: 80px 32px 60px;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(15,94,110,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(201,169,97,0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(20,21,26,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  width: 100%;
+  text-align: center;
+}
+.hero-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--teal);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.7s var(--ease) 0.15s forwards;
+}
+.hero-name {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(48px, 9vw, 112px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  margin-bottom: 24px;
+  color: var(--ink);
+  opacity: 0;
+  animation: heroNameIn 0.9s var(--ease) 0.25s forwards;
+}
+.hero-name .accent {
+  color: var(--teal);
+  font-style: italic;
+  font-weight: 400;
+}
+.hero-role {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(20px, 2.6vw, 32px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink-3);
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.7s var(--ease) 0.5s forwards;
+}
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: var(--ink-3);
+  margin-bottom: 60px;
+  opacity: 0;
+  animation: fadeUp 0.7s var(--ease) 0.65s forwards;
+}
+.hero-meta span { display: flex; align-items: center; gap: 8px; }
+.hero-meta .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
 
-  .side-name {
-    font-family: 'Fraunces', serif;
-    font-size: 22px; font-weight: 600;
-    line-height: 1.15; letter-spacing: -0.01em;
-    margin-bottom: 4px;
-  }
-  .side-role {
-    font-size: 12px; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--accent-2);
-    font-weight: 500; margin-bottom: 24px;
-  }
+/* Metric strip - counters animate up */
+.metric-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease) 0.85s forwards;
+}
+.metric {
+  text-align: center;
+  padding: 24px 12px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.metric:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(20,21,26,0.08);
+  border-color: var(--teal);
+}
+.metric-value {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+.metric-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+  font-weight: 600;
+}
 
-  .side-block { margin-top: 28px; }
-  .side-label {
-    font-size: 10px; text-transform: uppercase;
-    letter-spacing: 0.16em; color: var(--ink-4);
-    font-weight: 600; margin-bottom: 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
+/* Scroll cue */
+.scroll-cue {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ink-3);
+  opacity: 0;
+  animation: fadeUp 0.7s var(--ease) 1.1s forwards, bob 2.4s ease-in-out 2s infinite;
+}
+.scroll-cue::after {
+  content: '';
+  display: block;
+  width: 1px; height: 24px;
+  background: var(--ink-3);
+  margin: 8px auto 0;
+}
 
-  .contact-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    font-size: 12.5px; color: #D7D3CA;
-    margin-bottom: 8px; line-height: 1.45;
-    word-break: break-word;
-  }
-  .contact-item svg {
-    width: 13px; height: 13px; flex-shrink: 0;
-    margin-top: 3px; stroke: var(--accent-2);
-  }
-  .contact-item a { color: #D7D3CA; text-decoration: none; }
-  .contact-item a:hover { color: var(--accent-2); }
+/* ========== ANIMATIONS ========== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroNameIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.96); letter-spacing: -0.05em; }
+  to { opacity: 1; transform: translateY(0) scale(1); letter-spacing: -0.035em; }
+}
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(0.3deg); }
+}
+@keyframes shimmer {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
 
-  .lang-list { display: flex; flex-wrap: wrap; gap: 6px; }
-  .lang-chip {
-    font-size: 11px; padding: 3px 9px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 999px; color: #D7D3CA;
-  }
+/* ========== SECTION ARRIVALS (Intersection Observer driven) ========== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+.reveal-stagger.in > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(2) { transition-delay: 0.15s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(3) { transition-delay: 0.25s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(4) { transition-delay: 0.35s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(5) { transition-delay: 0.45s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(6) { transition-delay: 0.55s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(n+7) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
 
-  .nav-list { list-style: none; }
-  .nav-list li { margin-bottom: 6px; }
-  .nav-list a {
-    color: #D7D3CA; text-decoration: none;
-    font-size: 12.5px; padding: 6px 0;
-    display: block;
-    border-bottom: 1px dashed transparent;
-    transition: border-color 0.15s, color 0.15s;
-  }
-  .nav-list a:hover { color: var(--accent-2); border-bottom-color: var(--accent-2); }
+/* ========== PROFILE + EXPERIENCE ========== */
+.section-band {
+  padding: 120px 32px;
+  position: relative;
+}
+.section-band.alt { background: white; }
 
-  /* ============ MOBILE HEADER ============ */
-  .mobile-bar {
-    display: none;
-    position: sticky;
-    top: 0;
-    background: var(--ink);
-    color: #F5F2EC;
-    padding: 12px 18px;
-    z-index: 50;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-  .mb-name {
-    font-family: 'Fraunces', serif;
-    font-size: 17px; font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .mb-toggle {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #F5F2EC;
-    padding: 6px 10px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    font-family: inherit;
-  }
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--teal);
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 12px;
+}
+.eyebrow::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--gold);
+}
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 24px;
+  max-width: 800px;
+}
+.section-lead {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin-bottom: 32px;
+  max-width: 760px;
+}
 
-  /* ============ MAIN ============ */
-  .main { padding: 56px 56px 80px; background: var(--paper); }
+.profile-body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink-2);
+  max-width: 760px;
+}
+.profile-body p + p { margin-top: 16px; }
+.profile-body strong { color: var(--teal); font-weight: 600; }
 
-  /* HERO */
-  .hero {
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 32px;
-    margin-bottom: 40px;
-  }
-  .hero-tag {
-    font-size: 11px; text-transform: uppercase;
-    letter-spacing: 0.18em; color: var(--accent);
-    font-weight: 600; margin-bottom: 12px;
-  }
-  .hero-name {
-    font-family: 'Fraunces', serif;
-    font-size: 56px; font-weight: 600;
-    letter-spacing: -0.025em; line-height: 1.0;
-    margin-bottom: 14px; color: var(--ink);
-  }
-  .hero-role {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 22px; font-weight: 400;
-    color: var(--ink-3); margin-bottom: 18px;
-  }
-  .hero-meta {
-    display: flex; flex-wrap: wrap; gap: 18px;
-    font-size: 13px; color: var(--ink-3);
-  }
-  .hero-meta span { display: flex; align-items: center; gap: 6px; }
-  .hero-meta .dot { width: 4px; height: 4px; background: var(--accent-2); border-radius: 50%; }
+/* Experience timeline */
+.exp-timeline {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 48px;
+  max-width: 980px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 40px;
+}
+.exp-timeline:last-child { border-bottom: none; margin-bottom: 0; }
 
-  /* SECTION */
-  section { margin-bottom: 48px; }
-  section:last-child { margin-bottom: 0; }
-  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; }
-  .sec-num {
-    font-family: 'Fraunces', serif;
-    font-size: 14px; font-weight: 500;
-    color: var(--accent-2);
-    font-feature-settings: 'tnum';
-  }
-  .sec-title {
-    font-family: 'Fraunces', serif;
-    font-size: 26px; font-weight: 600;
-    letter-spacing: -0.015em; color: var(--ink);
-  }
-  .sec-rule { flex: 1; height: 1px; background: var(--line); }
+.exp-side {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  padding-top: 6px;
+}
+.exp-side .now {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 9px;
+  font-size: 9px;
+  background: var(--good);
+  color: white;
+  border-radius: 99px;
+  letter-spacing: 0.14em;
+}
+.exp-role {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+.exp-company {
+  font-size: 15px;
+  color: var(--teal);
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+.exp-bullets { list-style: none; }
+.exp-bullets li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+.exp-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 11px;
+  width: 12px; height: 1px;
+  background: var(--gold);
+}
+.exp-bullets b {
+  color: var(--teal);
+  font-weight: 600;
+}
 
-  /* SUMMARY */
-  .summary { font-size: 15.5px; line-height: 1.7; color: var(--ink-2); }
-  .summary strong { color: var(--ink); font-weight: 600; }
-  .summary .lead {
-    font-family: 'Fraunces', serif;
-    font-size: 19px; font-weight: 400;
-    line-height: 1.5; color: var(--ink);
-    margin-bottom: 14px; letter-spacing: -0.005em;
-  }
+/* ========== PROJECTS SECTION INTRO ========== */
+.projects-intro {
+  padding: 140px 32px 80px;
+  background: var(--paper);
+  position: relative;
+}
+.projects-intro::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, transparent 0%, var(--paper) 100%);
+  pointer-events: none;
+}
+.projects-intro-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+.projects-intro .section-title { margin-left: auto; margin-right: auto; }
 
-  .highlights {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 0; margin-top: 22px;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    padding: 18px 0;
-  }
-  .highlight { padding: 0 18px; border-right: 1px solid var(--line); }
-  .highlight:last-child { border-right: none; }
-  .highlight:first-child { padding-left: 0; }
-  .h-num {
-    font-family: 'Fraunces', serif;
-    font-size: 30px; font-weight: 600;
-    color: var(--accent); letter-spacing: -0.02em;
-    line-height: 1; margin-bottom: 4px;
-  }
-  .h-label { font-size: 11.5px; color: var(--ink-3); line-height: 1.35; }
+/* ========== PROJECT SECTION (the showcase) ========== */
+.project-section {
+  min-height: 100vh;
+  padding: 100px 32px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.project-section.accent-teal { background: linear-gradient(180deg, #FAF8F4 0%, #F0EDE5 100%); }
+.project-section.accent-gold { background: linear-gradient(180deg, #14151A 0%, #1A1B22 100%); color: #F5F2EC; }
+.project-section.accent-gold .project-tag { color: var(--gold); }
+.project-section.accent-gold .project-number { color: rgba(255,255,255,0.12); }
+.project-section.accent-gold .project-title { color: white; }
+.project-section.accent-gold .beat-label { color: var(--gold); }
+.project-section.accent-gold .beat-text { color: rgba(255,255,255,0.78); }
+.project-section.accent-gold .impact-tile {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.1);
+}
+.project-section.accent-gold .impact-value { color: var(--gold); }
+.project-section.accent-gold .impact-label { color: rgba(255,255,255,0.55); }
+.project-section.accent-gold .stack-pill {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.project-section.accent-gold .visual-frame {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+}
 
-  /* EXPERIENCE */
-  .exp-item {
-    display: grid; grid-template-columns: 140px 1fr;
-    gap: 28px; padding-bottom: 28px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 28px;
-  }
-  .exp-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-  .exp-date {
-    font-size: 12px; color: var(--ink-3);
-    text-transform: uppercase;
-    letter-spacing: 0.08em; font-weight: 500;
-    padding-top: 4px;
-  }
-  .exp-date .current {
-    display: inline-block;
-    background: var(--good); color: white;
-    font-size: 9.5px; padding: 2px 7px;
-    border-radius: 3px; letter-spacing: 0.1em;
-    margin-top: 5px;
-  }
-  .exp-title {
-    font-family: 'Fraunces', serif;
-    font-size: 20px; font-weight: 600;
-    color: var(--ink); margin-bottom: 2px;
-    letter-spacing: -0.01em;
-  }
-  .exp-company {
-    font-size: 14px; color: var(--accent);
-    font-weight: 500; margin-bottom: 14px;
-  }
-  .exp-bullets { list-style: none; }
-  .exp-bullets li {
-    position: relative; padding-left: 16px;
-    margin-bottom: 7px; font-size: 14px;
-    line-height: 1.55; color: var(--ink-2);
-  }
-  .exp-bullets li::before {
-    content: ''; position: absolute;
-    left: 0; top: 9px;
-    width: 6px; height: 1px;
-    background: var(--accent-2);
-  }
-  .exp-bullets strong { color: var(--accent); font-weight: 600; }
-  .exp-sub {
-    font-size: 11px; text-transform: uppercase;
-    letter-spacing: 0.1em; color: var(--ink-4);
-    font-weight: 600; margin: 12px 0 6px;
-  }
+.project-inner {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.project-section.reverse .project-inner { direction: rtl; }
+.project-section.reverse .project-visual,
+.project-section.reverse .project-content { direction: ltr; }
 
-  /* PROJECTS */
-  .projects-intro {
-    font-size: 14.5px; color: var(--ink-3);
-    margin-bottom: 24px; line-height: 1.6;
-    max-width: 700px;
-  }
-  .project-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
-  }
-  .project-card {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex; flex-direction: column;
-    cursor: pointer;
-  }
-  .project-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-    border-color: var(--accent-2);
-  }
+/* Visual side */
+.project-visual {
+  position: relative;
+  opacity: 0;
+  transform: translateY(60px) scale(0.96);
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+}
+.project-section.in .project-visual { opacity: 1; transform: translateY(0) scale(1); }
 
-  /* PROJECT SHOT - now a real SVG mockup */
-  .project-shot {
-    aspect-ratio: 16/9;
-    background: linear-gradient(135deg, #FAF8F4 0%, #F2EFE8 100%);
-    border-bottom: 1px solid var(--line);
-    position: relative;
-    overflow: hidden;
-  }
-  .project-shot svg { width: 100%; height: 100%; display: block; }
+.visual-frame {
+  position: relative;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  padding: 18px;
+  box-shadow: 0 30px 60px rgba(20,21,26,0.12), 0 4px 12px rgba(20,21,26,0.06);
+  animation: float 7s ease-in-out infinite;
+  transition: transform 0.4s var(--ease);
+}
+.visual-frame:hover { transform: scale(1.02) rotate(-0.3deg); }
+.visual-frame svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.visual-glow {
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(circle at center, rgba(15,94,110,0.15) 0%, transparent 60%);
+  z-index: -1;
+  filter: blur(40px);
+  animation: shimmer 4s ease-in-out infinite;
+}
+.project-section.accent-gold .visual-glow {
+  background: radial-gradient(circle at center, rgba(201,169,97,0.2) 0%, transparent 60%);
+}
 
-  /* Override if a real image is supplied */
-  .project-shot.has-img { background: transparent; padding: 0; }
-  .project-shot.has-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.visual-stack-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 24px;
+  justify-content: center;
+}
+.stack-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 5px 12px;
+  background: white;
+  border: 1px solid var(--line);
+  color: var(--ink-3);
+  border-radius: 99px;
+  font-weight: 500;
+  transition: all 0.2s var(--ease);
+}
 
-  .project-body {
-    padding: 18px 20px 20px;
-    flex: 1;
-    display: flex; flex-direction: column;
-  }
-  .project-tag {
-    display: inline-block;
-    font-size: 10px; text-transform: uppercase;
-    letter-spacing: 0.14em; color: var(--accent);
-    font-weight: 600; margin-bottom: 6px;
-  }
-  .project-name {
-    font-family: 'Fraunces', serif;
-    font-size: 19px; font-weight: 600;
-    letter-spacing: -0.01em; color: var(--ink);
-    margin-bottom: 8px; line-height: 1.2;
-  }
-  .project-desc {
-    font-size: 13.5px; color: var(--ink-2);
-    line-height: 1.55; margin-bottom: 14px;
-    flex: 1;
-  }
-  .project-stack {
-    display: flex; flex-wrap: wrap; gap: 5px;
-    padding-top: 12px; border-top: 1px solid var(--line);
-  }
-  .stack-chip {
-    font-size: 10.5px; padding: 3px 8px;
-    background: var(--paper-2); color: var(--ink-3);
-    border-radius: 3px; font-weight: 500;
-  }
-  .project-toggle {
-    margin-top: 12px; font-size: 11.5px;
-    color: var(--accent); font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    display: flex; align-items: center; gap: 4px;
-    cursor: pointer; user-select: none;
-  }
-  .project-toggle::after { content: '+'; font-size: 16px; line-height: 1; }
-  .project-card.open .project-toggle::after { content: '−'; }
-  .project-details {
-    display: none; margin-top: 14px;
-    padding-top: 14px; border-top: 1px solid var(--line);
-    font-size: 13px; color: var(--ink-2); line-height: 1.6;
-  }
-  .project-card.open .project-details { display: block; }
-  .project-details ul { list-style: none; padding: 0; }
-  .project-details li {
-    position: relative; padding-left: 14px;
-    margin-bottom: 5px;
-  }
-  .project-details li::before {
-    content: '·'; position: absolute;
-    left: 4px; color: var(--accent-2); font-weight: 700;
-  }
+/* Content side */
+.project-content {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s var(--ease) 0.15s, transform 1s var(--ease) 0.15s;
+}
+.project-section.in .project-content { opacity: 1; transform: translateY(0); }
 
-  /* COMPETENCIES */
-  .comp-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 0; border: 1px solid var(--line);
-    border-radius: 4px; background: white;
-  }
-  .comp-item {
-    padding: 14px 16px;
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    font-size: 13.5px; color: var(--ink-2);
-    display: flex; align-items: center; gap: 9px;
-  }
-  .comp-item:nth-child(3n) { border-right: none; }
-  .comp-item:nth-last-child(-n+3) { border-bottom: none; }
-  .comp-dot {
-    width: 5px; height: 5px;
-    background: var(--accent-2); border-radius: 50%;
-    flex-shrink: 0;
-  }
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.project-number {
+  font-family: 'Fraunces', serif;
+  font-size: 56px;
+  font-weight: 600;
+  color: rgba(20,21,26,0.08);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+}
+.project-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--teal);
+  font-weight: 600;
+}
 
-  /* TECH */
-  .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  .tech-block {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 18px 20px;
-  }
-  .tech-cat {
-    font-size: 11px; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--accent);
-    font-weight: 600; margin-bottom: 10px;
-  }
-  .tech-list { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tech-item {
-    font-size: 12.5px; padding: 4px 10px;
-    background: var(--paper-2); color: var(--ink-2);
-    border-radius: 3px; font-weight: 500;
-  }
+.project-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 4.4vw, 56px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  margin-bottom: 36px;
+  color: var(--ink);
+}
 
-  /* EDUCATION */
-  .edu-list { list-style: none; }
-  .edu-item {
-    display: grid; grid-template-columns: 70px 1fr;
-    gap: 24px; padding: 12px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .edu-item:last-child { border-bottom: none; }
-  .edu-year {
-    font-family: 'Fraunces', serif;
-    font-size: 18px; font-weight: 600;
-    color: var(--accent);
-    font-feature-settings: 'tnum';
-  }
-  .edu-deg { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
-  .edu-inst { font-size: 12.5px; color: var(--ink-3); }
+.project-beat {
+  margin-bottom: 28px;
+}
+.project-beat:last-child { margin-bottom: 0; }
 
-  /* FOOTER */
-  .foot {
-    margin-top: 64px; padding-top: 24px;
-    border-top: 1px solid var(--line);
-    display: flex; justify-content: space-between;
-    align-items: center;
-    font-size: 11.5px; color: var(--ink-4);
-  }
+.beat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.beat-label::before {
+  content: '';
+  width: 16px; height: 1px;
+  background: var(--gold);
+}
+.beat-text {
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
 
-  /* PRINT BUTTON */
-  .print-btn {
-    position: fixed; bottom: 28px; right: 28px;
-    background: var(--ink); color: white;
-    border: none; padding: 12px 18px;
-    border-radius: 999px;
-    font-size: 12px; font-weight: 600;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0 6px 24px rgba(20,21,26,0.18);
-    font-family: 'Inter', sans-serif;
-    z-index: 100;
-    transition: transform 0.15s, background 0.15s;
-  }
-  .print-btn:hover { background: var(--accent); transform: translateY(-1px); }
+.impact-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 4px;
+}
+.impact-tile {
+  padding: 18px 14px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.impact-tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--teal);
+}
+.impact-value {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 600;
+  color: var(--teal);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.impact-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  font-weight: 600;
+  line-height: 1.3;
+}
 
-  /* ============ MOBILE ============ */
-  @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; }
+/* ========== CLOSING SECTIONS ========== */
+.outro {
+  padding: 140px 32px 100px;
+  background: var(--paper);
+}
+.outro-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.outro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 60px;
+}
+.outro-block .block-head {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 24px;
+  color: var(--ink);
+}
+.skills-stack { display: flex; flex-direction: column; gap: 20px; }
+.skill-group { }
+.skill-cat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.skill-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.skill-list .stack-pill { background: white; }
 
-    .mobile-bar { display: flex; }
+.edu-block { display: flex; flex-direction: column; gap: 16px; }
+.edu-item {
+  padding: 18px 22px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+.edu-year {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--teal);
+}
+.edu-deg { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.edu-inst { font-size: 13px; color: var(--ink-3); }
 
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      max-width: 320px;
-      height: 100vh;
-      padding: 24px;
-      transform: translateX(-100%);
-      transition: transform 0.25s ease;
-      z-index: 60;
-      box-shadow: 4px 0 24px rgba(0,0,0,0.2);
-    }
-    .sidebar.open { transform: translateX(0); }
+.lang-row {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 24px;
+}
+.lang-pill {
+  padding: 6px 14px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+  transition: all 0.2s var(--ease);
+}
+.lang-pill:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
 
-    .scrim {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(20,21,26,0.5);
-      z-index: 55;
-    }
-    .scrim.show { display: block; }
+/* ========== CONTACT CTA ========== */
+.contact-cta {
+  background: var(--ink);
+  color: #F5F2EC;
+  padding: 100px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.contact-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(15,94,110,0.4) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(201,169,97,0.2) 0%, transparent 50%);
+  opacity: 0.4;
+}
+.contact-cta-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.contact-cta .eyebrow { color: var(--gold); justify-content: center; }
+.contact-cta .eyebrow::before { background: var(--gold); }
+.contact-cta-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  margin-bottom: 32px;
+}
+.contact-cta-title em { color: var(--gold); font-weight: 400; }
+.contact-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 40px;
+}
+.contact-card {
+  padding: 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s var(--ease);
+  display: block;
+}
+.contact-card:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+.contact-card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.contact-card-value {
+  font-size: 14px;
+  color: white;
+  font-weight: 500;
+  word-break: break-word;
+}
 
-    .main { padding: 24px 20px 80px; }
+/* Footer */
+.footer {
+  padding: 32px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-4);
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
 
-    .hero { padding-bottom: 24px; margin-bottom: 28px; }
-    .hero-tag { font-size: 10px; margin-bottom: 8px; }
-    .hero-name { font-size: 34px; line-height: 1.05; margin-bottom: 10px; }
-    .hero-role { font-size: 16px; margin-bottom: 14px; }
-    .hero-meta { gap: 10px; font-size: 12px; }
-    .hero-meta span { flex-basis: 100%; }
+/* ========== MOBILE ========== */
+@media (max-width: 900px) {
+  .topnav { padding: 12px 18px; }
+  .topnav.scrolled { padding: 10px 18px; }
+  .topnav-btn { padding: 6px 10px; font-size: 10px; }
 
-    section { margin-bottom: 36px; }
-    .sec-title { font-size: 22px; }
+  .hero { padding: 80px 20px 60px; }
+  .hero-meta { gap: 14px; font-size: 12px; }
+  .metric-strip { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .metric { padding: 18px 10px; border-radius: 12px; }
 
-    .summary { font-size: 14px; }
-    .summary .lead { font-size: 16.5px; }
+  .section-band, .projects-intro, .outro { padding: 80px 20px; }
 
-    .highlights { grid-template-columns: repeat(2, 1fr); gap: 0; padding: 16px 0; }
-    .highlight {
-      padding: 12px 14px;
-      border-right: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .highlight:nth-child(2n) { border-right: none; }
-    .highlight:nth-last-child(-n+2) { border-bottom: none; }
-    .highlight:first-child { padding-left: 14px; }
-    .h-num { font-size: 24px; }
-    .h-label { font-size: 10.5px; }
+  .exp-timeline { grid-template-columns: 1fr; gap: 10px; }
+  .exp-side { padding-top: 0; }
 
-    .exp-item { grid-template-columns: 1fr; gap: 10px; padding-bottom: 22px; margin-bottom: 22px; }
-    .exp-date { padding-top: 0; font-size: 11px; }
-    .exp-date .current { margin-top: 4px; margin-left: 6px; }
-    .exp-title { font-size: 17px; }
-    .exp-company { font-size: 13px; margin-bottom: 10px; }
-    .exp-bullets li { font-size: 13px; }
+  .project-section { padding: 80px 20px; min-height: 0; }
+  .project-inner { grid-template-columns: 1fr; gap: 40px; }
+  .project-section.reverse .project-inner { direction: ltr; }
+  .project-title { margin-bottom: 24px; }
+  .project-number { font-size: 40px; }
+  .impact-row { grid-template-columns: 1fr; gap: 10px; }
 
-    .project-grid { grid-template-columns: 1fr; gap: 16px; }
-    .project-body { padding: 16px 16px 18px; }
-    .project-name { font-size: 17px; }
-    .project-desc { font-size: 13px; }
+  .outro-grid { grid-template-columns: 1fr; gap: 50px; }
 
-    .comp-grid { grid-template-columns: repeat(2, 1fr); }
-    .comp-item { padding: 12px 14px; font-size: 12.5px; }
-    .comp-item:nth-child(3n) { border-right: 1px solid var(--line); }
-    .comp-item:nth-child(2n) { border-right: none; }
-    .comp-item:nth-last-child(-n+3) { border-bottom: 1px solid var(--line); }
-    .comp-item:nth-last-child(-n+2) { border-bottom: none; }
+  .contact-cta { padding: 80px 20px; }
+}
 
-    .tech-grid { grid-template-columns: 1fr; gap: 14px; }
-    .tech-block { padding: 16px; }
+/* ========== PRINT (PDF) ========== */
+.print-only { display: none; }
 
-    .edu-item { grid-template-columns: 60px 1fr; gap: 16px; }
-
-    .foot { flex-direction: column; gap: 6px; text-align: center; }
-
-    .print-btn {
-      bottom: 18px; right: 18px;
-      padding: 10px 14px; font-size: 11px;
-    }
-  }
-
-  /* ============ PRINT (PDF) ============
-     Print strategy: skip the dark sidebar entirely, render as a clean
-     single-column document with a print-only header at the top.
-     Force all project details to show so the PDF is complete. */
-  .print-only { display: none; }
-
-  @media print {
-    @page { margin: 14mm 12mm; size: A4; }
-
-    html, body {
-      background: white !important;
-      font-size: 10.5pt;
-      color: var(--ink) !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-
-    /* Hide screen-only chrome */
-    .sidebar, .mobile-bar, .scrim, .print-btn { display: none !important; }
-
-    /* Reset layout to single column */
-    .page, .layout { display: block !important; max-width: none !important; }
-    .main { padding: 0 !important; background: white !important; }
-
-    /* Show the print-only header */
-    .print-only { display: block !important; }
-
-    .print-header {
-      display: grid;
-      grid-template-columns: 60px 1fr auto;
-      gap: 14px;
-      align-items: center;
-      padding-bottom: 10pt;
-      margin-bottom: 14pt;
-      border-bottom: 1.5pt solid var(--accent);
-    }
-    .print-photo {
-      width: 60px; height: 60px;
-      border-radius: 50%;
-      background: var(--ink);
-      color: var(--accent-2);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Fraunces', serif;
-      font-size: 22pt; font-weight: 600;
-      border: 2pt solid var(--accent-2);
-      overflow: hidden;
-    }
-    .print-photo img { width: 100%; height: 100%; object-fit: cover; }
-    .print-id .print-name {
-      font-family: 'Fraunces', serif;
-      font-size: 22pt; font-weight: 600;
-      letter-spacing: -0.01em;
-      line-height: 1; color: var(--ink);
-    }
-    .print-id .print-role {
-      font-size: 9pt; color: var(--accent);
-      text-transform: uppercase; letter-spacing: 0.12em;
-      font-weight: 600; margin-top: 4pt;
-    }
-    .print-contact {
-      font-size: 8.5pt;
-      color: var(--ink-2);
-      text-align: right;
-      line-height: 1.5;
-    }
-    .print-contact div { white-space: nowrap; }
-
-    /* Hide the screen hero (replaced by print header) */
-    .hero { display: none !important; }
-
-    /* Section sizing for print */
-    section { margin-bottom: 14pt !important; page-break-inside: auto; }
-    .sec-head { margin-bottom: 8pt; }
-    .sec-num { font-size: 9pt; }
-    .sec-title { font-size: 15pt; }
-    .sec-rule { background: var(--line); }
-
-    /* Summary */
-    .summary { font-size: 10pt; line-height: 1.5; }
-    .summary .lead { font-size: 11.5pt; margin-bottom: 6pt; }
-    .summary p { margin-bottom: 6pt; }
-
-    .highlights {
-      grid-template-columns: repeat(4, 1fr) !important;
-      padding: 8pt 0 !important;
-      margin-top: 10pt !important;
-      page-break-inside: avoid;
-    }
-    .highlight {
-      padding: 0 10pt !important;
-      border-right: 1px solid var(--line) !important;
-      border-bottom: none !important;
-    }
-    .highlight:last-child { border-right: none !important; }
-    .highlight:first-child { padding-left: 0 !important; }
-    .h-num { font-size: 18pt; }
-    .h-label { font-size: 7.5pt; }
-
-    /* Experience */
-    .exp-item {
-      grid-template-columns: 90pt 1fr !important;
-      gap: 14pt !important;
-      padding-bottom: 10pt !important;
-      margin-bottom: 10pt !important;
-      page-break-inside: avoid;
-    }
-    .exp-date { font-size: 8.5pt; padding-top: 2pt; }
-    .exp-date .current {
-      background: var(--good) !important;
-      color: white !important;
-      font-size: 7pt;
-    }
-    .exp-title { font-size: 12pt; }
-    .exp-company { font-size: 10pt; margin-bottom: 6pt; }
-    .exp-bullets li { font-size: 9.5pt; margin-bottom: 3pt; }
-    .exp-sub { font-size: 8pt; margin: 8pt 0 3pt; }
-
-    /* Projects - show ALL details, no toggle */
-    .projects-intro { font-size: 9.5pt; margin-bottom: 10pt; }
-    .project-grid {
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 10pt !important;
-    }
-    .project-card {
-      page-break-inside: avoid;
-      border: 1px solid var(--line) !important;
-      box-shadow: none !important;
-      transform: none !important;
-    }
-    .project-shot { aspect-ratio: 16/9; }
-    .project-body { padding: 10pt 12pt 12pt; }
-    .project-tag { font-size: 7.5pt; }
-    .project-name { font-size: 12pt; margin-bottom: 4pt; }
-    .project-desc { font-size: 9pt; margin-bottom: 8pt; }
-    .stack-chip {
-      font-size: 7.5pt;
-      background: var(--paper-2) !important;
-      color: var(--ink-3) !important;
-    }
-    .project-toggle { display: none !important; }
-    .project-details {
-      display: block !important;
-      margin-top: 8pt !important;
-      padding-top: 8pt !important;
-      font-size: 8.5pt !important;
-      line-height: 1.5 !important;
-    }
-    .project-details li { margin-bottom: 2pt; }
-
-    /* Competencies */
-    .comp-grid {
-      grid-template-columns: repeat(3, 1fr) !important;
-      page-break-inside: avoid;
-    }
-    .comp-item {
-      padding: 7pt 10pt !important;
-      font-size: 9pt;
-      border-right: 1px solid var(--line) !important;
-      border-bottom: 1px solid var(--line) !important;
-    }
-    .comp-item:nth-child(3n) { border-right: none !important; }
-    .comp-item:nth-child(2n) { border-right: 1px solid var(--line) !important; }
-    .comp-item:nth-last-child(-n+3) { border-bottom: none !important; }
-    .comp-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--line) !important; }
-
-    /* Tech */
-    .tech-grid {
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 10pt !important;
-    }
-    .tech-block { padding: 10pt 12pt; page-break-inside: avoid; }
-    .tech-cat { font-size: 8.5pt; margin-bottom: 6pt; }
-    .tech-item { font-size: 8.5pt; padding: 2pt 7pt; }
-
-    /* Education */
-    .edu-item {
-      grid-template-columns: 50pt 1fr !important;
-      gap: 16pt !important;
-      padding: 6pt 0 !important;
-    }
-    .edu-year { font-size: 13pt; }
-    .edu-deg { font-size: 10pt; }
-    .edu-inst { font-size: 9pt; }
-
-    /* Footer */
-    .foot { margin-top: 16pt; padding-top: 8pt; font-size: 8pt; }
-
-    /* Force backgrounds to print */
-    .project-shot, .stack-chip, .tech-item, .comp-dot, .highlight,
-    .exp-date .current, .photo-frame, .print-photo {
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-  }
+@media print {
+  @page { margin: 14mm 12mm; size: A4; }
+  html, body { background: white !important; color: var(--ink) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; font-size: 10.5pt; }
+  .topnav, .scroll-cue, .hero-dots, .hero-bg, .visual-glow, .contact-cta { display: none !important; }
+  .hero { min-height: 0; padding: 0; }
+  .hero-inner { max-width: none; text-align: left; }
+  .hero-name { font-size: 28pt; animation: none; opacity: 1; }
+  .hero-name .accent { color: var(--teal); }
+  .hero-role { font-size: 14pt; animation: none; opacity: 1; margin-bottom: 16pt; }
+  .hero-tag, .hero-meta, .scroll-cue { animation: none; opacity: 1; }
+  .metric-strip { animation: none; opacity: 1; margin: 12pt 0; }
+  .metric { padding: 8pt; }
+  .metric-value { font-size: 20pt; }
+  .section-band, .projects-intro, .outro { padding: 16pt 0; }
+  .section-title { font-size: 20pt; margin-bottom: 10pt; }
+  .section-lead { font-size: 12pt; }
+  .project-section { min-height: 0; padding: 14pt 0; page-break-inside: avoid; background: white !important; color: var(--ink) !important; }
+  .project-section.accent-gold { background: white !important; color: var(--ink) !important; }
+  .project-section.accent-gold * { color: inherit !important; }
+  .project-inner { grid-template-columns: 1fr 1fr; gap: 14pt; }
+  .project-visual, .project-content { opacity: 1; transform: none; animation: none; }
+  .visual-frame { animation: none; box-shadow: none; padding: 4pt; }
+  .project-title { font-size: 18pt; margin-bottom: 8pt; }
+  .project-number { font-size: 24pt; }
+  .project-beat { margin-bottom: 8pt; }
+  .beat-text { font-size: 9.5pt; }
+  .impact-tile { padding: 6pt 4pt; }
+  .impact-value { font-size: 13pt; }
+  .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
+}
 </style>
 </head>
 <body>
 
-<!-- Mobile bar -->
-<div class="mobile-bar">
-  <div class="mb-name">Sunil Kumar CR</div>
-  <button class="mb-toggle" onclick="toggleSidebar()">☰ Menu</button>
-</div>
+<!-- ========== TOP NAV ========== -->
+<nav class="topnav" id="topnav">
+  <div class="topnav-name">Sunil Kumar CR</div>
+  <div class="topnav-actions">
+    <button class="topnav-btn" onclick="document.getElementById('projects-anchor').scrollIntoView({behavior:'smooth'})">Projects</button>
+    <button class="topnav-btn" onclick="document.getElementById('contact-anchor').scrollIntoView({behavior:'smooth'})">Contact</button>
+    <button class="topnav-btn primary" onclick="window.print()">Save PDF</button>
+  </div>
+</nav>
 
-<!-- Scrim for mobile sidebar -->
-<div class="scrim" id="scrim" onclick="toggleSidebar()"></div>
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Curriculum Vitae · 2026</div>
+    <h1 class="hero-name">Sunil Kumar <span class="accent">CR</span></h1>
+    <div class="hero-role">Category Manager · Interior Design &amp; E&#8209;Commerce</div>
+    <div class="hero-meta">
+      <span><span class="dot"></span> 11+ years experience</span>
+      <span><span class="dot"></span> Furniture · Décor · Lighting · Flooring</span>
+      <span><span class="dot"></span> Vendor &amp; assortment strategy</span>
+    </div>
 
-<div class="page">
-  <div class="layout">
-
-    <!-- ============ SIDEBAR ============ -->
-    <aside class="sidebar" id="sidebar">
-      <div class="photo-frame" id="photo">SC</div>
-      <div class="side-name">Sunil Kumar CR</div>
-      <div class="side-role">Category Manager</div>
-
-      <div class="side-block">
-        <div class="side-label">Contact</div>
-        <div class="contact-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span>Bangalore, Karnataka</span>
-        </div>
-        <div class="contact-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <span>+91 90366 24557</span>
-        </div>
-        <div class="contact-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <span>sunilkumarcr3@gmail.com</span>
-        </div>
-        <div class="contact-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          <span>linkedin.com/in/sunil-kumar-52435282</span>
-        </div>
+    <div class="metric-strip">
+      <div class="metric">
+        <div class="metric-value" data-counter="25" data-suffix="%">0</div>
+        <div class="metric-label">YoY Revenue</div>
       </div>
+      <div class="metric">
+        <div class="metric-value" data-counter="18" data-suffix="%">0</div>
+        <div class="metric-label">Profitability Lift</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" data-counter="15" data-suffix="%">0</div>
+        <div class="metric-label">Fewer Stockouts</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" data-counter="12" data-suffix="K+">0</div>
+        <div class="metric-label">SKUs Managed</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</header>
 
-      <div class="side-block">
-        <div class="side-label">On this page</div>
-        <ul class="nav-list">
-          <li><a href="#summary" onclick="closeSidebarMobile()">01 · Profile</a></li>
-          <li><a href="#experience" onclick="closeSidebarMobile()">02 · Experience</a></li>
-          <li><a href="#projects" onclick="closeSidebarMobile()">03 · Projects &amp; Initiatives</a></li>
-          <li><a href="#competencies" onclick="closeSidebarMobile()">04 · Competencies</a></li>
-          <li><a href="#tech" onclick="closeSidebarMobile()">05 · Technical Skills</a></li>
-          <li><a href="#education" onclick="closeSidebarMobile()">06 · Education</a></li>
+<!-- ========== PROFILE ========== -->
+<section class="section-band">
+  <div class="container reveal">
+    <div class="eyebrow">01 · Profile</div>
+    <h2 class="section-title">A category leader who builds the tools the category needs.</h2>
+    <div class="profile-body">
+      <p>I own the Furniture, Home Décor, Lighting, Flooring and Wallcovering categories at Bonito Designs, driving assortment strategy, vendor negotiations, pricing, and the material library that sits behind every customer project across four Experience Centres in Mumbai and Bangalore.</p>
+      <p>My focus is <strong>category growth and operational excellence</strong>: 25% YoY sales growth, 18% profitability lift, and 15% lower stockouts over the past year, while leading ISO audit readiness for ~12,000 SKUs.</p>
+      <p>To support this work, I've designed and shipped <strong>six in-house digital tools</strong> that replaced manual reporting and gave the category function real-time visibility into performance, inventory, and customer feedback. They are detailed in the showcase below.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== EXPERIENCE ========== -->
+<section class="section-band alt">
+  <div class="container reveal">
+    <div class="eyebrow">02 · Experience</div>
+    <h2 class="section-title">Eleven years in category &amp; catalog.</h2>
+  </div>
+
+  <div class="container">
+    <div class="exp-timeline reveal">
+      <div class="exp-side">
+        Jul 2022 to Present
+        <br><span class="now">Current</span>
+      </div>
+      <div>
+        <div class="exp-role">Category Manager · iLab</div>
+        <div class="exp-company">Bonito Designs · Bangalore</div>
+        <ul class="exp-bullets">
+          <li>Drove <b>25% YoY revenue growth</b> across Furniture, Home Décor, Lighting, Flooring and Wallcovering categories through assortment optimisation, pricing refinement, and seasonal alignment with market trends.</li>
+          <li>Boosted category profitability by <b>18%</b> via targeted pricing strategy, vendor renegotiations, and data-backed promotional campaigns.</li>
+          <li>Reduced stockouts by <b>15%</b> and improved inventory turnover by <b>20%</b> through demand forecasting and optimised replenishment cycles across four Experience Centres.</li>
+          <li>Owned ISO audit preparation for the material library across <b>~12,000 SKUs</b> over four Experience Centre locations in Mumbai and Bangalore.</li>
+          <li>Designed and deployed <b>six in-house digital tools</b> that automated reporting, audits, NPS analysis, and team task coordination.</li>
         </ul>
       </div>
+    </div>
 
-      <div class="side-block">
-        <div class="side-label">Languages</div>
-        <div class="lang-list">
-          <span class="lang-chip">English</span>
-          <span class="lang-chip">Hindi</span>
-          <span class="lang-chip">Kannada</span>
-          <span class="lang-chip">Tamil</span>
-          <span class="lang-chip">Telugu</span>
-        </div>
+    <div class="exp-timeline reveal">
+      <div class="exp-side">Jan 2021 to Jun 2022</div>
+      <div>
+        <div class="exp-role">Catalog Manager</div>
+        <div class="exp-company">Bonito Designs · Bangalore</div>
+        <ul class="exp-bullets">
+          <li>Managed end-to-end catalog operations including content, item categorisation, and sub-categorisation, delivering a best-in-class browsing experience.</li>
+          <li>Resolved catalog escalations across pricing, image tagging, and product descriptions; ensured data accuracy across the website.</li>
+          <li>Converted raw vendor data into final on-brand catalog content at scale, managing bulk listings and optimising upload speed.</li>
+        </ul>
       </div>
-    </aside>
+    </div>
 
-    <!-- ============ MAIN ============ -->
-    <main class="main">
-
-      <!-- PRINT-ONLY HEADER (visible only when saving as PDF) -->
-      <div class="print-only print-header">
-        <div class="print-photo" id="printPhoto">SC</div>
-        <div class="print-id">
-          <div class="print-name">Sunil Kumar CR</div>
-          <div class="print-role">Category Manager · Interior Design &amp; E-Commerce</div>
-        </div>
-        <div class="print-contact">
-          <div>Bangalore, Karnataka</div>
-          <div>+91 90366 24557</div>
-          <div>sunilkumarcr3@gmail.com</div>
-          <div>linkedin.com/in/sunil-kumar-52435282</div>
-        </div>
+    <div class="exp-timeline reveal">
+      <div class="exp-side">Apr 2018 to Nov 2020</div>
+      <div>
+        <div class="exp-role">Associate · Catalog Operations</div>
+        <div class="exp-company">Myntra Jabong Pvt Ltd · Bangalore</div>
+        <ul class="exp-bullets">
+          <li>Onboarded and managed <b>600+ brands and sellers</b> across multiple commercial dimensions, partnering with senior operations leadership.</li>
+          <li>Owned end-to-end SKU creation including style creation, status changes, MRP changes, and purchase order issuance.</li>
+          <li>Supported product launches across content, imagery, and pricing on the consumer portal; built reporting trackers feeding the management cadence.</li>
+        </ul>
       </div>
+    </div>
 
-      <!-- HERO -->
-      <header class="hero">
-        <div class="hero-tag">Curriculum Vitae · 2026</div>
-        <h1 class="hero-name">Sunil Kumar CR</h1>
-        <div class="hero-role">Category Manager · Interior Design &amp; E-Commerce</div>
-        <div class="hero-meta">
-          <span><span class="dot"></span> 11+ years experience</span>
-          <span><span class="dot"></span> Furniture · Décor · Lighting · Flooring</span>
-          <span><span class="dot"></span> Vendor management &amp; assortment strategy</span>
-        </div>
-      </header>
+    <div class="exp-timeline reveal">
+      <div class="exp-side">Aug 2014 to Mar 2018</div>
+      <div>
+        <div class="exp-role">Senior Officer · Image Editor &amp; Vendor Coordination</div>
+        <div class="exp-company">Myntra Designs · Bangalore</div>
+        <ul class="exp-bullets">
+          <li>Led a <b>team of 7 image editors</b>, owning quality, productivity, and individual performance tracking via FTPs.</li>
+          <li>Improved <b>image speed-to-site by 50%</b> through workflow automation, process redesign, and operational tooling.</li>
+          <li>Authored imagery guidelines, gridline standards, and naming conventions adopted across all product listings.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <!-- 01 · SUMMARY -->
-      <section id="summary">
-        <div class="sec-head">
-          <span class="sec-num">01</span>
-          <h2 class="sec-title">Profile</h2>
-          <div class="sec-rule"></div>
-        </div>
-        <div class="summary">
-          <p class="lead">Category &amp; Catalog Manager with eleven years across interior design and large-scale e-commerce, combining assortment strategy, vendor management, and data-driven operations to grow categories and protect margin.</p>
-          <p>I own the Furniture, Home Décor, Lighting, Flooring and Wallcovering categories at Bonito Designs, driving assortment strategy, vendor negotiations, pricing, and the material library that sits behind every customer project across four Experience Centres in Mumbai and Bangalore. My focus is category growth and operational excellence: <strong>25% YoY sales growth, 18% profitability lift, and 15% lower stockouts</strong> over the past year, while also leading ISO audit readiness for ~12,000 SKUs. To support this, I have built six in-house tools, including a sales analytics dashboard, a multi-location audit system, an NPS intelligence platform, and a barcode-based library scanner, that have replaced manual reporting and given the category function real-time visibility into performance, inventory, and customer feedback.</p>
+<!-- ========== PROJECTS INTRO ========== -->
+<section class="projects-intro" id="projects-anchor">
+  <div class="projects-intro-inner reveal">
+    <div class="eyebrow" style="justify-content:center;">03 · The Showcase</div>
+    <h2 class="section-title">Six tools, six real problems solved.</h2>
+    <p class="section-lead" style="margin-left:auto;margin-right:auto;">Each project below started with a manual process or a broken workflow inside Bonito Designs. Each one is now in production, in daily use, and replacing the thing it was built to replace. Scroll on.</p>
+  </div>
+</section>
 
-          <div class="highlights">
-            <div class="highlight">
-              <div class="h-num">25%</div>
-              <div class="h-label">Year-over-year sales growth in managed categories</div>
-            </div>
-            <div class="highlight">
-              <div class="h-num">12K+</div>
-              <div class="h-label">Material SKUs audited across 4 EC locations</div>
-            </div>
-            <div class="highlight">
-              <div class="h-num">6</div>
-              <div class="h-label">Internal tools built &amp; deployed to production</div>
-            </div>
-            <div class="highlight">
-              <div class="h-num">600+</div>
-              <div class="h-label">Brands &amp; sellers onboarded at Myntra Jabong</div>
-            </div>
-          </div>
-        </div>
-      </section>
+<!-- ========== PROJECT SECTIONS (injected) ========== -->
 
-      <!-- 02 · EXPERIENCE -->
-      <section id="experience">
-        <div class="sec-head">
-          <span class="sec-num">02</span>
-          <h2 class="sec-title">Experience</h2>
-          <div class="sec-rule"></div>
-        </div>
-
-        <div class="exp-item">
-          <div class="exp-date">
-            Jul 2022 to Present
-            <br><span class="current">Current</span>
-          </div>
-          <div>
-            <div class="exp-title">Category Manager</div>
-            <div class="exp-company">Bonito Designs · Bangalore</div>
-            <ul class="exp-bullets">
-              <li>Lead development and optimisation of Furniture, Home Décor, Lighting, Flooring and Wallcovering categories, driving <strong>25% YoY sales growth</strong>.</li>
-              <li>Built and maintained vendor relationships, negotiating favourable terms while enforcing quality standards across the supply base.</li>
-              <li>Conduct ongoing material audits across four Experience Centres (Andheri, Thane, HSR, HRBR) and lead ISO audit preparation for the material library.</li>
-              <li>Led product assortment planning for seasonal collections in collaboration with the design team, introducing customisable product lines.</li>
-              <li>Optimised inventory levels: <strong>reduced stockouts by 15%</strong> and improved turnover rates by 20%.</li>
-              <li>Designed pricing and promotional strategies that <strong>boosted category profitability by 18%</strong>.</li>
-              <li>Built six internal tools (see Section 03) that replaced WhatsApp-based coordination, manual Excel audits, and ad-hoc reporting across iLab.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="exp-item">
-          <div class="exp-date">Jan 2021 to Jun 2022</div>
-          <div>
-            <div class="exp-title">Catalog Manager</div>
-            <div class="exp-company">Bonito Designs · Bangalore</div>
-            <ul class="exp-bullets">
-              <li>Managed content, item categorisation, and sub-categorisation to deliver a best-in-class browsing experience.</li>
-              <li>Resolved catalog escalations spanning pricing errors, image tagging issues, and incorrect product descriptions.</li>
-              <li>Coordinated with sellers and buyers to ensure catalog accuracy on pricing, attributes, and supporting content.</li>
-              <li>Converted raw vendor data into final, on-brand catalog content ready for the live website.</li>
-              <li>Drove process improvements that reduced upload friction and accelerated time-to-publish.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="exp-item">
-          <div class="exp-date">Apr 2018 to Nov 2020</div>
-          <div>
-            <div class="exp-title">Associate · Catalog Operations (Vendor Coordination)</div>
-            <div class="exp-company">Myntra Jabong Pvt Ltd · Bangalore</div>
-
-            <div class="exp-sub">Vendor coordination</div>
-            <ul class="exp-bullets">
-              <li>Worked directly with the Operations Manager and Deputy Director on product maintenance, new product development, and onboarding.</li>
-              <li>Onboarded and coordinated <strong>600+ brands and sellers</strong> across multiple commercial dimensions.</li>
-              <li>Aligned shoot requirements with brands and ensured on-time delivery of shoot deliverables.</li>
-            </ul>
-
-            <div class="exp-sub">Operations</div>
-            <ul class="exp-bullets">
-              <li>Owned end-to-end SKU creation including style creation, status changes, MRP updates, and PO issuance.</li>
-              <li>Supported product launches across content, imagery, and pricing on the consumer portal.</li>
-              <li>Partnered cross-functionally with Category, Onboarding, Customer Service, and IT to deliver against company goals.</li>
-            </ul>
-
-            <div class="exp-sub">Reporting</div>
-            <ul class="exp-bullets">
-              <li>Built and maintained reporting trackers feeding the management cadence.</li>
-              <li>Monitored monthly sales performance and tuned promotional activity to lift outcomes.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="exp-item">
-          <div class="exp-date">Aug 2014 to Mar 2018</div>
-          <div>
-            <div class="exp-title">Senior Officer · Image Editor / Vendor Coordination</div>
-            <div class="exp-company">Myntra Designs · Bangalore</div>
-            <ul class="exp-bullets">
-              <li>Edited product imagery in Photoshop for all SKUs displayed on Myntra; authored imagery guidelines and gridline standards.</li>
-              <li>Led a <strong>team of 7 editors</strong>, owning quality, productivity, and individual performance tracking via FTPs.</li>
-              <li>Built training decks for vendor imagery and ran sessions explaining benchmarks and naming conventions.</li>
-              <li>Improved <strong>image speed-to-site by 50%</strong> through workflow automation and process redesign.</li>
-              <li>Drove root-cause analysis on image-driven CSAT issues across top-selling divisions.</li>
-              <li>Built daily/weekly/monthly reporting mechanisms; worked on size-chart analysis using Myntra's proprietary tool.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- 03 · PROJECTS -->
-      <section id="projects">
-        <div class="sec-head">
-          <span class="sec-num">03</span>
-          <h2 class="sec-title">Projects &amp; Initiatives</h2>
-          <div class="sec-rule"></div>
-        </div>
-        <p class="projects-intro">Six tools I designed, built, and deployed to production over the last year, solving real operational problems inside iLab and the wider Bonito Designs organisation. Each replaced a manual process or WhatsApp workflow with a real-time, shared, auditable system. Tap any card to see what's inside.</p>
-
-        <div class="project-grid">
-
-          <!-- iLab Tasks PWA -->
-          <div class="project-card" onclick="toggleCard(event, this)">
-            <div class="project-shot" data-img="ilab-tasks.png">
-              <!-- SVG mockup: task list app on a phone -->
-              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="ilg" x1="0" x2="1" y1="0" y2="1">
-                    <stop offset="0%" stop-color="#1F3A5F"/>
-                    <stop offset="100%" stop-color="#14151A"/>
-                  </linearGradient>
-                </defs>
+    <section class="project-section accent-teal" id="project-pko" data-bg="0">
+      <div class="project-inner">
+        <div class="project-visual">
+          <div class="visual-frame">
+            <div class="visual-glow"></div>
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
                 <rect width="320" height="180" fill="#FAF8F4"/>
-                <!-- Phone frame -->
-                <rect x="100" y="14" width="120" height="152" rx="14" fill="#14151A"/>
-                <rect x="106" y="22" width="108" height="136" rx="8" fill="white"/>
-                <!-- App header bar -->
-                <rect x="106" y="22" width="108" height="22" rx="8" fill="url(#ilg)"/>
-                <rect x="106" y="36" width="108" height="8" fill="url(#ilg)"/>
-                <text x="112" y="36" font-family="Inter" font-size="8" font-weight="700" fill="#C9A961">iLab Tasks</text>
-                <circle cx="208" cy="33" r="3" fill="#C9A961"/>
-                <!-- Task rows -->
-                <rect x="111" y="50" width="98" height="20" rx="3" fill="#F2EFE8"/>
-                <circle cx="118" cy="60" r="3" fill="#2B7A3E"/>
-                <rect x="125" y="55" width="62" height="3" rx="1" fill="#2C2E36"/>
-                <rect x="125" y="62" width="40" height="2.5" rx="1" fill="#8A8D96"/>
-                <rect x="192" y="55" width="14" height="4" rx="1" fill="#2B7A3E" opacity="0.8"/>
+                <!-- Top filters -->
+                <rect x="14" y="14" width="292" height="14" rx="2" fill="#14151A"/>
+                <text x="20" y="24" font-family="Fraunces" font-size="9" font-weight="700" fill="#C9A961">PKO Sales</text>
+                <rect x="80" y="18" width="40" height="6" rx="3" fill="#1F3A5F"/>
+                <rect x="124" y="18" width="40" height="6" rx="3" fill="#2C2E36"/>
+                <rect x="168" y="18" width="40" height="6" rx="3" fill="#2C2E36"/>
+                <rect x="270" y="18" width="32" height="6" rx="3" fill="#C9A961"/>
 
-                <rect x="111" y="74" width="98" height="20" rx="3" fill="#F2EFE8"/>
-                <circle cx="118" cy="84" r="3" fill="#B86E1C"/>
-                <rect x="125" y="79" width="55" height="3" rx="1" fill="#2C2E36"/>
-                <rect x="125" y="86" width="45" height="2.5" rx="1" fill="#8A8D96"/>
-                <rect x="192" y="79" width="14" height="4" rx="1" fill="#B86E1C" opacity="0.8"/>
+                <!-- KPI tiles -->
+                <g>
+                  <rect x="14" y="36" width="70" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="20" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">REVENUE</text>
+                  <text x="20" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#1F3A5F">₹2.4Cr</text>
+                  <text x="20" y="69" font-family="Inter" font-size="5" fill="#2B7A3E">▲ 25% YoY</text>
 
-                <rect x="111" y="98" width="98" height="20" rx="3" fill="#F2EFE8"/>
-                <circle cx="118" cy="108" r="3" fill="#C53030"/>
-                <rect x="125" y="103" width="58" height="3" rx="1" fill="#2C2E36"/>
-                <rect x="125" y="110" width="38" height="2.5" rx="1" fill="#8A8D96"/>
-                <rect x="192" y="103" width="14" height="4" rx="1" fill="#C53030" opacity="0.8"/>
+                  <rect x="90" y="36" width="70" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="96" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">PROJECTS</text>
+                  <text x="96" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#1F3A5F">1,847</text>
+                  <text x="96" y="69" font-family="Inter" font-size="5" fill="#2B7A3E">▲ 12%</text>
 
-                <rect x="111" y="122" width="98" height="20" rx="3" fill="#F2EFE8"/>
-                <circle cx="118" cy="132" r="3" fill="#2B7A3E"/>
-                <rect x="125" y="127" width="50" height="3" rx="1" fill="#2C2E36"/>
-                <rect x="125" y="134" width="42" height="2.5" rx="1" fill="#8A8D96"/>
-                <rect x="192" y="127" width="14" height="4" rx="1" fill="#2B7A3E" opacity="0.8"/>
+                  <rect x="166" y="36" width="70" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="172" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">DEAD STOCK</text>
+                  <text x="172" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#C53030">342</text>
+                  <text x="172" y="69" font-family="Inter" font-size="5" fill="#C53030">SKUs</text>
 
-                <!-- Bottom nav -->
-                <rect x="106" y="148" width="108" height="10" rx="0" fill="#F2EFE8"/>
-                <circle cx="125" cy="153" r="2" fill="#1F3A5F"/>
-                <circle cx="160" cy="153" r="2" fill="#8A8D96"/>
-                <circle cx="195" cy="153" r="2" fill="#8A8D96"/>
+                  <rect x="242" y="36" width="64" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
+                  <text x="248" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">FAST MOVERS</text>
+                  <text x="248" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#2B7A3E">128</text>
+                  <text x="248" y="69" font-family="Inter" font-size="5" fill="#8A8D96">top 10%</text>
+                </g>
 
-                <!-- Side metric pills -->
-                <rect x="14" y="32" width="74" height="22" rx="4" fill="white" stroke="#E3DFD6"/>
-                <text x="22" y="42" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">OPEN TASKS</text>
-                <text x="22" y="51" font-family="Fraunces" font-size="11" font-weight="700" fill="#1F3A5F">47</text>
+                <!-- Monthly revenue bar chart -->
+                <rect x="14" y="78" width="180" height="88" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="20" y="89" font-family="Inter" font-size="6" font-weight="700" fill="#1F3A5F" letter-spacing="0.5">MONTHLY REVENUE</text>
+                <g>
+                  <rect x="22" y="120" width="11" height="38" fill="#1F3A5F"/>
+                  <rect x="38" y="112" width="11" height="46" fill="#1F3A5F"/>
+                  <rect x="54" y="106" width="11" height="52" fill="#1F3A5F"/>
+                  <rect x="70" y="98" width="11" height="60" fill="#C9A961"/>
+                  <rect x="86" y="116" width="11" height="42" fill="#1F3A5F"/>
+                  <rect x="102" y="108" width="11" height="50" fill="#1F3A5F"/>
+                  <rect x="118" y="100" width="11" height="58" fill="#1F3A5F"/>
+                  <rect x="134" y="94" width="11" height="64" fill="#1F3A5F"/>
+                  <rect x="150" y="102" width="11" height="56" fill="#1F3A5F"/>
+                  <rect x="166" y="92" width="11" height="66" fill="#1F3A5F"/>
+                  <rect x="182" y="88" width="8" height="70" fill="#C9A961"/>
+                </g>
+                <line x1="20" y1="158" x2="194" y2="158" stroke="#E3DFD6" stroke-width="0.5"/>
 
-                <rect x="14" y="60" width="74" height="22" rx="4" fill="white" stroke="#E3DFD6"/>
-                <text x="22" y="70" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">OVERDUE</text>
-                <text x="22" y="79" font-family="Fraunces" font-size="11" font-weight="700" fill="#C53030">3</text>
-
-                <rect x="14" y="88" width="74" height="22" rx="4" fill="white" stroke="#E3DFD6"/>
-                <text x="22" y="98" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">AVG TAT</text>
-                <text x="22" y="107" font-family="Fraunces" font-size="11" font-weight="700" fill="#2B7A3E">2.4d</text>
-
-                <rect x="232" y="32" width="74" height="78" rx="4" fill="white" stroke="#E3DFD6"/>
-                <text x="240" y="42" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">THIS WEEK</text>
-                <!-- Mini bar chart -->
-                <rect x="240" y="78" width="6" height="22" fill="#1F3A5F"/>
-                <rect x="250" y="68" width="6" height="32" fill="#1F3A5F"/>
-                <rect x="260" y="58" width="6" height="42" fill="#C9A961"/>
-                <rect x="270" y="72" width="6" height="28" fill="#1F3A5F"/>
-                <rect x="280" y="62" width="6" height="38" fill="#1F3A5F"/>
-                <rect x="290" y="80" width="6" height="20" fill="#1F3A5F"/>
+                <!-- Brand performance -->
+                <rect x="200" y="78" width="106" height="88" rx="3" fill="white" stroke="#E3DFD6"/>
+                <text x="206" y="89" font-family="Inter" font-size="6" font-weight="700" fill="#1F3A5F" letter-spacing="0.5">TOP BRANDS</text>
+                <g font-family="Inter" font-size="5.5" fill="#2C2E36">
+                  <text x="206" y="100">Brand A</text>
+                  <rect x="240" y="96" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="96" width="50" height="4" rx="1" fill="#1F3A5F"/>
+                  <text x="206" y="112">Brand B</text>
+                  <rect x="240" y="108" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="108" width="42" height="4" rx="1" fill="#1F3A5F"/>
+                  <text x="206" y="124">Brand C</text>
+                  <rect x="240" y="120" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="120" width="36" height="4" rx="1" fill="#1F3A5F"/>
+                  <text x="206" y="136">Brand D</text>
+                  <rect x="240" y="132" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="132" width="28" height="4" rx="1" fill="#C9A961"/>
+                  <text x="206" y="148">Brand E</text>
+                  <rect x="240" y="144" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="144" width="22" height="4" rx="1" fill="#1F3A5F"/>
+                  <text x="206" y="160">Brand F</text>
+                  <rect x="240" y="156" width="56" height="4" rx="1" fill="#F2EFE8"/>
+                  <rect x="240" y="156" width="14" height="4" rx="1" fill="#C53030"/>
+                </g>
               </svg>
-            </div>
-            <div class="project-body">
-              <span class="project-tag">Live · in daily use</span>
-              <h3 class="project-name">iLab Department Task Manager</h3>
-              <p class="project-desc">Real-time task management PWA replacing WhatsApp-based coordination for the iLab Design and Category teams. Working-day TAT tracking, push notifications, management dashboard, Excel export.</p>
-              <div class="project-stack">
-                <span class="stack-chip">React</span>
-                <span class="stack-chip">Vite</span>
-                <span class="stack-chip">Firebase</span>
-                <span class="stack-chip">FCM</span>
-                <span class="stack-chip">Netlify</span>
-                <span class="stack-chip">PWA</span>
-              </div>
-              <div class="project-toggle">View details</div>
-              <div class="project-details">
-                <ul>
-                  <li>Two-team architecture (Design + Category) with email-based member login and password-based management access</li>
-                  <li>Real-time sync across all devices via Firebase Firestore listeners</li>
-                  <li>TAT calculated on working days only (excludes Sundays and 1st/3rd/5th Saturdays per company calendar)</li>
-                  <li>Push notifications via Firebase Cloud Messaging with VAPID keys; WhatsApp deep-link for management follow-up</li>
-                  <li>3-sheet Excel export: all tasks with comments + end-date history, team summary with month-wise completion %, tickets log</li>
-                  <li>Installable on Android and iOS via PWA manifest; session persistence so members stay logged in</li>
-                  <li>Rolled out and in daily use by both Design and Category teams</li>
-                </ul>
-              </div>
+          </div>
+          <div class="visual-stack-row">
+            <span class="stack-pill">HTML</span><span class="stack-pill">JavaScript</span><span class="stack-pill">PapaParse</span><span class="stack-pill">Chart.js</span>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-meta">
+            <span class="project-number">01</span>
+            <span class="project-tag">CATEGORY ANALYTICS</span>
+          </div>
+          <h2 class="project-title">PKO Sales Dashboard</h2>
+          <div class="project-beat" data-beat="problem">
+            <div class="beat-label">The Problem</div>
+            <p class="beat-text">Sales data lived in dense ERP exports nobody could read in time. Dead stock, fast and slow movers, and brand level performance were invisible until month-end reviews, by which point the inventory decisions had already been made on intuition.</p>
+          </div>
+          <div class="project-beat" data-beat="solution">
+            <div class="beat-label">The Solution</div>
+            <p class="beat-text">A live sales analytics dashboard that reads CSVs straight from the source. Robust ERP matching (case normalisation, whitespace handling, variant collapsing) means product families aggregate correctly. Filters by branch, brand, category and date cross-filter every visual instantly.</p>
+          </div>
+          <div class="project-beat" data-beat="impact">
+            <div class="beat-label">The Impact</div>
+            <div class="impact-row">
+              
+        <div class="impact-tile" data-counter="₹2.4Cr">
+          <div class="impact-value">₹2.4Cr</div>
+          <div class="impact-label">revenue tracked</div>
+        </div>
+
+        <div class="impact-tile" data-counter="1,847">
+          <div class="impact-value">1,847</div>
+          <div class="impact-label">projects analysed</div>
+        </div>
+
+        <div class="impact-tile" data-counter="342">
+          <div class="impact-value">342</div>
+          <div class="impact-label">dead-stock SKUs flagged</div>
+        </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- EC Audit Dashboard -->
-          <div class="project-card" onclick="toggleCard(event, this)">
-            <div class="project-shot" data-img="ec-audit.png">
-              <!-- SVG mockup: audit dashboard with location cards + chart -->
-              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+    <section class="project-section reverse accent-gold" id="project-ec_audit" data-bg="1">
+      <div class="project-inner">
+        <div class="project-visual">
+          <div class="visual-frame">
+            <div class="visual-glow"></div>
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
                 <rect width="320" height="180" fill="#FAF8F4"/>
                 <!-- Top bar -->
                 <rect x="14" y="14" width="292" height="20" rx="3" fill="#14151A"/>
@@ -1160,37 +1193,55 @@
                   <text x="261" y="146">Missing</text>
                 </g>
               </svg>
-            </div>
-            <div class="project-body">
-              <span class="project-tag">Live · ISO audit support</span>
-              <h3 class="project-name">Experience Centre Audit System</h3>
-              <p class="project-desc">Multi-location material audit tracker covering ~12,000 SKUs across four EC locations. Excel-based audit trackers feed a live web dashboard that reads directly from GitHub-hosted files.</p>
-              <div class="project-stack">
-                <span class="stack-chip">HTML</span>
-                <span class="stack-chip">SheetJS</span>
-                <span class="stack-chip">Chart.js</span>
-                <span class="stack-chip">GitHub Pages</span>
-                <span class="stack-chip">Excel</span>
-              </div>
-              <div class="project-toggle">View details</div>
-              <div class="project-details">
-                <ul>
-                  <li>Four location-specific Excel files (Andheri, Thane, HSR, HRBR) with 12 category sheets each, 5 audit-round blocks per category, dropdown validations, auto-status formulas, conditional formatting</li>
-                  <li>Live web dashboard reads Excel directly from GitHub using SheetJS. Update Excel, dashboard updates on next page load</li>
-                  <li>Location filter, audit-round tabs, location progress cards (OK / Check / Action / RBS / Pending pills)</li>
-                  <li>Category completion bar chart, status donut, trend line across rounds, scrollable flagged-items section</li>
-                  <li>Six compliance KPI cards: completion %, SKUs audited, closure compliance, target gap, issue closure rate, best location</li>
-                  <li>Two-sheet Excel download for flagged items and common missing samples grouped by category</li>
-                </ul>
-              </div>
+          </div>
+          <div class="visual-stack-row">
+            <span class="stack-pill">Excel</span><span class="stack-pill">SheetJS</span><span class="stack-pill">Chart.js</span><span class="stack-pill">GitHub Pages</span>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-meta">
+            <span class="project-number">02</span>
+            <span class="project-tag">ISO AUDIT SUPPORT</span>
+          </div>
+          <h2 class="project-title">Experience Centre Audit System</h2>
+          <div class="project-beat" data-beat="problem">
+            <div class="beat-label">The Problem</div>
+            <p class="beat-text">Material library audits across four Experience Centres meant manually reconciling spreadsheets, chasing photos on WhatsApp, and rebuilding the same compliance view every audit round. ISO readiness was a recurring fire drill.</p>
+          </div>
+          <div class="project-beat" data-beat="solution">
+            <div class="beat-label">The Solution</div>
+            <p class="beat-text">Four location-specific Excel files with 12 categories each and 5 audit-round blocks, feeding a live web dashboard that reads them directly from GitHub via SheetJS. Location filters, round tabs, completion charts, status breakdown, and six compliance KPI cards stay in sync automatically.</p>
+          </div>
+          <div class="project-beat" data-beat="impact">
+            <div class="beat-label">The Impact</div>
+            <div class="impact-row">
+              
+        <div class="impact-tile" data-counter="12K+">
+          <div class="impact-value">12K+</div>
+          <div class="impact-label">SKUs audited</div>
+        </div>
+
+        <div class="impact-tile" data-counter="4">
+          <div class="impact-value">4</div>
+          <div class="impact-label">locations covered</div>
+        </div>
+
+        <div class="impact-tile" data-counter="5">
+          <div class="impact-value">5</div>
+          <div class="impact-label">audit rounds tracked</div>
+        </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- NPS Dashboard -->
-          <div class="project-card" onclick="toggleCard(event, this)">
-            <div class="project-shot" data-img="nps.png">
-              <!-- SVG mockup: NPS dashboard with score gauge and trend line -->
-              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+    <section class="project-section accent-teal" id="project-nps" data-bg="2">
+      <div class="project-inner">
+        <div class="project-visual">
+          <div class="visual-frame">
+            <div class="visual-glow"></div>
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
                 <rect width="320" height="180" fill="#FAF8F4"/>
                 <!-- Title strip -->
                 <rect x="14" y="14" width="292" height="14" rx="2" fill="white" stroke="#E3DFD6"/>
@@ -1251,140 +1302,55 @@
                   <text x="248" y="158" font-family="Inter" font-size="5" fill="#8A8D96">last fortnight</text>
                 </g>
               </svg>
-            </div>
-            <div class="project-body">
-              <span class="project-tag">Live · management reporting</span>
-              <h3 class="project-name">NPS Intelligence Dashboard</h3>
-              <p class="project-desc">Fortnightly customer-feedback dashboard tracking Overall NPS and Design NPS across branches, designers, project managers, and CRMs. Drop-in CSV refresh, no rebuild.</p>
-              <div class="project-stack">
-                <span class="stack-chip">HTML</span>
-                <span class="stack-chip">PapaParse</span>
-                <span class="stack-chip">Chart.js</span>
-                <span class="stack-chip">SheetJS</span>
-                <span class="stack-chip">GitHub Pages</span>
-              </div>
-              <div class="project-toggle">View details</div>
-              <div class="project-details">
-                <ul>
-                  <li>Six tabs: Overview, Overall NPS, Design NPS, Fortnight Review, People, Detractors, Value × NPS</li>
-                  <li>Time-window filter (fortnight / 3 / 6 / 12 months / all-time) plus per-branch filter that flows through every visual</li>
-                  <li>Fortnight cycles aligned to company definition (1st–15th and 16th–end-of-month)</li>
-                  <li>People leaderboards for Designer, PM, CRM, Design Manager with 5-response minimum to avoid lucky-shot skew</li>
-                  <li>Detractor list with comments, exportable to Excel; Value × NPS scatter to test whether project size correlates with satisfaction</li>
-                  <li>Monthly refresh = drop two CSVs into the GitHub repo, no code changes</li>
-                </ul>
-              </div>
+          </div>
+          <div class="visual-stack-row">
+            <span class="stack-pill">HTML</span><span class="stack-pill">PapaParse</span><span class="stack-pill">Chart.js</span><span class="stack-pill">SheetJS</span>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-meta">
+            <span class="project-number">03</span>
+            <span class="project-tag">CUSTOMER INTELLIGENCE</span>
+          </div>
+          <h2 class="project-title">NPS Intelligence Dashboard</h2>
+          <div class="project-beat" data-beat="problem">
+            <div class="beat-label">The Problem</div>
+            <p class="beat-text">Monthly NPS reporting was a manual exercise: pull two CSVs, build pivots, format for the leadership review, repeat. By the time numbers reached anyone, the fortnight had already turned over and the chance to act on a detractor was gone.</p>
+          </div>
+          <div class="project-beat" data-beat="solution">
+            <div class="beat-label">The Solution</div>
+            <p class="beat-text">Drop-in CSV refresh dashboard tracking Overall and Design NPS across branches, designers, project managers and CRMs. Six analytical views with fortnight cycles aligned to company definition. People leaderboards apply a 5-response minimum so a single lucky review can't skew the rankings.</p>
+          </div>
+          <div class="project-beat" data-beat="impact">
+            <div class="beat-label">The Impact</div>
+            <div class="impact-row">
+              
+        <div class="impact-tile" data-counter="+62">
+          <div class="impact-value">+62</div>
+          <div class="impact-label">overall NPS</div>
+        </div>
+
+        <div class="impact-tile" data-counter="6">
+          <div class="impact-value">6</div>
+          <div class="impact-label">analytical views</div>
+        </div>
+
+        <div class="impact-tile" data-counter="1-click">
+          <div class="impact-value">1-click</div>
+          <div class="impact-label">monthly refresh</div>
+        </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- PKO Sales Dashboard -->
-          <div class="project-card" onclick="toggleCard(event, this)">
-            <div class="project-shot" data-img="pko.png">
-              <!-- SVG mockup: sales dashboard with revenue + dead stock -->
-              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
-                <rect width="320" height="180" fill="#FAF8F4"/>
-                <!-- Top filters -->
-                <rect x="14" y="14" width="292" height="14" rx="2" fill="#14151A"/>
-                <text x="20" y="24" font-family="Fraunces" font-size="9" font-weight="700" fill="#C9A961">PKO Sales</text>
-                <rect x="80" y="18" width="40" height="6" rx="3" fill="#1F3A5F"/>
-                <rect x="124" y="18" width="40" height="6" rx="3" fill="#2C2E36"/>
-                <rect x="168" y="18" width="40" height="6" rx="3" fill="#2C2E36"/>
-                <rect x="270" y="18" width="32" height="6" rx="3" fill="#C9A961"/>
-
-                <!-- KPI tiles -->
-                <g>
-                  <rect x="14" y="36" width="70" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
-                  <text x="20" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">REVENUE</text>
-                  <text x="20" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#1F3A5F">₹2.4Cr</text>
-                  <text x="20" y="69" font-family="Inter" font-size="5" fill="#2B7A3E">▲ 25% YoY</text>
-
-                  <rect x="90" y="36" width="70" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
-                  <text x="96" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">PROJECTS</text>
-                  <text x="96" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#1F3A5F">1,847</text>
-                  <text x="96" y="69" font-family="Inter" font-size="5" fill="#2B7A3E">▲ 12%</text>
-
-                  <rect x="166" y="36" width="70" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
-                  <text x="172" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">DEAD STOCK</text>
-                  <text x="172" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#C53030">342</text>
-                  <text x="172" y="69" font-family="Inter" font-size="5" fill="#C53030">SKUs</text>
-
-                  <rect x="242" y="36" width="64" height="36" rx="3" fill="white" stroke="#E3DFD6"/>
-                  <text x="248" y="46" font-family="Inter" font-size="5.5" font-weight="600" fill="#8A8D96" letter-spacing="0.5">FAST MOVERS</text>
-                  <text x="248" y="62" font-family="Fraunces" font-size="14" font-weight="700" fill="#2B7A3E">128</text>
-                  <text x="248" y="69" font-family="Inter" font-size="5" fill="#8A8D96">top 10%</text>
-                </g>
-
-                <!-- Monthly revenue bar chart -->
-                <rect x="14" y="78" width="180" height="88" rx="3" fill="white" stroke="#E3DFD6"/>
-                <text x="20" y="89" font-family="Inter" font-size="6" font-weight="700" fill="#1F3A5F" letter-spacing="0.5">MONTHLY REVENUE</text>
-                <g>
-                  <rect x="22" y="120" width="11" height="38" fill="#1F3A5F"/>
-                  <rect x="38" y="112" width="11" height="46" fill="#1F3A5F"/>
-                  <rect x="54" y="106" width="11" height="52" fill="#1F3A5F"/>
-                  <rect x="70" y="98" width="11" height="60" fill="#C9A961"/>
-                  <rect x="86" y="116" width="11" height="42" fill="#1F3A5F"/>
-                  <rect x="102" y="108" width="11" height="50" fill="#1F3A5F"/>
-                  <rect x="118" y="100" width="11" height="58" fill="#1F3A5F"/>
-                  <rect x="134" y="94" width="11" height="64" fill="#1F3A5F"/>
-                  <rect x="150" y="102" width="11" height="56" fill="#1F3A5F"/>
-                  <rect x="166" y="92" width="11" height="66" fill="#1F3A5F"/>
-                  <rect x="182" y="88" width="8" height="70" fill="#C9A961"/>
-                </g>
-                <line x1="20" y1="158" x2="194" y2="158" stroke="#E3DFD6" stroke-width="0.5"/>
-
-                <!-- Brand performance -->
-                <rect x="200" y="78" width="106" height="88" rx="3" fill="white" stroke="#E3DFD6"/>
-                <text x="206" y="89" font-family="Inter" font-size="6" font-weight="700" fill="#1F3A5F" letter-spacing="0.5">TOP BRANDS</text>
-                <g font-family="Inter" font-size="5.5" fill="#2C2E36">
-                  <text x="206" y="100">Brand A</text>
-                  <rect x="240" y="96" width="56" height="4" rx="1" fill="#F2EFE8"/>
-                  <rect x="240" y="96" width="50" height="4" rx="1" fill="#1F3A5F"/>
-                  <text x="206" y="112">Brand B</text>
-                  <rect x="240" y="108" width="56" height="4" rx="1" fill="#F2EFE8"/>
-                  <rect x="240" y="108" width="42" height="4" rx="1" fill="#1F3A5F"/>
-                  <text x="206" y="124">Brand C</text>
-                  <rect x="240" y="120" width="56" height="4" rx="1" fill="#F2EFE8"/>
-                  <rect x="240" y="120" width="36" height="4" rx="1" fill="#1F3A5F"/>
-                  <text x="206" y="136">Brand D</text>
-                  <rect x="240" y="132" width="56" height="4" rx="1" fill="#F2EFE8"/>
-                  <rect x="240" y="132" width="28" height="4" rx="1" fill="#C9A961"/>
-                  <text x="206" y="148">Brand E</text>
-                  <rect x="240" y="144" width="56" height="4" rx="1" fill="#F2EFE8"/>
-                  <rect x="240" y="144" width="22" height="4" rx="1" fill="#1F3A5F"/>
-                  <text x="206" y="160">Brand F</text>
-                  <rect x="240" y="156" width="56" height="4" rx="1" fill="#F2EFE8"/>
-                  <rect x="240" y="156" width="14" height="4" rx="1" fill="#C53030"/>
-                </g>
-              </svg>
-            </div>
-            <div class="project-body">
-              <span class="project-tag">Live · category analytics</span>
-              <h3 class="project-name">PKO Sales Dashboard</h3>
-              <p class="project-desc">Live sales analytics for the Category team covering revenue, dead stock, fast/slow movers, branch and brand-level performance with case-insensitive ERP matching and variant-aware aggregation.</p>
-              <div class="project-stack">
-                <span class="stack-chip">HTML</span>
-                <span class="stack-chip">PapaParse</span>
-                <span class="stack-chip">Chart.js</span>
-                <span class="stack-chip">GitHub Pages</span>
-              </div>
-              <div class="project-toggle">View details</div>
-              <div class="project-details">
-                <ul>
-                  <li>KPI tiles for total revenue, projects, dead stock count, fast/slow movers</li>
-                  <li>Filters by branch, brand, category, and date range, all cross-filtering through the visuals</li>
-                  <li>Robust ERP matching: normalised case + whitespace, variant collapsing so _with_MDF and _without_MDF count as the same product family</li>
-                  <li>Monthly trends, brand performance breakdowns, and self-diagnostic console for data health checks</li>
-                  <li>Reads CSVs straight from the GitHub repo. Refresh equals drag-drop a new file</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- Material Audit Scanner -->
-          <div class="project-card" onclick="toggleCard(event, this)">
-            <div class="project-shot" data-img="scanner.png">
-              <!-- SVG mockup: phone scanning a QR code -->
-              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+    <section class="project-section reverse accent-gold" id="project-scanner" data-bg="3">
+      <div class="project-inner">
+        <div class="project-visual">
+          <div class="visual-frame">
+            <div class="visual-glow"></div>
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
                 <rect width="320" height="180" fill="#FAF8F4"/>
                 <!-- Phone -->
                 <rect x="110" y="14" width="100" height="152" rx="12" fill="#14151A"/>
@@ -1463,37 +1429,173 @@
                 <text x="228" y="118" font-family="Inter" font-size="5.5" fill="#8A8D96" letter-spacing="0.5">CATEGORIES</text>
                 <text x="228" y="131" font-family="Fraunces" font-size="11" font-weight="700" fill="#1F3A5F">12</text>
               </svg>
-            </div>
-            <div class="project-body">
-              <span class="project-tag">Live · on-floor audits</span>
-              <h3 class="project-name">Material Audit Scanner</h3>
-              <p class="project-desc">QR / barcode-based audit app for the material library. Smart Representative-Sample logic groups variants by family; discontinued-but-present alerts flag library cleanup actions.</p>
-              <div class="project-stack">
-                <span class="stack-chip">Apps Script</span>
-                <span class="stack-chip">Google Sheets</span>
-                <span class="stack-chip">html5-qrcode</span>
-                <span class="stack-chip">GitHub Pages</span>
-              </div>
-              <div class="project-toggle">View details</div>
-              <div class="project-details">
-                <ul>
-                  <li>Camera-based QR scan on any phone via GitHub Pages, no permission issues, no native app to install</li>
-                  <li>Auditor login with name; supports four locations (Andheri, Thane, HSR, HRBR) via a single app</li>
-                  <li>Smart family detection: scanning one size of a handle family auto-marks the other sizes as Representative Sample</li>
-                  <li>Settings sheet controls which categories apply Representative Sample logic, configurable without code changes</li>
-                  <li>Discontinued-item alert when scanned in the library (signals removal); never overwrites Discontinued status</li>
-                  <li>Auto-incrementing audit number, full AUDIT_LOG history, duplicate-scan prevention, cached ERP index for sub-second response</li>
-                  <li>A3 QR-label PDF generator (8 columns, light cutting borders, no blank pages)</li>
-                </ul>
-              </div>
+          </div>
+          <div class="visual-stack-row">
+            <span class="stack-pill">Apps Script</span><span class="stack-pill">Google Sheets</span><span class="stack-pill">HTML5 QR</span>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-meta">
+            <span class="project-number">04</span>
+            <span class="project-tag">ON-FLOOR OPERATIONS</span>
+          </div>
+          <h2 class="project-title">Material Audit Scanner</h2>
+          <div class="project-beat" data-beat="problem">
+            <div class="beat-label">The Problem</div>
+            <p class="beat-text">Auditing thousands of materials across four Experience Centres on paper was slow and error-prone. Handle and hardware families had multiple sizes, each scanned separately and duplicating work, while discontinued items kept reappearing in library counts.</p>
+          </div>
+          <div class="project-beat" data-beat="solution">
+            <div class="beat-label">The Solution</div>
+            <p class="beat-text">Camera-based QR scanner app running off Google Sheets and Apps Script. Smart family detection auto-marks variants as Representative Sample. Discontinued items get flagged on scan instead of overwriting status. Auto-incrementing audit numbers, duplicate-scan prevention, A3 QR-label PDF generator.</p>
+          </div>
+          <div class="project-beat" data-beat="impact">
+            <div class="beat-label">The Impact</div>
+            <div class="impact-row">
+              
+        <div class="impact-tile" data-counter="Sub-1s">
+          <div class="impact-value">Sub-1s</div>
+          <div class="impact-label">scan to result</div>
+        </div>
+
+        <div class="impact-tile" data-counter="4">
+          <div class="impact-value">4</div>
+          <div class="impact-label">locations supported</div>
+        </div>
+
+        <div class="impact-tile" data-counter="A3">
+          <div class="impact-value">A3</div>
+          <div class="impact-label">QR-label PDFs</div>
+        </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- Email Templates -->
-          <div class="project-card" onclick="toggleCard(event, this)">
-            <div class="project-shot" data-img="email.png">
-              <!-- SVG mockup: branded email template -->
-              <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+    <section class="project-section accent-teal" id="project-ilab_tasks" data-bg="4">
+      <div class="project-inner">
+        <div class="project-visual">
+          <div class="visual-frame">
+            <div class="visual-glow"></div>
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="ilg" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#1F3A5F"/>
+                    <stop offset="100%" stop-color="#14151A"/>
+                  </linearGradient>
+                </defs>
+                <rect width="320" height="180" fill="#FAF8F4"/>
+                <!-- Phone frame -->
+                <rect x="100" y="14" width="120" height="152" rx="14" fill="#14151A"/>
+                <rect x="106" y="22" width="108" height="136" rx="8" fill="white"/>
+                <!-- App header bar -->
+                <rect x="106" y="22" width="108" height="22" rx="8" fill="url(#ilg)"/>
+                <rect x="106" y="36" width="108" height="8" fill="url(#ilg)"/>
+                <text x="112" y="36" font-family="Inter" font-size="8" font-weight="700" fill="#C9A961">iLab Tasks</text>
+                <circle cx="208" cy="33" r="3" fill="#C9A961"/>
+                <!-- Task rows -->
+                <rect x="111" y="50" width="98" height="20" rx="3" fill="#F2EFE8"/>
+                <circle cx="118" cy="60" r="3" fill="#2B7A3E"/>
+                <rect x="125" y="55" width="62" height="3" rx="1" fill="#2C2E36"/>
+                <rect x="125" y="62" width="40" height="2.5" rx="1" fill="#8A8D96"/>
+                <rect x="192" y="55" width="14" height="4" rx="1" fill="#2B7A3E" opacity="0.8"/>
+
+                <rect x="111" y="74" width="98" height="20" rx="3" fill="#F2EFE8"/>
+                <circle cx="118" cy="84" r="3" fill="#B86E1C"/>
+                <rect x="125" y="79" width="55" height="3" rx="1" fill="#2C2E36"/>
+                <rect x="125" y="86" width="45" height="2.5" rx="1" fill="#8A8D96"/>
+                <rect x="192" y="79" width="14" height="4" rx="1" fill="#B86E1C" opacity="0.8"/>
+
+                <rect x="111" y="98" width="98" height="20" rx="3" fill="#F2EFE8"/>
+                <circle cx="118" cy="108" r="3" fill="#C53030"/>
+                <rect x="125" y="103" width="58" height="3" rx="1" fill="#2C2E36"/>
+                <rect x="125" y="110" width="38" height="2.5" rx="1" fill="#8A8D96"/>
+                <rect x="192" y="103" width="14" height="4" rx="1" fill="#C53030" opacity="0.8"/>
+
+                <rect x="111" y="122" width="98" height="20" rx="3" fill="#F2EFE8"/>
+                <circle cx="118" cy="132" r="3" fill="#2B7A3E"/>
+                <rect x="125" y="127" width="50" height="3" rx="1" fill="#2C2E36"/>
+                <rect x="125" y="134" width="42" height="2.5" rx="1" fill="#8A8D96"/>
+                <rect x="192" y="127" width="14" height="4" rx="1" fill="#2B7A3E" opacity="0.8"/>
+
+                <!-- Bottom nav -->
+                <rect x="106" y="148" width="108" height="10" rx="0" fill="#F2EFE8"/>
+                <circle cx="125" cy="153" r="2" fill="#1F3A5F"/>
+                <circle cx="160" cy="153" r="2" fill="#8A8D96"/>
+                <circle cx="195" cy="153" r="2" fill="#8A8D96"/>
+
+                <!-- Side metric pills -->
+                <rect x="14" y="32" width="74" height="22" rx="4" fill="white" stroke="#E3DFD6"/>
+                <text x="22" y="42" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">OPEN TASKS</text>
+                <text x="22" y="51" font-family="Fraunces" font-size="11" font-weight="700" fill="#1F3A5F">47</text>
+
+                <rect x="14" y="60" width="74" height="22" rx="4" fill="white" stroke="#E3DFD6"/>
+                <text x="22" y="70" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">OVERDUE</text>
+                <text x="22" y="79" font-family="Fraunces" font-size="11" font-weight="700" fill="#C53030">3</text>
+
+                <rect x="14" y="88" width="74" height="22" rx="4" fill="white" stroke="#E3DFD6"/>
+                <text x="22" y="98" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">AVG TAT</text>
+                <text x="22" y="107" font-family="Fraunces" font-size="11" font-weight="700" fill="#2B7A3E">2.4d</text>
+
+                <rect x="232" y="32" width="74" height="78" rx="4" fill="white" stroke="#E3DFD6"/>
+                <text x="240" y="42" font-family="Inter" font-size="6" fill="#8A8D96" letter-spacing="0.5">THIS WEEK</text>
+                <!-- Mini bar chart -->
+                <rect x="240" y="78" width="6" height="22" fill="#1F3A5F"/>
+                <rect x="250" y="68" width="6" height="32" fill="#1F3A5F"/>
+                <rect x="260" y="58" width="6" height="42" fill="#C9A961"/>
+                <rect x="270" y="72" width="6" height="28" fill="#1F3A5F"/>
+                <rect x="280" y="62" width="6" height="38" fill="#1F3A5F"/>
+                <rect x="290" y="80" width="6" height="20" fill="#1F3A5F"/>
+              </svg>
+          </div>
+          <div class="visual-stack-row">
+            <span class="stack-pill">React</span><span class="stack-pill">Vite</span><span class="stack-pill">Firebase</span><span class="stack-pill">FCM</span><span class="stack-pill">Netlify</span><span class="stack-pill">PWA</span>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-meta">
+            <span class="project-number">05</span>
+            <span class="project-tag">TEAM COORDINATION</span>
+          </div>
+          <h2 class="project-title">iLab Task Manager</h2>
+          <div class="project-beat" data-beat="problem">
+            <div class="beat-label">The Problem</div>
+            <p class="beat-text">Task coordination across the iLab Design and Category teams ran on WhatsApp. Threads buried, deadlines forgotten, no way to track turnaround time, no visibility for management. Every status check was a manual chat scroll.</p>
+          </div>
+          <div class="project-beat" data-beat="solution">
+            <div class="beat-label">The Solution</div>
+            <p class="beat-text">A real-time Progressive Web App built on React and Firebase. Two-team architecture with email login. Working-day TAT (excludes Sundays and 1st/3rd/5th Saturdays per company calendar). Push notifications, three-sheet Excel export, WhatsApp deep-link for management follow-up.</p>
+          </div>
+          <div class="project-beat" data-beat="impact">
+            <div class="beat-label">The Impact</div>
+            <div class="impact-row">
+              
+        <div class="impact-tile" data-counter="Real-time">
+          <div class="impact-value">Real-time</div>
+          <div class="impact-label">sync across devices</div>
+        </div>
+
+        <div class="impact-tile" data-counter="20+">
+          <div class="impact-value">20+</div>
+          <div class="impact-label">daily active users</div>
+        </div>
+
+        <div class="impact-tile" data-counter="Working-day">
+          <div class="impact-value">Working-day</div>
+          <div class="impact-label">TAT logic</div>
+        </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-section reverse accent-gold" id="project-email" data-bg="5">
+      <div class="project-inner">
+        <div class="project-visual">
+          <div class="visual-frame">
+            <div class="visual-glow"></div>
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
                 <rect width="320" height="180" fill="#FAF8F4"/>
                 <!-- Outlook-like outer frame -->
                 <rect x="14" y="14" width="292" height="152" rx="4" fill="white" stroke="#E3DFD6"/>
@@ -1528,218 +1630,212 @@
                 <rect x="34" y="153" width="220" height="2.5" rx="1" fill="#8A8D96"/>
                 <rect x="34" y="158" width="160" height="2.5" rx="1" fill="#8A8D96"/>
               </svg>
-            </div>
-            <div class="project-body">
-              <span class="project-tag">Live · team standard</span>
-              <h3 class="project-name">iLab Email Template System</h3>
-              <p class="project-desc">Branded Outlook templates for iLab launch and update emails, plus a designer cheat sheet so anyone on the team can use them without touching HTML.</p>
-              <div class="project-stack">
-                <span class="stack-chip">HTML</span>
-                <span class="stack-chip">Outlook OFT</span>
-                <span class="stack-chip">SharePoint</span>
-              </div>
-              <div class="project-toggle">View details</div>
-              <div class="project-details">
-                <ul>
-                  <li>Two reusable templates: Launch Email (hero image, product showcase) and Update Email (concise announcement format)</li>
-                  <li>Built as HTML, exported to .oft so anyone can open in Outlook and edit like Word</li>
-                  <li>Designer cheat sheet covers image replacement, common gotchas, and maintenance workflow</li>
-                  <li>Hosted in shared SharePoint folder; standardised iLab's outbound communication overnight</li>
-                </ul>
-              </div>
-            </div>
           </div>
-
+          <div class="visual-stack-row">
+            <span class="stack-pill">HTML</span><span class="stack-pill">Outlook OFT</span><span class="stack-pill">SharePoint</span>
+          </div>
         </div>
-      </section>
-
-      <!-- 04 · COMPETENCIES -->
-      <section id="competencies">
-        <div class="sec-head">
-          <span class="sec-num">04</span>
-          <h2 class="sec-title">Core Competencies</h2>
-          <div class="sec-rule"></div>
+        <div class="project-content">
+          <div class="project-meta">
+            <span class="project-number">06</span>
+            <span class="project-tag">BRAND OPERATIONS</span>
+          </div>
+          <h2 class="project-title">iLab Email Template System</h2>
+          <div class="project-beat" data-beat="problem">
+            <div class="beat-label">The Problem</div>
+            <p class="beat-text">iLab launch and update emails went out in every shape and style. Inconsistent branding, broken layouts on Outlook, hours rebuilt every time. New team members had to learn HTML or wait on a designer to get a single update out.</p>
+          </div>
+          <div class="project-beat" data-beat="solution">
+            <div class="beat-label">The Solution</div>
+            <p class="beat-text">Two reusable branded HTML templates (Launch and Update), exported as Outlook .oft files so anyone can open them in Outlook and edit like Word. A designer cheat sheet covers image replacement, common gotchas, and maintenance. Hosted in a shared SharePoint folder.</p>
+          </div>
+          <div class="project-beat" data-beat="impact">
+            <div class="beat-label">The Impact</div>
+            <div class="impact-row">
+              
+        <div class="impact-tile" data-counter="2">
+          <div class="impact-value">2</div>
+          <div class="impact-label">reusable templates</div>
         </div>
 
-        <div class="comp-grid">
-          <div class="comp-item"><span class="comp-dot"></span> Interior Design Product Management</div>
-          <div class="comp-item"><span class="comp-dot"></span> Vendor &amp; Supplier Negotiation</div>
-          <div class="comp-item"><span class="comp-dot"></span> Market Research &amp; Trend Forecasting</div>
-          <div class="comp-item"><span class="comp-dot"></span> Category Assortment Planning</div>
-          <div class="comp-item"><span class="comp-dot"></span> Customisation &amp; Product Development</div>
-          <div class="comp-item"><span class="comp-dot"></span> Sales &amp; Profit Growth Strategy</div>
-          <div class="comp-item"><span class="comp-dot"></span> Inventory &amp; Supply Chain Management</div>
-          <div class="comp-item"><span class="comp-dot"></span> Pricing &amp; Promotions Strategy</div>
-          <div class="comp-item"><span class="comp-dot"></span> Cross-Functional Stakeholder Mgmt</div>
-          <div class="comp-item"><span class="comp-dot"></span> Material Library &amp; ISO Audit Prep</div>
-          <div class="comp-item"><span class="comp-dot"></span> Internal Tooling &amp; Process Automation</div>
-          <div class="comp-item"><span class="comp-dot"></span> E-Commerce Catalog Operations</div>
-        </div>
-      </section>
-
-      <!-- 05 · TECH SKILLS -->
-      <section id="tech">
-        <div class="sec-head">
-          <span class="sec-num">05</span>
-          <h2 class="sec-title">Technical Skills</h2>
-          <div class="sec-rule"></div>
+        <div class="impact-tile" data-counter="Zero-code">
+          <div class="impact-value">Zero-code</div>
+          <div class="impact-label">editing</div>
         </div>
 
-        <div class="tech-grid">
-          <div class="tech-block">
-            <div class="tech-cat">Web &amp; App Development (Self-taught)</div>
-            <div class="tech-list">
-              <span class="tech-item">React</span>
-              <span class="tech-item">Vite</span>
-              <span class="tech-item">HTML / CSS</span>
-              <span class="tech-item">JavaScript</span>
-              <span class="tech-item">PWA</span>
-              <span class="tech-item">Firebase Firestore</span>
-              <span class="tech-item">Firebase Cloud Messaging</span>
-              <span class="tech-item">Google Apps Script</span>
-            </div>
-          </div>
-
-          <div class="tech-block">
-            <div class="tech-cat">Data &amp; Hosting</div>
-            <div class="tech-list">
-              <span class="tech-item">SheetJS</span>
-              <span class="tech-item">PapaParse</span>
-              <span class="tech-item">Chart.js</span>
-              <span class="tech-item">GitHub Pages</span>
-              <span class="tech-item">Netlify</span>
-              <span class="tech-item">Power BI</span>
-              <span class="tech-item">Google Data Studio</span>
-            </div>
-          </div>
-
-          <div class="tech-block">
-            <div class="tech-cat">Design &amp; E-Commerce Tools</div>
-            <div class="tech-list">
-              <span class="tech-item">Photoshop</span>
-              <span class="tech-item">Illustrator</span>
-              <span class="tech-item">InDesign</span>
-              <span class="tech-item">Magento</span>
-              <span class="tech-item">ERPNext</span>
-            </div>
-          </div>
-
-          <div class="tech-block">
-            <div class="tech-cat">Productivity</div>
-            <div class="tech-list">
-              <span class="tech-item">Excel (advanced)</span>
-              <span class="tech-item">PowerPoint</span>
-              <span class="tech-item">Word</span>
-              <span class="tech-item">Google Sheets</span>
-              <span class="tech-item">Outlook templates</span>
+        <div class="impact-tile" data-counter="Overnight">
+          <div class="impact-value">Overnight</div>
+          <div class="impact-label">rollout</div>
+        </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- 06 · EDUCATION -->
-      <section id="education">
-        <div class="sec-head">
-          <span class="sec-num">06</span>
-          <h2 class="sec-title">Education</h2>
-          <div class="sec-rule"></div>
+<!-- ========== OUTRO ========== -->
+<section class="outro">
+  <div class="outro-inner">
+    <div class="reveal">
+      <div class="eyebrow">04 · Skills &amp; Background</div>
+      <h2 class="section-title">The toolkit behind the work.</h2>
+    </div>
+
+    <div class="outro-grid">
+      <!-- Skills -->
+      <div class="outro-block reveal">
+        <div class="block-head">Technical Skills</div>
+        <div class="skills-stack">
+          <div class="skill-group">
+            <div class="skill-cat">Category &amp; E-Commerce</div>
+            <div class="skill-list">
+              <span class="stack-pill">ERPNext</span>
+              <span class="stack-pill">Magento</span>
+              <span class="stack-pill">Myntra</span>
+              <span class="stack-pill">Jabong</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-cat">Data &amp; Reporting</div>
+            <div class="skill-list">
+              <span class="stack-pill">Excel (advanced)</span>
+              <span class="stack-pill">Power BI</span>
+              <span class="stack-pill">Google Data Studio</span>
+              <span class="stack-pill">Google Sheets</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-cat">Web &amp; App (self-taught)</div>
+            <div class="skill-list">
+              <span class="stack-pill">React</span>
+              <span class="stack-pill">JavaScript</span>
+              <span class="stack-pill">HTML / CSS</span>
+              <span class="stack-pill">Firebase</span>
+              <span class="stack-pill">Apps Script</span>
+              <span class="stack-pill">PWA</span>
+              <span class="stack-pill">GitHub Pages</span>
+              <span class="stack-pill">Netlify</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-cat">Design</div>
+            <div class="skill-list">
+              <span class="stack-pill">Photoshop</span>
+              <span class="stack-pill">Illustrator</span>
+              <span class="stack-pill">InDesign</span>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <ul class="edu-list">
-          <li class="edu-item">
+      <!-- Education + Languages -->
+      <div class="outro-block reveal">
+        <div class="block-head">Education</div>
+        <div class="edu-block">
+          <div class="edu-item">
+            <div class="edu-year">2012</div>
+            <div>
+              <div class="edu-deg">B.Sc. Computer Science</div>
+              <div class="edu-inst">Mahatma Gandhi Kashi Vidyapith</div>
+            </div>
+          </div>
+          <div class="edu-item">
             <div class="edu-year">2013</div>
             <div>
               <div class="edu-deg">Web &amp; Graphic Design</div>
               <div class="edu-inst">Adoro Institute of Multimedia</div>
             </div>
-          </li>
-          <li class="edu-item">
-            <div class="edu-year">2012</div>
-            <div>
-              <div class="edu-deg">B.Sc. · Computer Science</div>
-              <div class="edu-inst">Mahatma Gandhi Kashi Vidyapith</div>
-            </div>
-          </li>
-          <li class="edu-item">
-            <div class="edu-year">2009</div>
-            <div>
-              <div class="edu-deg">Pre-University Course (PUC)</div>
-              <div class="edu-inst">Visveswarapura College of Science, Bangalore</div>
-            </div>
-          </li>
-          <li class="edu-item">
-            <div class="edu-year">2007</div>
-            <div>
-              <div class="edu-deg">SSLC</div>
-              <div class="edu-inst">Sri Saraswathi Vidya Mandira, Bangalore</div>
-            </div>
-          </li>
-        </ul>
-      </section>
+          </div>
+        </div>
 
-      <footer class="foot">
-        <div>© Sunil Kumar CR · Bangalore</div>
-        <div>Updated May 2026 · Built and hosted by Sunil</div>
-      </footer>
-
-    </main>
+        <div class="block-head" style="margin-top:40px;">Languages</div>
+        <div class="lang-row">
+          <span class="lang-pill">English</span>
+          <span class="lang-pill">Hindi</span>
+          <span class="lang-pill">Kannada</span>
+          <span class="lang-pill">Tamil</span>
+          <span class="lang-pill">Telugu</span>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
-<button class="print-btn" onclick="window.print()">↓ Save as PDF</button>
+<!-- ========== CONTACT ========== -->
+<section class="contact-cta" id="contact-anchor">
+  <div class="contact-cta-inner reveal">
+    <div class="eyebrow">05 · Get in touch</div>
+    <h2 class="contact-cta-title">Let's talk <em>categories</em>, <em>operations</em>, or anything I can <em>build</em> for your team.</h2>
+
+    <div class="contact-list">
+      <a class="contact-card" href="mailto:sunilkumarcr3@gmail.com">
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-value">sunilkumarcr3@gmail.com</div>
+      </a>
+      <a class="contact-card" href="tel:+919036624557">
+        <div class="contact-card-label">Phone</div>
+        <div class="contact-card-value">+91 90366 24557</div>
+      </a>
+      <a class="contact-card" href="https://www.linkedin.com/in/sunil-kumar-52435282" target="_blank" rel="noopener">
+        <div class="contact-card-label">LinkedIn</div>
+        <div class="contact-card-value">sunil-kumar-52435282</div>
+      </a>
+      <div class="contact-card">
+        <div class="contact-card-label">Location</div>
+        <div class="contact-card-value">Bangalore, Karnataka</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  © Sunil Kumar CR · Updated May 2026 · Built &amp; hosted by Sunil
+</footer>
 
 <script>
-  // Toggle project card details (but don't toggle if clicking the description text on mobile so links are usable)
-  function toggleCard(e, card) {
-    card.classList.toggle('open');
-  }
+// Top nav scroll effect
+const topnav = document.getElementById('topnav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 80) topnav.classList.add('scrolled');
+  else topnav.classList.remove('scrolled');
+}, { passive: true });
 
-  // Mobile sidebar toggle
-  function toggleSidebar() {
-    const sb = document.getElementById('sidebar');
-    const scrim = document.getElementById('scrim');
-    sb.classList.toggle('open');
-    scrim.classList.toggle('show');
-  }
-  function closeSidebarMobile() {
-    if (window.innerWidth <= 900) {
-      document.getElementById('sidebar').classList.remove('open');
-      document.getElementById('scrim').classList.remove('show');
+// IntersectionObserver for reveals on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      io.unobserve(entry.target);
     }
-  }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
 
-  // Photo loader - fills both the screen sidebar photo AND the print header photo
-  (function loadPhoto(){
-    const img = new Image();
-    img.onload = function() {
-      ['photo', 'printPhoto'].forEach(function(id){
-        const frame = document.getElementById(id);
-        if (frame) {
-          frame.innerHTML = '';
-          const clone = img.cloneNode();
-          frame.appendChild(clone);
-        }
-      });
-    };
-    img.onerror = function() { /* keep initials fallback */ };
-    img.src = 'photo.jpg';
-  })();
+document.querySelectorAll('.reveal, .reveal-stagger, .project-section').forEach(el => io.observe(el));
 
-  // Project shot loader - if a real image is dropped into the repo with the data-img filename,
-  // it replaces the SVG mockup automatically. Otherwise the SVG stays.
-  (function loadProjectShots(){
-    document.querySelectorAll('.project-shot[data-img]').forEach(function(shot){
-      const src = shot.getAttribute('data-img');
-      const img = new Image();
-      img.onload = function() {
-        shot.classList.add('has-img');
-        shot.innerHTML = '';
-        shot.appendChild(img);
+// Counter animation for metric strip
+const counterIO = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseFloat(el.dataset.counter);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1400;
+      const start = performance.now();
+      const animate = (now) => {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const current = Math.round(target * eased);
+        el.textContent = current + suffix;
+        if (t < 1) requestAnimationFrame(animate);
+        else el.textContent = target + suffix;
       };
-      img.onerror = function() { /* keep SVG fallback */ };
-      img.src = src;
-    });
-  })();
+      requestAnimationFrame(animate);
+      counterIO.unobserve(el);
+    }
+  });
+}, { threshold: 0.4 });
+
+document.querySelectorAll('[data-counter]').forEach(el => counterIO.observe(el));
 </script>
 
 </body>
