@@ -442,8 +442,6 @@ body {
   background: rgba(255,255,255,0.04);
   border-color: rgba(255,255,255,0.1);
 }
-.project-section.accent-gold .impact-value { color: var(--gold); }
-.project-section.accent-gold .impact-label { color: rgba(255,255,255,0.55); }
 .project-section.accent-gold .stack-pill {
   background: rgba(255,255,255,0.06);
   color: rgba(255,255,255,0.7);
@@ -596,38 +594,47 @@ body {
 .impact-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  gap: 12px;
   margin-top: 4px;
 }
 .impact-tile {
-  padding: 18px 14px;
+  padding: 16px 14px;
   background: white;
   border: 1px solid var(--line);
   border-radius: 12px;
-  text-align: center;
   transition: transform 0.3s var(--ease), border-color 0.3s var(--ease);
+  position: relative;
+}
+.impact-tile::before {
+  content: '';
+  position: absolute;
+  top: 12px; left: 14px;
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
 }
 .impact-tile:hover {
   transform: translateY(-3px);
   border-color: var(--teal);
 }
-.impact-value {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(22px, 2.6vw, 30px);
+.impact-headline {
+  font-size: 13.5px;
   font-weight: 600;
-  color: var(--teal);
-  letter-spacing: -0.015em;
-  line-height: 1.1;
+  color: var(--ink);
+  line-height: 1.35;
   margin-bottom: 4px;
+  margin-top: 14px;
+  letter-spacing: -0.005em;
 }
-.impact-label {
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.impact-sub {
+  font-size: 12px;
   color: var(--ink-3);
-  font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.4;
+  font-weight: 400;
 }
+.project-section.accent-gold .impact-headline { color: white; }
+.project-section.accent-gold .impact-sub { color: rgba(255,255,255,0.6); }
+.project-section.accent-gold .impact-tile::before { background: var(--gold); }
 
 /* ========== CLOSING SECTIONS ========== */
 .outro {
@@ -838,7 +845,8 @@ body {
   .project-beat { margin-bottom: 8pt; }
   .beat-text { font-size: 9.5pt; }
   .impact-tile { padding: 6pt 4pt; }
-  .impact-value { font-size: 13pt; }
+  .impact-headline { font-size: 9.5pt; }
+  .impact-sub { font-size: 8.5pt; }
   .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
 }
 </style>
@@ -918,7 +926,7 @@ body {
         <br><span class="now">Current</span>
       </div>
       <div>
-        <div class="exp-role">Category Manager · iLab</div>
+        <div class="exp-role">Category Manager</div>
         <div class="exp-company">Bonito Designs · Bangalore</div>
         <ul class="exp-bullets">
           <li>Drove <b>25% YoY revenue growth</b> across Furniture, Home Décor, Lighting, Flooring and Wallcovering categories through assortment optimisation, pricing refinement, and seasonal alignment with market trends.</li>
@@ -982,7 +990,7 @@ body {
 
 <!-- ========== PROJECT SECTIONS (injected) ========== -->
 
-    <section class="project-section accent-teal" id="project-pko" data-bg="0">
+    <section class="project-section accent-teal" id="project-pko">
       <div class="project-inner">
         <div class="project-visual">
           <div class="visual-frame">
@@ -1073,31 +1081,31 @@ body {
             <span class="project-tag">CATEGORY ANALYTICS</span>
           </div>
           <h2 class="project-title">PKO Sales Dashboard</h2>
-          <div class="project-beat" data-beat="problem">
+          <div class="project-beat">
             <div class="beat-label">The Problem</div>
             <p class="beat-text">Sales data lived in dense ERP exports nobody could read in time. Dead stock, fast and slow movers, and brand level performance were invisible until month-end reviews, by which point the inventory decisions had already been made on intuition.</p>
           </div>
-          <div class="project-beat" data-beat="solution">
+          <div class="project-beat">
             <div class="beat-label">The Solution</div>
             <p class="beat-text">A live sales analytics dashboard that reads CSVs straight from the source. Robust ERP matching (case normalisation, whitespace handling, variant collapsing) means product families aggregate correctly. Filters by branch, brand, category and date cross-filter every visual instantly.</p>
           </div>
-          <div class="project-beat" data-beat="impact">
-            <div class="beat-label">The Impact</div>
+          <div class="project-beat">
+            <div class="beat-label">The Outcome</div>
             <div class="impact-row">
               
-        <div class="impact-tile" data-counter="₹2.4Cr">
-          <div class="impact-value">₹2.4Cr</div>
-          <div class="impact-label">revenue tracked</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Live revenue visibility</div>
+          <div class="impact-sub">replacing month-end Excel</div>
         </div>
 
-        <div class="impact-tile" data-counter="1,847">
-          <div class="impact-value">1,847</div>
-          <div class="impact-label">projects analysed</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Dead stock surfaced</div>
+          <div class="impact-sub">fast & slow movers flagged</div>
         </div>
 
-        <div class="impact-tile" data-counter="342">
-          <div class="impact-value">342</div>
-          <div class="impact-label">dead-stock SKUs flagged</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Drag-drop refresh</div>
+          <div class="impact-sub">no rebuild needed</div>
         </div>
             </div>
           </div>
@@ -1105,7 +1113,7 @@ body {
       </div>
     </section>
 
-    <section class="project-section reverse accent-gold" id="project-ec_audit" data-bg="1">
+    <section class="project-section reverse accent-gold" id="project-ec_audit">
       <div class="project-inner">
         <div class="project-visual">
           <div class="visual-frame">
@@ -1204,31 +1212,31 @@ body {
             <span class="project-tag">ISO AUDIT SUPPORT</span>
           </div>
           <h2 class="project-title">Experience Centre Audit System</h2>
-          <div class="project-beat" data-beat="problem">
+          <div class="project-beat">
             <div class="beat-label">The Problem</div>
             <p class="beat-text">Material library audits across four Experience Centres meant manually reconciling spreadsheets, chasing photos on WhatsApp, and rebuilding the same compliance view every audit round. ISO readiness was a recurring fire drill.</p>
           </div>
-          <div class="project-beat" data-beat="solution">
+          <div class="project-beat">
             <div class="beat-label">The Solution</div>
             <p class="beat-text">Four location-specific Excel files with 12 categories each and 5 audit-round blocks, feeding a live web dashboard that reads them directly from GitHub via SheetJS. Location filters, round tabs, completion charts, status breakdown, and six compliance KPI cards stay in sync automatically.</p>
           </div>
-          <div class="project-beat" data-beat="impact">
-            <div class="beat-label">The Impact</div>
+          <div class="project-beat">
+            <div class="beat-label">The Outcome</div>
             <div class="impact-row">
               
-        <div class="impact-tile" data-counter="12K+">
-          <div class="impact-value">12K+</div>
-          <div class="impact-label">SKUs audited</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Four locations unified</div>
+          <div class="impact-sub">one live dashboard</div>
         </div>
 
-        <div class="impact-tile" data-counter="4">
-          <div class="impact-value">4</div>
-          <div class="impact-label">locations covered</div>
+        <div class="impact-tile">
+          <div class="impact-headline">ISO audit readiness</div>
+          <div class="impact-sub">on tap, not on call</div>
         </div>
 
-        <div class="impact-tile" data-counter="5">
-          <div class="impact-value">5</div>
-          <div class="impact-label">audit rounds tracked</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Flagged items export</div>
+          <div class="impact-sub">two-sheet Excel ready</div>
         </div>
             </div>
           </div>
@@ -1236,7 +1244,7 @@ body {
       </div>
     </section>
 
-    <section class="project-section accent-teal" id="project-nps" data-bg="2">
+    <section class="project-section accent-teal" id="project-nps">
       <div class="project-inner">
         <div class="project-visual">
           <div class="visual-frame">
@@ -1313,31 +1321,31 @@ body {
             <span class="project-tag">CUSTOMER INTELLIGENCE</span>
           </div>
           <h2 class="project-title">NPS Intelligence Dashboard</h2>
-          <div class="project-beat" data-beat="problem">
+          <div class="project-beat">
             <div class="beat-label">The Problem</div>
             <p class="beat-text">Monthly NPS reporting was a manual exercise: pull two CSVs, build pivots, format for the leadership review, repeat. By the time numbers reached anyone, the fortnight had already turned over and the chance to act on a detractor was gone.</p>
           </div>
-          <div class="project-beat" data-beat="solution">
+          <div class="project-beat">
             <div class="beat-label">The Solution</div>
             <p class="beat-text">Drop-in CSV refresh dashboard tracking Overall and Design NPS across branches, designers, project managers and CRMs. Six analytical views with fortnight cycles aligned to company definition. People leaderboards apply a 5-response minimum so a single lucky review can't skew the rankings.</p>
           </div>
-          <div class="project-beat" data-beat="impact">
-            <div class="beat-label">The Impact</div>
+          <div class="project-beat">
+            <div class="beat-label">The Outcome</div>
             <div class="impact-row">
               
-        <div class="impact-tile" data-counter="+62">
-          <div class="impact-value">+62</div>
-          <div class="impact-label">overall NPS</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Manual reporting eliminated</div>
+          <div class="impact-sub">CSV drop refreshes everything</div>
         </div>
 
-        <div class="impact-tile" data-counter="6">
-          <div class="impact-value">6</div>
-          <div class="impact-label">analytical views</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Detractors visible quickly</div>
+          <div class="impact-sub">comments exportable to Excel</div>
         </div>
 
-        <div class="impact-tile" data-counter="1-click">
-          <div class="impact-value">1-click</div>
-          <div class="impact-label">monthly refresh</div>
+        <div class="impact-tile">
+          <div class="impact-headline">People leaderboards</div>
+          <div class="impact-sub">fair to small sample sizes</div>
         </div>
             </div>
           </div>
@@ -1345,7 +1353,7 @@ body {
       </div>
     </section>
 
-    <section class="project-section reverse accent-gold" id="project-scanner" data-bg="3">
+    <section class="project-section reverse accent-gold" id="project-scanner">
       <div class="project-inner">
         <div class="project-visual">
           <div class="visual-frame">
@@ -1440,31 +1448,31 @@ body {
             <span class="project-tag">ON-FLOOR OPERATIONS</span>
           </div>
           <h2 class="project-title">Material Audit Scanner</h2>
-          <div class="project-beat" data-beat="problem">
+          <div class="project-beat">
             <div class="beat-label">The Problem</div>
             <p class="beat-text">Auditing thousands of materials across four Experience Centres on paper was slow and error-prone. Handle and hardware families had multiple sizes, each scanned separately and duplicating work, while discontinued items kept reappearing in library counts.</p>
           </div>
-          <div class="project-beat" data-beat="solution">
+          <div class="project-beat">
             <div class="beat-label">The Solution</div>
             <p class="beat-text">Camera-based QR scanner app running off Google Sheets and Apps Script. Smart family detection auto-marks variants as Representative Sample. Discontinued items get flagged on scan instead of overwriting status. Auto-incrementing audit numbers, duplicate-scan prevention, A3 QR-label PDF generator.</p>
           </div>
-          <div class="project-beat" data-beat="impact">
-            <div class="beat-label">The Impact</div>
+          <div class="project-beat">
+            <div class="beat-label">The Outcome</div>
             <div class="impact-row">
               
-        <div class="impact-tile" data-counter="Sub-1s">
-          <div class="impact-value">Sub-1s</div>
-          <div class="impact-label">scan to result</div>
+        <div class="impact-tile">
+          <div class="impact-headline">No app install needed</div>
+          <div class="impact-sub">opens on any phone browser</div>
         </div>
 
-        <div class="impact-tile" data-counter="4">
-          <div class="impact-value">4</div>
-          <div class="impact-label">locations supported</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Smart variant grouping</div>
+          <div class="impact-sub">one scan covers a family</div>
         </div>
 
-        <div class="impact-tile" data-counter="A3">
-          <div class="impact-value">A3</div>
-          <div class="impact-label">QR-label PDFs</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Full audit log preserved</div>
+          <div class="impact-sub">auditor + location + timestamp</div>
         </div>
             </div>
           </div>
@@ -1472,7 +1480,7 @@ body {
       </div>
     </section>
 
-    <section class="project-section accent-teal" id="project-ilab_tasks" data-bg="4">
+    <section class="project-section accent-teal" id="project-ilab_tasks">
       <div class="project-inner">
         <div class="project-visual">
           <div class="visual-frame">
@@ -1558,31 +1566,31 @@ body {
             <span class="project-tag">TEAM COORDINATION</span>
           </div>
           <h2 class="project-title">iLab Task Manager</h2>
-          <div class="project-beat" data-beat="problem">
+          <div class="project-beat">
             <div class="beat-label">The Problem</div>
             <p class="beat-text">Task coordination across the iLab Design and Category teams ran on WhatsApp. Threads buried, deadlines forgotten, no way to track turnaround time, no visibility for management. Every status check was a manual chat scroll.</p>
           </div>
-          <div class="project-beat" data-beat="solution">
+          <div class="project-beat">
             <div class="beat-label">The Solution</div>
             <p class="beat-text">A real-time Progressive Web App built on React and Firebase. Two-team architecture with email login. Working-day TAT (excludes Sundays and 1st/3rd/5th Saturdays per company calendar). Push notifications, three-sheet Excel export, WhatsApp deep-link for management follow-up.</p>
           </div>
-          <div class="project-beat" data-beat="impact">
-            <div class="beat-label">The Impact</div>
+          <div class="project-beat">
+            <div class="beat-label">The Outcome</div>
             <div class="impact-row">
               
-        <div class="impact-tile" data-counter="Real-time">
-          <div class="impact-value">Real-time</div>
-          <div class="impact-label">sync across devices</div>
+        <div class="impact-tile">
+          <div class="impact-headline">WhatsApp coordination replaced</div>
+          <div class="impact-sub">now in daily use</div>
         </div>
 
-        <div class="impact-tile" data-counter="20+">
-          <div class="impact-value">20+</div>
-          <div class="impact-label">daily active users</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Working-day TAT tracking</div>
+          <div class="impact-sub">aligned to company calendar</div>
         </div>
 
-        <div class="impact-tile" data-counter="Working-day">
-          <div class="impact-value">Working-day</div>
-          <div class="impact-label">TAT logic</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Management dashboard live</div>
+          <div class="impact-sub">month-wise completion view</div>
         </div>
             </div>
           </div>
@@ -1590,7 +1598,7 @@ body {
       </div>
     </section>
 
-    <section class="project-section reverse accent-gold" id="project-email" data-bg="5">
+    <section class="project-section reverse accent-gold" id="project-email">
       <div class="project-inner">
         <div class="project-visual">
           <div class="visual-frame">
@@ -1641,31 +1649,31 @@ body {
             <span class="project-tag">BRAND OPERATIONS</span>
           </div>
           <h2 class="project-title">iLab Email Template System</h2>
-          <div class="project-beat" data-beat="problem">
+          <div class="project-beat">
             <div class="beat-label">The Problem</div>
             <p class="beat-text">iLab launch and update emails went out in every shape and style. Inconsistent branding, broken layouts on Outlook, hours rebuilt every time. New team members had to learn HTML or wait on a designer to get a single update out.</p>
           </div>
-          <div class="project-beat" data-beat="solution">
+          <div class="project-beat">
             <div class="beat-label">The Solution</div>
             <p class="beat-text">Two reusable branded HTML templates (Launch and Update), exported as Outlook .oft files so anyone can open them in Outlook and edit like Word. A designer cheat sheet covers image replacement, common gotchas, and maintenance. Hosted in a shared SharePoint folder.</p>
           </div>
-          <div class="project-beat" data-beat="impact">
-            <div class="beat-label">The Impact</div>
+          <div class="project-beat">
+            <div class="beat-label">The Outcome</div>
             <div class="impact-row">
               
-        <div class="impact-tile" data-counter="2">
-          <div class="impact-value">2</div>
-          <div class="impact-label">reusable templates</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Brand consistency restored</div>
+          <div class="impact-sub">every email looks like iLab</div>
         </div>
 
-        <div class="impact-tile" data-counter="Zero-code">
-          <div class="impact-value">Zero-code</div>
-          <div class="impact-label">editing</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Zero-code editing</div>
+          <div class="impact-sub">open in Outlook like Word</div>
         </div>
 
-        <div class="impact-tile" data-counter="Overnight">
-          <div class="impact-value">Overnight</div>
-          <div class="impact-label">rollout</div>
+        <div class="impact-tile">
+          <div class="impact-headline">Cheat sheet shipped</div>
+          <div class="impact-sub">team-wide self-service</div>
         </div>
             </div>
           </div>
