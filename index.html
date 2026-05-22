@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sunil Kumar CR — Category Manager · Builder of Internal Tools</title>
+<title>Sunil Kumar CR · Category Manager</title>
 <meta name="description" content="Category & Catalog Manager with 11+ years experience in interior design product management, vendor coordination, and self-built operational tooling.">
 <meta name="theme-color" content="#14151A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -308,7 +308,7 @@
     border-color: var(--accent-2);
   }
 
-  /* PROJECT SHOT — now a real SVG mockup */
+  /* PROJECT SHOT - now a real SVG mockup */
   .project-shot {
     aspect-ratio: 16/9;
     background: linear-gradient(135deg, #FAF8F4 0%, #F2EFE8 100%);
@@ -550,25 +550,199 @@
     }
   }
 
-  /* PRINT */
+  /* ============ PRINT (PDF) ============
+     Print strategy: skip the dark sidebar entirely, render as a clean
+     single-column document with a print-only header at the top.
+     Force all project details to show so the PDF is complete. */
+  .print-only { display: none; }
+
   @media print {
-    .sidebar {
+    @page { margin: 14mm 12mm; size: A4; }
+
+    html, body {
       background: white !important;
+      font-size: 10.5pt;
       color: var(--ink) !important;
-      height: auto !important;
-      position: static !important;
-      transform: none !important;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
-      box-shadow: none !important;
     }
-    .side-name, .contact-item, .lang-chip, .nav-list a, .side-label { color: var(--ink) !important; }
-    .photo-frame { border-color: var(--accent) !important; }
-    .print-btn, .mobile-bar, .scrim { display: none !important; }
-    .project-card { break-inside: avoid; }
-    .exp-item { break-inside: avoid; }
-    body { font-size: 11pt; }
-    .hero-name { font-size: 32pt; }
+
+    /* Hide screen-only chrome */
+    .sidebar, .mobile-bar, .scrim, .print-btn { display: none !important; }
+
+    /* Reset layout to single column */
+    .page, .layout { display: block !important; max-width: none !important; }
+    .main { padding: 0 !important; background: white !important; }
+
+    /* Show the print-only header */
+    .print-only { display: block !important; }
+
+    .print-header {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding-bottom: 10pt;
+      margin-bottom: 14pt;
+      border-bottom: 1.5pt solid var(--accent);
+    }
+    .print-photo {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--accent-2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-size: 22pt; font-weight: 600;
+      border: 2pt solid var(--accent-2);
+      overflow: hidden;
+    }
+    .print-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .print-id .print-name {
+      font-family: 'Fraunces', serif;
+      font-size: 22pt; font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1; color: var(--ink);
+    }
+    .print-id .print-role {
+      font-size: 9pt; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.12em;
+      font-weight: 600; margin-top: 4pt;
+    }
+    .print-contact {
+      font-size: 8.5pt;
+      color: var(--ink-2);
+      text-align: right;
+      line-height: 1.5;
+    }
+    .print-contact div { white-space: nowrap; }
+
+    /* Hide the screen hero (replaced by print header) */
+    .hero { display: none !important; }
+
+    /* Section sizing for print */
+    section { margin-bottom: 14pt !important; page-break-inside: auto; }
+    .sec-head { margin-bottom: 8pt; }
+    .sec-num { font-size: 9pt; }
+    .sec-title { font-size: 15pt; }
+    .sec-rule { background: var(--line); }
+
+    /* Summary */
+    .summary { font-size: 10pt; line-height: 1.5; }
+    .summary .lead { font-size: 11.5pt; margin-bottom: 6pt; }
+    .summary p { margin-bottom: 6pt; }
+
+    .highlights {
+      grid-template-columns: repeat(4, 1fr) !important;
+      padding: 8pt 0 !important;
+      margin-top: 10pt !important;
+      page-break-inside: avoid;
+    }
+    .highlight {
+      padding: 0 10pt !important;
+      border-right: 1px solid var(--line) !important;
+      border-bottom: none !important;
+    }
+    .highlight:last-child { border-right: none !important; }
+    .highlight:first-child { padding-left: 0 !important; }
+    .h-num { font-size: 18pt; }
+    .h-label { font-size: 7.5pt; }
+
+    /* Experience */
+    .exp-item {
+      grid-template-columns: 90pt 1fr !important;
+      gap: 14pt !important;
+      padding-bottom: 10pt !important;
+      margin-bottom: 10pt !important;
+      page-break-inside: avoid;
+    }
+    .exp-date { font-size: 8.5pt; padding-top: 2pt; }
+    .exp-date .current {
+      background: var(--good) !important;
+      color: white !important;
+      font-size: 7pt;
+    }
+    .exp-title { font-size: 12pt; }
+    .exp-company { font-size: 10pt; margin-bottom: 6pt; }
+    .exp-bullets li { font-size: 9.5pt; margin-bottom: 3pt; }
+    .exp-sub { font-size: 8pt; margin: 8pt 0 3pt; }
+
+    /* Projects - show ALL details, no toggle */
+    .projects-intro { font-size: 9.5pt; margin-bottom: 10pt; }
+    .project-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10pt !important;
+    }
+    .project-card {
+      page-break-inside: avoid;
+      border: 1px solid var(--line) !important;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+    .project-shot { aspect-ratio: 16/9; }
+    .project-body { padding: 10pt 12pt 12pt; }
+    .project-tag { font-size: 7.5pt; }
+    .project-name { font-size: 12pt; margin-bottom: 4pt; }
+    .project-desc { font-size: 9pt; margin-bottom: 8pt; }
+    .stack-chip {
+      font-size: 7.5pt;
+      background: var(--paper-2) !important;
+      color: var(--ink-3) !important;
+    }
+    .project-toggle { display: none !important; }
+    .project-details {
+      display: block !important;
+      margin-top: 8pt !important;
+      padding-top: 8pt !important;
+      font-size: 8.5pt !important;
+      line-height: 1.5 !important;
+    }
+    .project-details li { margin-bottom: 2pt; }
+
+    /* Competencies */
+    .comp-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+      page-break-inside: avoid;
+    }
+    .comp-item {
+      padding: 7pt 10pt !important;
+      font-size: 9pt;
+      border-right: 1px solid var(--line) !important;
+      border-bottom: 1px solid var(--line) !important;
+    }
+    .comp-item:nth-child(3n) { border-right: none !important; }
+    .comp-item:nth-child(2n) { border-right: 1px solid var(--line) !important; }
+    .comp-item:nth-last-child(-n+3) { border-bottom: none !important; }
+    .comp-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--line) !important; }
+
+    /* Tech */
+    .tech-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10pt !important;
+    }
+    .tech-block { padding: 10pt 12pt; page-break-inside: avoid; }
+    .tech-cat { font-size: 8.5pt; margin-bottom: 6pt; }
+    .tech-item { font-size: 8.5pt; padding: 2pt 7pt; }
+
+    /* Education */
+    .edu-item {
+      grid-template-columns: 50pt 1fr !important;
+      gap: 16pt !important;
+      padding: 6pt 0 !important;
+    }
+    .edu-year { font-size: 13pt; }
+    .edu-deg { font-size: 10pt; }
+    .edu-inst { font-size: 9pt; }
+
+    /* Footer */
+    .foot { margin-top: 16pt; padding-top: 8pt; font-size: 8pt; }
+
+    /* Force backgrounds to print */
+    .project-shot, .stack-chip, .tech-item, .comp-dot, .highlight,
+    .exp-date .current, .photo-frame, .print-photo {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
   }
 </style>
 </head>
@@ -615,12 +789,12 @@
       <div class="side-block">
         <div class="side-label">On this page</div>
         <ul class="nav-list">
-          <li><a href="#summary" onclick="closeSidebarMobile()">01 — Profile</a></li>
-          <li><a href="#experience" onclick="closeSidebarMobile()">02 — Experience</a></li>
-          <li><a href="#projects" onclick="closeSidebarMobile()">03 — Projects &amp; Initiatives</a></li>
-          <li><a href="#competencies" onclick="closeSidebarMobile()">04 — Competencies</a></li>
-          <li><a href="#tech" onclick="closeSidebarMobile()">05 — Technical Skills</a></li>
-          <li><a href="#education" onclick="closeSidebarMobile()">06 — Education</a></li>
+          <li><a href="#summary" onclick="closeSidebarMobile()">01 · Profile</a></li>
+          <li><a href="#experience" onclick="closeSidebarMobile()">02 · Experience</a></li>
+          <li><a href="#projects" onclick="closeSidebarMobile()">03 · Projects &amp; Initiatives</a></li>
+          <li><a href="#competencies" onclick="closeSidebarMobile()">04 · Competencies</a></li>
+          <li><a href="#tech" onclick="closeSidebarMobile()">05 · Technical Skills</a></li>
+          <li><a href="#education" onclick="closeSidebarMobile()">06 · Education</a></li>
         </ul>
       </div>
 
@@ -639,19 +813,34 @@
     <!-- ============ MAIN ============ -->
     <main class="main">
 
+      <!-- PRINT-ONLY HEADER (visible only when saving as PDF) -->
+      <div class="print-only print-header">
+        <div class="print-photo" id="printPhoto">SC</div>
+        <div class="print-id">
+          <div class="print-name">Sunil Kumar CR</div>
+          <div class="print-role">Category Manager · Interior Design &amp; E-Commerce</div>
+        </div>
+        <div class="print-contact">
+          <div>Bangalore, Karnataka</div>
+          <div>+91 90366 24557</div>
+          <div>sunilkumarcr3@gmail.com</div>
+          <div>linkedin.com/in/sunil-kumar-52435282</div>
+        </div>
+      </div>
+
       <!-- HERO -->
       <header class="hero">
         <div class="hero-tag">Curriculum Vitae · 2026</div>
         <h1 class="hero-name">Sunil Kumar CR</h1>
-        <div class="hero-role">Category Manager &amp; Internal Tools Builder</div>
+        <div class="hero-role">Category Manager · Interior Design &amp; E-Commerce</div>
         <div class="hero-meta">
           <span><span class="dot"></span> 11+ years experience</span>
-          <span><span class="dot"></span> Interior &amp; e-commerce categories</span>
-          <span><span class="dot"></span> Self-taught web &amp; data tooling</span>
+          <span><span class="dot"></span> Furniture · Décor · Lighting · Flooring</span>
+          <span><span class="dot"></span> Vendor management &amp; assortment strategy</span>
         </div>
       </header>
 
-      <!-- 01 — SUMMARY -->
+      <!-- 01 · SUMMARY -->
       <section id="summary">
         <div class="sec-head">
           <span class="sec-num">01</span>
@@ -659,8 +848,8 @@
           <div class="sec-rule"></div>
         </div>
         <div class="summary">
-          <p class="lead">Category &amp; Catalog Manager with eleven years across interior design and large-scale e-commerce — and a parallel track of self-built internal tooling that has reshaped how my team works.</p>
-          <p>I lead the iLab department's material library, vendor coordination, and ISO audit preparation across four Experience Centres in Mumbai and Bangalore. Over the last year I have also built six production tools — a real-time task manager PWA, a multi-location audit dashboard, an NPS intelligence platform, a sales analytics dashboard, a barcode audit scanner, and a branded email template system — all rolled out and in daily use by the team. <strong>I taught myself React, Firebase, and the rest of the stack from scratch</strong>; each project replaced a real operational pain point, not a hypothetical one.</p>
+          <p class="lead">Category &amp; Catalog Manager with eleven years across interior design and large-scale e-commerce, combining assortment strategy, vendor management, and data-driven operations to grow categories and protect margin.</p>
+          <p>I own the Furniture, Home Décor, Lighting, Flooring and Wallcovering categories at Bonito Designs, driving assortment strategy, vendor negotiations, pricing, and the material library that sits behind every customer project across four Experience Centres in Mumbai and Bangalore. My focus is category growth and operational excellence: <strong>25% YoY sales growth, 18% profitability lift, and 15% lower stockouts</strong> over the past year, while also leading ISO audit readiness for ~12,000 SKUs. To support this, I have built six in-house tools, including a sales analytics dashboard, a multi-location audit system, an NPS intelligence platform, and a barcode-based library scanner, that have replaced manual reporting and given the category function real-time visibility into performance, inventory, and customer feedback.</p>
 
           <div class="highlights">
             <div class="highlight">
@@ -683,7 +872,7 @@
         </div>
       </section>
 
-      <!-- 02 — EXPERIENCE -->
+      <!-- 02 · EXPERIENCE -->
       <section id="experience">
         <div class="sec-head">
           <span class="sec-num">02</span>
@@ -693,18 +882,18 @@
 
         <div class="exp-item">
           <div class="exp-date">
-            Jul 2022 — Present
+            Jul 2022 to Present
             <br><span class="current">Current</span>
           </div>
           <div>
-            <div class="exp-title">Category Manager — iLab Department</div>
+            <div class="exp-title">Category Manager</div>
             <div class="exp-company">Bonito Designs · Bangalore</div>
             <ul class="exp-bullets">
-              <li>Lead development and optimisation of Furniture, Home Décor, Lighting, Flooring and Wallcovering categories — drove <strong>25% YoY sales growth</strong>.</li>
+              <li>Lead development and optimisation of Furniture, Home Décor, Lighting, Flooring and Wallcovering categories, driving <strong>25% YoY sales growth</strong>.</li>
               <li>Built and maintained vendor relationships, negotiating favourable terms while enforcing quality standards across the supply base.</li>
               <li>Conduct ongoing material audits across four Experience Centres (Andheri, Thane, HSR, HRBR) and lead ISO audit preparation for the material library.</li>
               <li>Led product assortment planning for seasonal collections in collaboration with the design team, introducing customisable product lines.</li>
-              <li>Optimised inventory levels — <strong>reduced stockouts by 15%</strong> and improved turnover rates by 20%.</li>
+              <li>Optimised inventory levels: <strong>reduced stockouts by 15%</strong> and improved turnover rates by 20%.</li>
               <li>Designed pricing and promotional strategies that <strong>boosted category profitability by 18%</strong>.</li>
               <li>Built six internal tools (see Section 03) that replaced WhatsApp-based coordination, manual Excel audits, and ad-hoc reporting across iLab.</li>
             </ul>
@@ -712,7 +901,7 @@
         </div>
 
         <div class="exp-item">
-          <div class="exp-date">Jan 2021 — Jun 2022</div>
+          <div class="exp-date">Jan 2021 to Jun 2022</div>
           <div>
             <div class="exp-title">Catalog Manager</div>
             <div class="exp-company">Bonito Designs · Bangalore</div>
@@ -727,9 +916,9 @@
         </div>
 
         <div class="exp-item">
-          <div class="exp-date">Apr 2018 — Nov 2020</div>
+          <div class="exp-date">Apr 2018 to Nov 2020</div>
           <div>
-            <div class="exp-title">Associate — Catalog Operations (Vendor Coordination)</div>
+            <div class="exp-title">Associate · Catalog Operations (Vendor Coordination)</div>
             <div class="exp-company">Myntra Jabong Pvt Ltd · Bangalore</div>
 
             <div class="exp-sub">Vendor coordination</div>
@@ -741,7 +930,7 @@
 
             <div class="exp-sub">Operations</div>
             <ul class="exp-bullets">
-              <li>Owned end-to-end SKU creation — style creation, status changes, MRP updates, and PO issuance.</li>
+              <li>Owned end-to-end SKU creation including style creation, status changes, MRP updates, and PO issuance.</li>
               <li>Supported product launches across content, imagery, and pricing on the consumer portal.</li>
               <li>Partnered cross-functionally with Category, Onboarding, Customer Service, and IT to deliver against company goals.</li>
             </ul>
@@ -755,13 +944,13 @@
         </div>
 
         <div class="exp-item">
-          <div class="exp-date">Aug 2014 — Mar 2018</div>
+          <div class="exp-date">Aug 2014 to Mar 2018</div>
           <div>
-            <div class="exp-title">Senior Officer — Image Editor / Vendor Coordination</div>
+            <div class="exp-title">Senior Officer · Image Editor / Vendor Coordination</div>
             <div class="exp-company">Myntra Designs · Bangalore</div>
             <ul class="exp-bullets">
               <li>Edited product imagery in Photoshop for all SKUs displayed on Myntra; authored imagery guidelines and gridline standards.</li>
-              <li>Led a <strong>team of 7 editors</strong> — owned quality, productivity, and individual performance tracking via FTPs.</li>
+              <li>Led a <strong>team of 7 editors</strong>, owning quality, productivity, and individual performance tracking via FTPs.</li>
               <li>Built training decks for vendor imagery and ran sessions explaining benchmarks and naming conventions.</li>
               <li>Improved <strong>image speed-to-site by 50%</strong> through workflow automation and process redesign.</li>
               <li>Drove root-cause analysis on image-driven CSAT issues across top-selling divisions.</li>
@@ -771,14 +960,14 @@
         </div>
       </section>
 
-      <!-- 03 — PROJECTS -->
+      <!-- 03 · PROJECTS -->
       <section id="projects">
         <div class="sec-head">
           <span class="sec-num">03</span>
           <h2 class="sec-title">Projects &amp; Initiatives</h2>
           <div class="sec-rule"></div>
         </div>
-        <p class="projects-intro">Six tools I designed, built, and deployed to production over the last year — solving real operational problems inside iLab and the wider Bonito Designs organisation. Each replaced a manual process or WhatsApp workflow with a real-time, shared, auditable system. Tap any card to see what's inside.</p>
+        <p class="projects-intro">Six tools I designed, built, and deployed to production over the last year, solving real operational problems inside iLab and the wider Bonito Designs organisation. Each replaced a manual process or WhatsApp workflow with a real-time, shared, auditable system. Tap any card to see what's inside.</p>
 
         <div class="project-grid">
 
@@ -986,8 +1175,8 @@
               <div class="project-toggle">View details</div>
               <div class="project-details">
                 <ul>
-                  <li>Four location-specific Excel files (Andheri, Thane, HSR, HRBR) — 12 category sheets each, 5 audit-round blocks per category, dropdown validations, auto-status formulas, conditional formatting</li>
-                  <li>Live web dashboard reads Excel directly from GitHub using SheetJS — update Excel, dashboard updates on next page load</li>
+                  <li>Four location-specific Excel files (Andheri, Thane, HSR, HRBR) with 12 category sheets each, 5 audit-round blocks per category, dropdown validations, auto-status formulas, conditional formatting</li>
+                  <li>Live web dashboard reads Excel directly from GitHub using SheetJS. Update Excel, dashboard updates on next page load</li>
                   <li>Location filter, audit-round tabs, location progress cards (OK / Check / Action / RBS / Pending pills)</li>
                   <li>Category completion bar chart, status donut, trend line across rounds, scrollable flagged-items section</li>
                   <li>Six compliance KPI cards: completion %, SKUs audited, closure compliance, target gap, issue closure rate, best location</li>
@@ -1171,7 +1360,7 @@
             <div class="project-body">
               <span class="project-tag">Live · category analytics</span>
               <h3 class="project-name">PKO Sales Dashboard</h3>
-              <p class="project-desc">Live sales analytics for the Category team — revenue, dead stock, fast/slow movers, branch and brand-level performance with case-insensitive ERP matching and variant-aware aggregation.</p>
+              <p class="project-desc">Live sales analytics for the Category team covering revenue, dead stock, fast/slow movers, branch and brand-level performance with case-insensitive ERP matching and variant-aware aggregation.</p>
               <div class="project-stack">
                 <span class="stack-chip">HTML</span>
                 <span class="stack-chip">PapaParse</span>
@@ -1182,10 +1371,10 @@
               <div class="project-details">
                 <ul>
                   <li>KPI tiles for total revenue, projects, dead stock count, fast/slow movers</li>
-                  <li>Filters by branch, brand, category, and date range — all cross-filtering through the visuals</li>
+                  <li>Filters by branch, brand, category, and date range, all cross-filtering through the visuals</li>
                   <li>Robust ERP matching: normalised case + whitespace, variant collapsing so _with_MDF and _without_MDF count as the same product family</li>
                   <li>Monthly trends, brand performance breakdowns, and self-diagnostic console for data health checks</li>
-                  <li>Reads CSVs straight from the GitHub repo — refresh = drag-drop a new file</li>
+                  <li>Reads CSVs straight from the GitHub repo. Refresh equals drag-drop a new file</li>
                 </ul>
               </div>
             </div>
@@ -1288,10 +1477,10 @@
               <div class="project-toggle">View details</div>
               <div class="project-details">
                 <ul>
-                  <li>Camera-based QR scan on any phone via GitHub Pages — no permission issues, no native app to install</li>
+                  <li>Camera-based QR scan on any phone via GitHub Pages, no permission issues, no native app to install</li>
                   <li>Auditor login with name; supports four locations (Andheri, Thane, HSR, HRBR) via a single app</li>
-                  <li>Smart family detection — scanning one size of a handle family auto-marks the other sizes as Representative Sample</li>
-                  <li>Settings sheet controls which categories apply Representative Sample logic — configurable without code changes</li>
+                  <li>Smart family detection: scanning one size of a handle family auto-marks the other sizes as Representative Sample</li>
+                  <li>Settings sheet controls which categories apply Representative Sample logic, configurable without code changes</li>
                   <li>Discontinued-item alert when scanned in the library (signals removal); never overwrites Discontinued status</li>
                   <li>Auto-incrementing audit number, full AUDIT_LOG history, duplicate-scan prevention, cached ERP index for sub-second response</li>
                   <li>A3 QR-label PDF generator (8 columns, light cutting borders, no blank pages)</li>
@@ -1312,7 +1501,7 @@
                 <rect x="14" y="14" width="292" height="20" rx="4" fill="#1F3A5F"/>
                 <rect x="14" y="30" width="292" height="4" fill="#1F3A5F"/>
                 <circle cx="22" cy="24" r="2.5" fill="#C9A961"/>
-                <text x="30" y="27" font-family="Inter" font-size="7" font-weight="600" fill="white">New Email — iLab Launch</text>
+                <text x="30" y="27" font-family="Inter" font-size="7" font-weight="600" fill="white">New Email · iLab Launch</text>
                 <text x="290" y="27" font-family="Inter" font-size="9" font-weight="700" fill="white" text-anchor="end">×</text>
 
                 <!-- To / Subject -->
@@ -1320,10 +1509,10 @@
                 <text x="40" y="46" font-family="Inter" font-size="6" fill="#2C2E36">design@bonito.in</text>
                 <line x1="22" y1="50" x2="298" y2="50" stroke="#F2EFE8"/>
                 <text x="22" y="60" font-family="Inter" font-size="6" fill="#8A8D96">Subject:</text>
-                <text x="46" y="60" font-family="Inter" font-size="6" font-weight="600" fill="#2C2E36">New Wallpaper Collection — Now Live in iLab</text>
+                <text x="46" y="60" font-family="Inter" font-size="6" font-weight="600" fill="#2C2E36">New Wallpaper Collection · Now Live in iLab</text>
                 <line x1="22" y1="64" x2="298" y2="64" stroke="#F2EFE8"/>
 
-                <!-- Email body — hero with logo -->
+                <!-- Email body - hero with logo -->
                 <rect x="34" y="72" width="252" height="34" rx="2" fill="#14151A"/>
                 <text x="42" y="84" font-family="Fraunces" font-size="10" font-weight="700" fill="#C9A961">iLab</text>
                 <text x="42" y="93" font-family="Inter" font-size="5.5" fill="#D7D3CA" letter-spacing="0.5">MATERIAL LIBRARY · BONITO DESIGNS</text>
@@ -1364,7 +1553,7 @@
         </div>
       </section>
 
-      <!-- 04 — COMPETENCIES -->
+      <!-- 04 · COMPETENCIES -->
       <section id="competencies">
         <div class="sec-head">
           <span class="sec-num">04</span>
@@ -1388,7 +1577,7 @@
         </div>
       </section>
 
-      <!-- 05 — TECH SKILLS -->
+      <!-- 05 · TECH SKILLS -->
       <section id="tech">
         <div class="sec-head">
           <span class="sec-num">05</span>
@@ -1448,7 +1637,7 @@
         </div>
       </section>
 
-      <!-- 06 — EDUCATION -->
+      <!-- 06 · EDUCATION -->
       <section id="education">
         <div class="sec-head">
           <span class="sec-num">06</span>
@@ -1467,7 +1656,7 @@
           <li class="edu-item">
             <div class="edu-year">2012</div>
             <div>
-              <div class="edu-deg">B.Sc. — Computer Science</div>
+              <div class="edu-deg">B.Sc. · Computer Science</div>
               <div class="edu-inst">Mahatma Gandhi Kashi Vidyapith</div>
             </div>
           </li>
@@ -1519,19 +1708,24 @@
     }
   }
 
-  // Photo loader
+  // Photo loader - fills both the screen sidebar photo AND the print header photo
   (function loadPhoto(){
     const img = new Image();
     img.onload = function() {
-      const frame = document.getElementById('photo');
-      frame.innerHTML = '';
-      frame.appendChild(img);
+      ['photo', 'printPhoto'].forEach(function(id){
+        const frame = document.getElementById(id);
+        if (frame) {
+          frame.innerHTML = '';
+          const clone = img.cloneNode();
+          frame.appendChild(clone);
+        }
+      });
     };
     img.onerror = function() { /* keep initials fallback */ };
     img.src = 'photo.jpg';
   })();
 
-  // Project shot loader — if a real image is dropped into the repo with the data-img filename,
+  // Project shot loader - if a real image is dropped into the repo with the data-img filename,
   // it replaces the SVG mockup automatically. Otherwise the SVG stays.
   (function loadProjectShots(){
     document.querySelectorAll('.project-shot[data-img]').forEach(function(shot){
